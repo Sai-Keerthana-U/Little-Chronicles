@@ -160,7 +160,7 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .total strong{display:block;font-size:18px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
 
 .history-item{border:1px solid var(--border);border-radius:12px;padding:10px;margin:8px 0;background:var(--card)}
-.history-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.history-header{display:flex;justify-space:between;align-items:center;margin-bottom:4px}
 .history-date{font-weight:800;color:var(--accent);font-size:14px}
 .history-meta{font-size:11px;color:var(--muted);line-height:1.4}
 .history-actions{display:flex;gap:6px;margin-top:6px}
@@ -557,6 +557,12 @@ firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const dbStore = firebase.firestore();
 
+// Configure Google Auth Provider explicitly
+const googleProvider = new firebase.auth.GoogleAuthProvider();
+googleProvider.setCustomParameters({
+  prompt: 'select_account'
+});
+
 let currentUser = null;
 
 const KEY="babyNapFeedTracker_v3";
@@ -580,15 +586,7 @@ let napStartTime = null;
 let feedTimerInterval = null;
 let feedStartTime = null;
 
-// Firebase Auth Observer & Redirect Result Handler
-auth.getRedirectResult().then((result) => {
-  if (result.user) {
-    currentUser = result.user;
-  }
-}).catch((error) => {
-  console.error("Redirect Sign-in error: ", error);
-});
-
+// Firebase Auth Observer
 auth.onAuthStateChanged((user) => {
   currentUser = user;
   if(user) {
@@ -602,10 +600,18 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
-// Uses Mobile-Friendly Redirect instead of Popup
+// Dual fallback logic for mobile browser compatibility
 function signInWithGoogle(){
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithRedirect(provider);
+  auth.signInWithPopup(googleProvider).then((result) => {
+    currentUser = result.user;
+  }).catch((err) => {
+    // Fall back to redirect mode if popup is blocked
+    if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/operation-not-supported-in-this-environment') {
+      auth.signInWithRedirect(googleProvider);
+    } else {
+      alert("Sign In Error: " + err.message);
+    }
+  });
 }
 
 function signOutUser(){
