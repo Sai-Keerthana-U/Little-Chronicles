@@ -152,7 +152,7 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .entry-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px}
 .sleep-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
 .entries{margin-top:8px}
-.entry{display:flex;align-items:center;justify-content:space-between;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
+.entry{display:flex;align-items:center;justify-space:space-between;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
 .entry-main{font-weight:700;font-size:13px}
 .remove{padding:5px 8px;font-size:11px}
 .totals{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
@@ -219,7 +219,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 .timer-controls{display:flex;gap:4px;align-items:center;justify-content:center;margin-top:6px;flex-wrap:wrap}
 .timer-controls input[type="time"]{width:auto;padding:5px 6px;font-size:12px}
 
-.profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;transition:all 0.2s}
+.profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between;transition:all 0.2s}
 .profile-card-action:hover{border-color:var(--accent)}
 
 .auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:center}
@@ -580,7 +580,15 @@ let napStartTime = null;
 let feedTimerInterval = null;
 let feedStartTime = null;
 
-// Firebase Auth Observer
+// Firebase Auth Observer & Redirect Result Handler
+auth.getRedirectResult().then((result) => {
+  if (result.user) {
+    currentUser = result.user;
+  }
+}).catch((error) => {
+  console.error("Redirect Sign-in error: ", error);
+});
+
 auth.onAuthStateChanged((user) => {
   currentUser = user;
   if(user) {
@@ -594,11 +602,10 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
+// Uses Mobile-Friendly Redirect instead of Popup
 function signInWithGoogle(){
   const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch((err) => {
-    alert("Sign In Error: " + err.message);
-  });
+  auth.signInWithRedirect(provider);
 }
 
 function signOutUser(){
