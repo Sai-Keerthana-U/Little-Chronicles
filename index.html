@@ -21,7 +21,6 @@
   --border:#ebdcd5;
   --danger:#e05252;
   
-  /* Section Color Themes */
   --home-bg:#ffffff;
   --home-accent:#d97757;
   --home-border:#ebdcd5;
@@ -86,7 +85,6 @@ body.dark-mode {
 body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background 0.3s, color 0.3s;padding-bottom:75px}
 .container{max-width:700px;margin:auto;padding:12px 12px 20px}
 
-/* Fully Separated Header Layout */
 header{display:block;margin:4px 0 14px}
 .header-top-row{display:flex;align-items:center;justify-space:space-between;gap:8px;margin-bottom:2px}
 .header-titles{flex:1;min-width:0}
@@ -117,14 +115,12 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
 .hint{font-size:11px;color:var(--muted);margin-top:5px}
 
-/* Fixed Bottom App Navigation Bar */
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;justify-space:space-around;padding:4px 0;z-index:15;box-shadow:0 -4px 15px rgba(0,0,0,0.05)}
 .bottom-tab{display:flex;flex-direction:column;align-items:center;background:transparent;border:0;border-top:3px solid transparent;color:var(--muted);font-size:10px;font-weight:700;padding:6px 6px;cursor:pointer;transition:all 0.2s;flex:1}
 .bottom-tab span{font-size:18px;margin-bottom:2px;transition:transform 0.2s}
 .bottom-tab.active{color:var(--accent);border-top-color:var(--accent);background:var(--light)}
 .bottom-tab.active span{transform:scale(1.15)}
 
-/* Compact Section Styling */
 .tracker-section{display:none}
 .tracker-section.active-section{display:block}
 
@@ -200,19 +196,16 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 .age-badge{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
 .stat-detail b{font-weight:800}
 
-/* Stat Period Toggle Buttons */
 .time-pills{display:flex;gap:4px;margin-bottom:10px;background:var(--bg);padding:3px;border-radius:12px;border:1px solid var(--border)}
 .time-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;color:var(--muted);cursor:pointer;background:transparent;border:0;transition:all 0.2s}
 .time-pill.active{background:var(--card);color:var(--text);box-shadow:0 2px 4px rgba(0,0,0,0.05)}
 
-/* Trend Progress Bar */
 .trend-bar-wrap{background:var(--border);border-radius:6px;height:8px;width:100%;overflow:hidden;margin-top:5px}
 .trend-bar-fill{height:100%;background:var(--accent);border-radius:6px;transition:width 0.3s ease}
 .trend-bar-fill.milk{background:var(--milk-accent)}
 .trend-bar-fill.sleep{background:var(--sleep-accent)}
 .trend-bar-fill.nap{background:var(--sleep-accent)}
 
-/* Modal Live Timer Cards */
 .timer-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;text-align:center}
 .timer-card h4{margin:0 0 2px;font-size:14px;color:var(--accent)}
 .timer-display{font-size:24px;font-weight:800;font-mono:monospace;margin:4px 0;color:var(--text)}
@@ -222,7 +215,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 .profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between;transition:all 0.2s}
 .profile-card-action:hover{border-color:var(--accent)}
 
-.auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:center}
+.auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:left}
 </style>
 </head>
 <body>
@@ -243,7 +236,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </header>
 
-<!-- HOME SECTION: Setup & DOB -->
 <div id="sec-home" class="card tracker-section active-section">
   <h2>🏠 Home Setup</h2>
   <div class="grid">
@@ -253,7 +245,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <div id="ageGuidance" class="hint" style="margin-top:10px">Set baby's DOB in Profile to make suggestions age-based.</div>
 </div>
 
-<!-- SLEEP SECTION: Daytime Naps & Overnight Sleep -->
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep</h2>
   <div class="entry-box">
@@ -288,7 +279,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <div class="hint" style="text-align:center;margin-top:4px;">Overnight sleep counts toward the day it started (bedtime date).</div>
 </div>
 
-<!-- FEEDING SECTION: Milk Feeds -->
 <div id="sec-milk" class="card tracker-section">
   <h2>🍼 Feeding</h2>
   <div class="entry-box">
@@ -308,7 +298,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- GROWTH SECTION: Weight Tracking & Progress Chart -->
 <div id="sec-growth" class="card tracker-section">
   <h2>Growth 📈</h2>
   <div class="entry-box">
@@ -329,7 +318,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <div class="entries" id="weightEntries"></div>
 </div>
 
-<!-- NOTES SECTION: Persistent App Notes -->
 <div id="sec-notes" class="card tracker-section">
   <h2>Notes 📝</h2>
   <div class="entry-box">
@@ -344,7 +332,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 
 </div>
 
-<!-- Fixed Bottom Navigation Bar -->
 <nav class="bottom-nav">
   <button class="bottom-tab active" onclick="switchSection('sec-home', this)">
     <span>🏠</span>Home
@@ -363,20 +350,31 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </button>
 </nav>
 
-<!-- Profile Modal (Auth + Name + DOB + Actions) -->
 <div class="modal" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
   <div class="modal-box">
     <button class="close" onclick="closeProfileModal()">✕</button>
     <h3>👤 Baby Profile &amp; Settings</h3>
     
-    <!-- Cloud Sign-In Card -->
     <div class="auth-box">
       <div id="userLoggedOutView">
-        <strong style="font-size:13px;display:block;margin-bottom:4px;">☁️ Cloud Synchronization</strong>
-        <p class="hint" style="margin-bottom:8px;">Sign in with Google to sync data across phones.</p>
-        <button class="primary small-btn" onclick="signInWithGoogle()">🔑 Sign in with Google</button>
+        <strong style="font-size:13px;display:block;margin-bottom:6px;">☁️ Cloud Synchronization</strong>
+        
+        <label>Email</label>
+        <input id="authEmail" type="email" placeholder="name@example.com" style="margin-bottom:6px"/>
+        <label>Password</label>
+        <input id="authPassword" type="password" placeholder="••••••••" style="margin-bottom:8px"/>
+        
+        <div style="display:flex;gap:6px;margin-bottom:8px">
+          <button class="primary small-btn" style="flex:1" onclick="emailSignIn()">Sign In</button>
+          <button class="secondary small-btn" style="flex:1" onclick="emailSignUp()">Sign Up</button>
+        </div>
+
+        <div style="text-align:center;margin:8px 0;border-top:1px solid var(--border);padding-top:8px">
+          <button class="ghost small-btn" style="width:100%" onclick="signInWithGoogle()">🌐 Sign in with Google Popup</button>
+        </div>
       </div>
-      <div id="userLoggedInView" style="display:none;">
+
+      <div id="userLoggedInView" style="display:none;text-align:center">
         <strong style="font-size:13px;color:var(--milk-accent);display:block;">✅ Cloud Sync Active</strong>
         <span id="userEmailLabel" style="font-size:11px;color:var(--muted);display:block;margin:2px 0 8px;"></span>
         <button class="danger small-btn" onclick="signOutUser()">Sign Out</button>
@@ -415,7 +413,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Timers Modal -->
 <div class="modal" id="timersModal" onclick="if(event.target===this)closeTimersModal()">
   <div class="modal-box">
     <button class="close" onclick="closeTimersModal()">✕</button>
@@ -447,7 +444,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Statistics Modal -->
 <div class="modal" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <button class="close" onclick="closeStatsModal()">✕</button>
@@ -483,7 +479,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Backup & Restore Modal -->
 <div class="modal" id="backupModal" onclick="if(event.target===this)closeBackupModal()">
   <div class="modal-box">
     <button class="close" onclick="closeBackupModal()">✕</button>
@@ -498,7 +493,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- History Modal -->
 <div class="modal" id="historyModal" onclick="if(event.target===this)closeHistoryModal()">
   <div class="modal-box">
     <button class="close" onclick="closeHistoryModal()">✕</button>
@@ -508,7 +502,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Next Feed Modal -->
 <div class="modal" id="nextFeedModal" onclick="if(event.target===this)closeNextFeed()">
   <div class="modal-box">
     <button class="close" onclick="closeNextFeed()">✕</button>
@@ -519,7 +512,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Next Nap Modal -->
 <div class="modal" id="nextNapModal" onclick="if(event.target===this)closeNextNap()">
   <div class="modal-box">
     <button class="close" onclick="closeNextNap()">✕</button>
@@ -530,7 +522,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Suggested Naps Modal -->
 <div class="modal" id="napModal" onclick="if(event.target===this)closeNapModal()">
 <div class="modal-box">
 <button class="close" onclick="closeNapModal()">✕</button>
@@ -542,7 +533,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 </div>
 
 <script>
-// --- YOUR EXACT FIREBASE CREDENTIALS ---
 const firebaseConfig = {
   apiKey: "AIzaSyDWRU4PuLtJY3mIsmirz5F7kUZo53K1ssM",
   authDomain: "little-chronicles-a8e45.firebaseapp.com",
@@ -552,16 +542,9 @@ const firebaseConfig = {
   appId: "1:1054407124285:web:a7ebcc306533b96fc75154"
 };
 
-// Initialize Firebase
 firebase.initializeApp(firebaseConfig);
 const auth = firebase.auth();
 const dbStore = firebase.firestore();
-
-// Configure Google Auth Provider explicitly
-const googleProvider = new firebase.auth.GoogleAuthProvider();
-googleProvider.setCustomParameters({
-  prompt: 'select_account'
-});
 
 let currentUser = null;
 
@@ -586,7 +569,6 @@ let napStartTime = null;
 let feedTimerInterval = null;
 let feedStartTime = null;
 
-// Firebase Auth Observer
 auth.onAuthStateChanged((user) => {
   currentUser = user;
   if(user) {
@@ -600,29 +582,39 @@ auth.onAuthStateChanged((user) => {
   }
 });
 
-// Dual fallback logic for mobile browser compatibility
+function emailSignUp(){
+  const e = document.getElementById("authEmail").value.trim();
+  const p = document.getElementById("authPassword").value.trim();
+  if(!e || !p){ alert("Enter email and password."); return; }
+
+  auth.createUserWithEmailAndPassword(e, p)
+    .then((res) => { alert("Account created and signed in!"); })
+    .catch((err) => { alert("Sign Up Error: " + err.message); });
+}
+
+function emailSignIn(){
+  const e = document.getElementById("authEmail").value.trim();
+  const p = document.getElementById("authPassword").value.trim();
+  if(!e || !p){ alert("Enter email and password."); return; }
+
+  auth.signInWithEmailAndPassword(e, p)
+    .then((res) => { alert("Signed in successfully!"); })
+    .catch((err) => { alert("Sign In Error: " + err.message); });
+}
+
 function signInWithGoogle(){
-  auth.signInWithPopup(googleProvider).then((result) => {
-    currentUser = result.user;
-  }).catch((err) => {
-    // Fall back to redirect mode if popup is blocked
-    if (err.code === 'auth/popup-blocked' || err.code === 'auth/popup-closed-by-user' || err.code === 'auth/operation-not-supported-in-this-environment') {
-      auth.signInWithRedirect(googleProvider);
-    } else {
-      alert("Sign In Error: " + err.message);
-    }
+  const provider = new firebase.auth.GoogleAuthProvider();
+  auth.signInWithPopup(provider).catch((err) => {
+    alert("Google Sign-In Error: " + err.message);
   });
 }
 
 function signOutUser(){
-  auth.signOut().then(() => {
-    alert("Signed out successfully.");
-  });
+  auth.signOut().then(() => { alert("Signed out."); });
 }
 
 function syncCloudData(){
   if(!currentUser) return;
-  // Load Cloud Profile
   dbStore.collection("users").doc(currentUser.uid).collection("profile").doc("info").get().then((doc) => {
     if(doc.exists){
       const data = doc.data();
@@ -634,13 +626,8 @@ function syncCloudData(){
   loadDate();
 }
 
-function openProfileModal(){
-  document.getElementById("profileModal").classList.add("show");
-}
-
-function closeProfileModal(){
-  document.getElementById("profileModal").classList.remove("show");
-}
+function openProfileModal(){ document.getElementById("profileModal").classList.add("show"); }
+function closeProfileModal(){ document.getElementById("profileModal").classList.remove("show"); }
 
 function loadProfileDetails(){
   const name = localStorage.getItem(NAME_KEY) || "";
@@ -673,13 +660,8 @@ function saveProfileDetails(){
   closeProfileModal();
 }
 
-function openTimersModal(){
-  document.getElementById("timersModal").classList.add("show");
-}
-
-function closeTimersModal(){
-  document.getElementById("timersModal").classList.remove("show");
-}
+function openTimersModal(){ document.getElementById("timersModal").classList.add("show"); }
+function closeTimersModal(){ document.getElementById("timersModal").classList.remove("show"); }
 
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
@@ -807,22 +789,11 @@ function switchStatTime(period, btnEl){
   renderStatistics();
 }
 
-function openStatsModal(){
-  refreshStatistics();
-  document.getElementById("statsModal").classList.add("show");
-}
+function openStatsModal(){ refreshStatistics(); document.getElementById("statsModal").classList.add("show"); }
+function closeStatsModal(){ document.getElementById("statsModal").classList.remove("show"); }
 
-function closeStatsModal(){
-  document.getElementById("statsModal").classList.remove("show");
-}
-
-function openBackupModal(){
-  document.getElementById("backupModal").classList.add("show");
-}
-
-function closeBackupModal(){
-  document.getElementById("backupModal").classList.remove("show");
-}
+function openBackupModal(){ document.getElementById("backupModal").classList.add("show"); }
+function closeBackupModal(){ document.getElementById("backupModal").classList.remove("show"); }
 
 function exportData(){
   const data = localStorage.getItem(KEY) || "{}";
@@ -868,9 +839,7 @@ function importData(e){
       loadWeights();
       loadNotes();
       loadDate();
-    } catch(err) {
-      alert("Invalid backup file format.");
-    }
+    } catch(err) { alert("Invalid backup file format."); }
   };
   reader.readAsText(file);
 }
@@ -922,7 +891,6 @@ function db(){
 
 function saveDb(x){localStorage.setItem(KEY,JSON.stringify(x))}
 
-/* App-Wide Constant Notes Functions */
 function loadNotes(){
   try{ notes = JSON.parse(localStorage.getItem(NOTES_KEY)||"[]"); }
   catch(e){ notes = []; }
@@ -993,7 +961,6 @@ function renderNotes(){
   });
 }
 
-/* Weight DB functions */
 function loadWeights(){
   try{ weights = JSON.parse(localStorage.getItem(WEIGHT_KEY)||"[]"); }
   catch(e){ weights = []; }
@@ -1541,9 +1508,7 @@ function showNextNap(){
   document.getElementById("nextNapModal").classList.add("show");
 }
 
-function closeNextNap(){
-  document.getElementById("nextNapModal").classList.remove("show");
-}
+function closeNextNap(){ document.getElementById("nextNapModal").classList.remove("show"); }
 
 function showNextFeed(){
   if(!day.feeds.length){alert("Add at least one feed first.");return;}
@@ -1561,9 +1526,7 @@ function showNextFeed(){
   document.getElementById("nextFeedModal").classList.add("show");
 }
 
-function closeNextFeed(){
-  document.getElementById("nextFeedModal").classList.remove("show");
-}
+function closeNextFeed(){ document.getElementById("nextFeedModal").classList.remove("show"); }
 
 function suggestNaps(){
   const p=getAgeProfile() || {wakeMin:90, wakeMax:120, napMin:45, napMax:90};
@@ -1591,9 +1554,7 @@ function suggestNaps(){
   document.getElementById("napModal").classList.add("show");
 }
 
-function closeNapModal(){
-  document.getElementById("napModal").classList.remove("show");
-}
+function closeNapModal(){ document.getElementById("napModal").classList.remove("show"); }
 
 function saveDay(){
   day.date=document.getElementById("date").value||today();
@@ -1628,14 +1589,8 @@ function loadDate(){
   render();
 }
 
-function openHistoryModal(){
-  renderHistory();
-  document.getElementById("historyModal").classList.add("show");
-}
-
-function closeHistoryModal(){
-  document.getElementById("historyModal").classList.remove("show");
-}
+function openHistoryModal(){ renderHistory(); document.getElementById("historyModal").classList.add("show"); }
+function closeHistoryModal(){ document.getElementById("historyModal").classList.remove("show"); }
 
 function renderHistory(){
   const box=document.getElementById("history");
@@ -1669,7 +1624,6 @@ function renderHistory(){
 
 function openDay(x){
   const d=db();
-
   if(!d[x])return;
 
   day=JSON.parse(JSON.stringify(d[x]));
@@ -1679,7 +1633,6 @@ function openDay(x){
   if(document.getElementById("feedSubmitBtn")) document.getElementById("feedSubmitBtn").textContent="OK";
 
   render();
-
   closeHistoryModal();
   window.scrollTo({top:0,behavior:"smooth"});
 }
@@ -1704,7 +1657,6 @@ loadNotes();
 loadDate();
 updateBabyAge();
 
-// Default to showing Home tab on initial load
 switchSection('sec-home', document.querySelector('.bottom-tab'));
 </script>
 </body>
