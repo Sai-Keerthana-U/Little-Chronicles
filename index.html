@@ -239,7 +239,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 <div id="sec-home" class="card tracker-section active-section">
   <h2>🏠 Home Setup</h2>
   <div class="grid">
-    <div><label>Current Date</label><input id="date" type="date"/></div>
+    <div><label>Current Selected Date</label><input id="date" type="date"/></div>
     <div><label>Baby Age (for selected date)</label><input id="babyAge" type="text" readonly placeholder="Set DOB in Profile"/></div>
   </div>
   <div id="ageGuidance" class="hint" style="margin-top:10px">Set baby's DOB in Profile to make suggestions age-based.</div>
@@ -248,7 +248,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep</h2>
   <div class="entry-box">
-    <label>Log Nap or Sleep (Supports Overnight)</label>
+    <label>Log Nap or Sleep (Supports Past Dates)</label>
     <div class="sleep-form-grid" style="margin-top:6px">
       <div>
         <label>Start Date &amp; Time</label>
@@ -364,13 +364,9 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
         <label>Password</label>
         <input id="authPassword" type="password" placeholder="••••••••" style="margin-bottom:8px"/>
         
-        <div style="display:flex;gap:6px;margin-bottom:8px">
+        <div style="display:flex;gap:6px">
           <button class="primary small-btn" style="flex:1" onclick="emailSignIn()">Sign In</button>
           <button class="secondary small-btn" style="flex:1" onclick="emailSignUp()">Sign Up</button>
-        </div>
-
-        <div style="text-align:center;margin:8px 0;border-top:1px solid var(--border);padding-top:8px">
-          <button class="ghost small-btn" style="width:100%" onclick="signInWithGoogle()">🌐 Sign in with Google Popup</button>
         </div>
       </div>
 
@@ -600,13 +596,6 @@ function emailSignIn(){
   auth.signInWithEmailAndPassword(e, p)
     .then((res) => { alert("Signed in successfully!"); })
     .catch((err) => { alert("Sign In Error: " + err.message); });
-}
-
-function signInWithGoogle(){
-  const provider = new firebase.auth.GoogleAuthProvider();
-  auth.signInWithPopup(provider).catch((err) => {
-    alert("Google Sign-In Error: " + err.message);
-  });
 }
 
 function signOutUser(){
@@ -881,6 +870,7 @@ function time(m){
 }
 
 function fmtDate(s){
+  if(!s) return "";
   return new Date(s+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
 }
 
@@ -1055,11 +1045,17 @@ function renderWeights(){
 }
 
 function calcDateTimeDuration(startDate, startTime, endDate, endTime){
-  if(!startDate || !startTime || !endDate || !endTime) return 0;
-  const start = new Date(`${startDate}T${startTime}:00`);
-  const end = new Date(`${endDate}T${endTime}:00`);
-  const diffMs = end - start;
-  return diffMs > 0 ? Math.round(diffMs / 60000) : 0;
+  try {
+    const sDate = startDate || day.date;
+    const eDate = endDate || day.date;
+    if(!sDate || !startTime || !eDate || !endTime) return 0;
+    const start = new Date(`${sDate}T${startTime}:00`);
+    const end = new Date(`${eDate}T${endTime}:00`);
+    const diffMs = end - start;
+    return diffMs > 0 ? Math.round(diffMs / 60000) : 0;
+  } catch(e) {
+    return 0;
+  }
 }
 
 function durationText(n){
@@ -1078,7 +1074,7 @@ function render(){
   const dayNaps = dateObj.naps || [];
 
   dayNaps.forEach((n,i)=>drawNap(n,i));
-  day.feeds.forEach((f,i)=>drawFeed(f,i));
+  (dateObj.feeds || []).forEach((f,i)=>drawFeed(f,i));
 
   totals();
   renderStatistics();
@@ -1088,8 +1084,8 @@ function drawNap(n,i){
   const el=document.createElement("div");
   el.className="entry";
   const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-  const startStr = n.startDate === day.date ? n.start : `${fmtDate(n.startDate).split(',')[0]} ${n.start}`;
-  const endStr = n.endDate === day.date ? n.end : `${fmtDate(n.endDate).split(',')[0]} ${n.end}`;
+  const startStr = (n.startDate && n.startDate !== day.date) ? `${fmtDate(n.startDate).split(',')[0]} ${n.start}` : n.start;
+  const endStr = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
   
   el.innerHTML=
     `<div><div class="entry-main">Sleep ${i+1} — ${startStr} – ${endStr}</div>
@@ -1130,6 +1126,7 @@ function addNap(){
   if(!database[sDate]) {
     database[sDate] = { date: sDate, naps: [], feeds: [] };
   }
+  if(!database[sDate].naps) database[sDate].naps = [];
 
   if(editingNapIndex>=0){
     database[sDate].naps[editingNapIndex] = entryObj;
@@ -1142,16 +1139,18 @@ function addNap(){
 
   saveDb(database);
   
-  if(sDate === day.date){
-    day = database[sDate];
-  }
+  // Switch view to the target date if adding to a past or different day
+  document.getElementById("date").value = sDate;
+  day = database[sDate];
 
   document.getElementById("napStart").value="";
   document.getElementById("napEnd").value="";
   render();
+  alert("Sleep entry saved for " + fmtDate(sDate));
 }
 
 function addFeed(){
+  const targetDate = document.getElementById("date").value || today();
   const t=document.getElementById("feedTime").value;
   const m=document.getElementById("feedMl").value;
 
@@ -1160,26 +1159,35 @@ function addFeed(){
     return;
   }
 
+  const database = db();
+  if(!database[targetDate]) {
+    database[targetDate] = { date: targetDate, naps: [], feeds: [] };
+  }
+  if(!database[targetDate].feeds) database[targetDate].feeds = [];
+
   if(editingFeedIndex>=0){
-    day.feeds[editingFeedIndex]={time:t,ml:Number(m)};
+    database[targetDate].feeds[editingFeedIndex]={time:t,ml:Number(m)};
     editingFeedIndex=-1;
     document.getElementById("feedSubmitBtn").textContent="OK";
   }else{
-    day.feeds.push({time:t,ml:Number(m)});
-    day.feeds.sort((a,b)=>mins(a.time)-mins(b.time));
+    database[targetDate].feeds.push({time:t,ml:Number(m)});
+    database[targetDate].feeds.sort((a,b)=>mins(a.time)-mins(b.time));
   }
+
+  saveDb(database);
+  day = database[targetDate];
 
   document.getElementById("feedTime").value="";
   document.getElementById("feedMl").value="";
 
   render();
-  saveDay();
+  alert("Feed saved for " + fmtDate(targetDate));
 }
 
 function editNap(i){
   const database = db();
   const currentDayData = database[day.date] || day;
-  const n = currentDayData.naps[i];
+  const n = (currentDayData.naps || [])[i];
   if(!n) return;
 
   document.getElementById("napStartDate").value=n.startDate || day.date;
@@ -1192,7 +1200,8 @@ function editNap(i){
 }
 
 function editFeed(i){
-  const f=day.feeds[i];
+  const f=(day.feeds || [])[i];
+  if(!f) return;
   document.getElementById("feedTime").value=f.time;
   document.getElementById("feedMl").value=f.ml;
   editingFeedIndex=i;
@@ -1215,13 +1224,17 @@ function removeNap(i){
 }
 
 function removeFeed(i){
+  const database = db();
+  if(database[day.date] && database[day.date].feeds){
+    database[day.date].feeds.splice(i,1);
+    saveDb(database);
+    day = database[day.date];
+  }
   if(editingFeedIndex===i){
     editingFeedIndex=-1;
     document.getElementById("feedSubmitBtn").textContent="OK";
   }
-  day.feeds.splice(i,1);
   render();
-  saveDay();
 }
 
 function updateSleepTotals(){
@@ -1233,9 +1246,12 @@ function updateSleepTotals(){
 }
 
 function totals(){
-  const ml=day.feeds.reduce((s,f)=>s+(Number(f.ml)||0),0);
+  const database = db();
+  const dayData = database[day.date] || day;
+  const feeds = dayData.feeds || [];
+  const ml=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
   document.getElementById("milkTotal").textContent=ml+" ml";
-  document.getElementById("feedCount").textContent=day.feeds.length;
+  document.getElementById("feedCount").textContent=feeds.length;
   updateSleepTotals();
 }
 
@@ -1253,6 +1269,22 @@ function napDurationStatus(minutes){
   const margin=15;
   if(minutes>=Math.max(0,p.napMin-margin) && minutes<=p.napMax+margin)return {cls:"yellow",label:"Can improve"};
   return {cls:"red",label:"Outside age-based range"};
+}
+
+function sleepEntryStatus(minutes, startStr){
+  const startHour = startStr ? parseInt(startStr.split(":")[0], 10) : 0;
+  const isNightSleep = startHour >= 19 || startHour < 6 || minutes >= 240;
+
+  if (isNightSleep) {
+    if (minutes >= 420 && minutes <= 780) {
+      return { cls: "green", label: "Good night sleep" };
+    } else if (minutes >= 360 && minutes <= 840) {
+      return { cls: "yellow", label: "Can improve" };
+    }
+    return { cls: "red", label: "Outside normal night range" };
+  } else {
+    return napDurationStatus(minutes);
+  }
 }
 
 function milkStatus(ml){
@@ -1288,10 +1320,11 @@ function getAggregatedData(daysCount){
 
   sortedDates.forEach(d => {
     const item = database[d];
-    const milk = item.feeds ? item.feeds.reduce((s,f)=>s+(Number(f.ml)||0),0) : 0;
+    if(!item) return;
+    const milk = item.feeds ? item.feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0) : 0;
     if(milk > 0){ totalMilk += milk; daysWithFeeds++; }
 
-    const daySleep = item.naps ? item.naps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end),0) : 0;
+    const daySleep = item.naps ? item.naps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate||d, n.start, n.endDate||d, n.end),0) : 0;
 
     if(daySleep > 0){ totalSleepMins += daySleep; daysWithSleep++; }
   });
@@ -1324,8 +1357,11 @@ function renderStatistics(){
   if(currentStatTime === "daily"){
     if(sel==="all" || sel==="milk"){
       out+='<div class="stat-group-title">🍼 Milk Intake</div>';
-      const totalMl=day.feeds.reduce((s,f)=>s+(Number(f.ml)||0),0);
-      if(!day.feeds.length){
+      const database = db();
+      const currentDayData = database[day.date] || day;
+      const feeds = currentDayData.feeds || [];
+      const totalMl=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
+      if(!feeds.length){
         out+='<div class="empty">No feeds recorded today.</div>';
       }else if(p){
         const st=milkStatus(totalMl);
@@ -1340,7 +1376,7 @@ function renderStatistics(){
       const database = db();
       const currentDayData = database[day.date] || day;
       const dayNaps = currentDayData.naps || [];
-      const totalSleep = dayNaps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end),0);
+      const totalSleep = dayNaps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end),0);
 
       if(!dayNaps.length){
         out+='<div class="empty">Add sleep entries to see sleep statistics.</div>';
@@ -1362,12 +1398,20 @@ function renderStatistics(){
         out+='<div class="empty">Add sleep entries to see duration statistics.</div>';
       }else{
         dayNaps.forEach((n,i)=>{
-          const m=calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-          const s=napDurationStatus(m);
+          const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
+          const s=sleepEntryStatus(m, n.start);
+          const startHour = parseInt((n.start||"0").split(":")[0], 10);
+          const isNight = startHour >= 19 || startHour < 6 || m >= 240;
+          
           let detail=s.label;
-          if(p) detail+=" · Ideal duration: <b>"+p.napMin+"–"+p.napMax+" min</b>";
-          out+='<div class="stat-card '+s.cls+'"><div class="stat-title">Sleep '+(i+1)+
-               ' — '+n.start+' – '+n.end+' ('+durationText(m)+')</div><div class="stat-detail">'+detail+'</div></div>';
+          if(p) {
+            detail += isNight 
+              ? " · Ideal night sleep: <b>8–12 hrs</b>" 
+              : " · Ideal nap duration: <b>"+p.napMin+"–"+p.napMax+" min</b>";
+          }
+          
+          out+='<div class="stat-card '+s.cls+'"><div class="stat-title">' + (isNight ? '🌙 Night Sleep ' : '💤 Nap ') + (i+1) +
+               ' — '+(n.start||'--:--')+' – '+(n.end||'--:--')+' ('+durationText(m)+')</div><div class="stat-detail">'+detail+'</div></div>';
         });
       }
     }
@@ -1511,7 +1555,7 @@ function showNextNap(){
 function closeNextNap(){ document.getElementById("nextNapModal").classList.remove("show"); }
 
 function showNextFeed(){
-  if(!day.feeds.length){alert("Add at least one feed first.");return;}
+  if(!day.feeds || !day.feeds.length){alert("Add at least one feed first.");return;}
   const p=getAgeProfile();
   if(!p){alert("Set baby's DOB in Profile first so feed timing can be age-based.");return;}
   const last=day.feeds[day.feeds.length-1];
@@ -1563,7 +1607,7 @@ function saveDay(){
   if(!d[day.date]) {
     d[day.date] = { date: day.date, naps: [], feeds: [] };
   }
-  d[day.date].feeds = day.feeds;
+  d[day.date].feeds = day.feeds || [];
   saveDb(d);
 
   renderHistory();
@@ -1577,6 +1621,9 @@ function loadDate(){
   day=d[date]
     ? JSON.parse(JSON.stringify(d[date]))
     : {date:date,naps:[],feeds:[]};
+
+  if(!day.naps) day.naps = [];
+  if(!day.feeds) day.feeds = [];
 
   document.getElementById("napStartDate").value = day.date;
   document.getElementById("napEndDate").value = day.date;
@@ -1594,6 +1641,8 @@ function closeHistoryModal(){ document.getElementById("historyModal").classList.
 
 function renderHistory(){
   const box=document.getElementById("history");
+  if(!box) return;
+  
   const d=db();
   const dates=Object.keys(d).sort((a,b)=>b.localeCompare(a));
 
@@ -1603,9 +1652,15 @@ function renderHistory(){
   }
 
   box.innerHTML=dates.map(x=>{
-    const z=d[x];
-    const ml=z.feeds ? z.feeds.reduce((s,f)=>s+(Number(f.ml)||0),0) : 0;
-    const overall=z.naps ? z.naps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end),0) : 0;
+    const z=d[x] || {};
+    const feeds = Array.isArray(z.feeds) ? z.feeds : [];
+    const naps = Array.isArray(z.naps) ? z.naps : [];
+
+    const ml = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
+    const overall = naps.reduce((s,n)=>{
+      if(!n) return s;
+      return s + calcDateTimeDuration(n.startDate||x, n.start, n.endDate||x, n.end);
+    },0);
 
     return `<div class="history-item">
       <div class="history-header">
@@ -1627,6 +1682,13 @@ function openDay(x){
   if(!d[x])return;
 
   day=JSON.parse(JSON.stringify(d[x]));
+  if(!day.naps) day.naps = [];
+  if(!day.feeds) day.feeds = [];
+
+  document.getElementById("date").value = x;
+  document.getElementById("napStartDate").value = x;
+  document.getElementById("napEndDate").value = x;
+
   editingNapIndex=-1;
   editingFeedIndex=-1;
   if(document.getElementById("napSubmitBtn")) document.getElementById("napSubmitBtn").textContent="Add Sleep Entry";
