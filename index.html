@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Little Chronicles</title>
 
-<!-- Modern Typography -->
+<!-- Modern Clean Typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -27,7 +27,6 @@
   --border-strong: #cbd5e1;
 
   --accent: #0f172a;
-  --accent-subtle: #f1f5f9;
 
   /* Pastel Tints */
   --pastel-sleep-bg: #f3e8ff;
@@ -42,6 +41,7 @@
   --pastel-wake-border: #fde68a;
   --pastel-wake-text: #92400e;
 
+  /* Scorecard Visual Accents */
   --color-milk: #10b981;
   --color-milk-bg: #ecfdf5;
   --color-night: #6366f1;
@@ -70,7 +70,6 @@ body.dark-mode {
   --border-strong: #334155;
 
   --accent: #f8fafc;
-  --accent-subtle: #1e293b;
 
   --pastel-sleep-bg: #231834;
   --pastel-sleep-border: #4c2d79;
@@ -111,6 +110,7 @@ body {
 }
 .container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
+/* Header */
 header { margin-bottom: 16px; }
 .header-row { display: flex; align-items: center; justify-content: space-between; }
 .brand-name { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; margin: 0; }
@@ -129,6 +129,7 @@ header { margin-bottom: 16px; }
 }
 .btn-util:active { background: var(--surface-alt); }
 
+/* Quick Action Strip */
 .quick-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 12px; }
 .strip-btn {
   background: var(--surface);
@@ -143,6 +144,7 @@ header { margin-bottom: 16px; }
 }
 .strip-btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
+/* Section Card */
 .section-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -159,6 +161,7 @@ header { margin-bottom: 16px; }
   letter-spacing: -0.2px;
 }
 
+/* Forms */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
 .field-group { display: flex; flex-direction: column; }
 .field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
@@ -190,6 +193,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
 }
 .btn-submit:active { opacity: 0.9; }
 
+/* Segmented Control */
 .segmented {
   display: flex;
   background: var(--surface-alt);
@@ -214,6 +218,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
+/* Feed Rows */
 .timeline-row {
   display: flex;
   align-items: center;
@@ -275,6 +280,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
 .action-link:hover { color: var(--text-primary); }
 .action-link.delete { color: var(--danger); }
 
+/* Metric Strip */
 .metric-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -302,6 +308,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   font-weight: 500;
 }
 
+/* Collapsible Panel */
 details.panel {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -323,6 +330,7 @@ details.panel summary::after { content: '+'; font-weight: 400; font-size: 13px; 
 details.panel[open] summary::after { content: '−'; }
 .panel-body { margin-top: 10px; }
 
+/* Bottom Nav */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -442,6 +450,7 @@ details.panel[open] summary::after { content: '−'; }
   color: var(--tag-bad);
 }
 
+/* Modals */
 .overlay {
   position: fixed;
   inset: 0;
@@ -680,7 +689,7 @@ details.panel[open] summary::after { content: '−'; }
 
 </div>
 
-<!-- Enhanced Bottom Navigation -->
+<!-- Navigation Bar -->
 <nav class="bottom-bar">
   <button class="nav-item active" onclick="switchSection('sec-home', this)">Home</button>
   <button class="nav-item" onclick="switchSection('sec-sleep', this)">Sleep</button>
@@ -1204,7 +1213,6 @@ function renderSleepTimeline(naps, wakeTimeStr){
     if(lastWake){
       const gap = mins(n.start) - mins(lastWake);
       if(gap > 0){
-        // SMART RULE: If gap < 20 mins, treat as brief resettling instead of false wake window
         if(gap < 20){
           const rCard = document.createElement("div");
           rCard.className = "timeline-row resettle";
@@ -1233,7 +1241,6 @@ function renderSleepTimeline(naps, wakeTimeStr){
       </div>`;
     box.appendChild(nCard);
 
-    // Only increment nap counter if this wasn't an immediate resettled continuation
     if(!lastWake || (mins(n.start) - mins(lastWake) >= 20)){
       napDisplayIndex++;
     }
@@ -1556,7 +1563,6 @@ function getAggregatedData(daysCount){
   };
 }
 
-// Option 1: Scorecard with Resettling Threshold Filter
 function renderStatistics(){
   const box=document.getElementById("statistics");
   if(!box) return;
@@ -1678,7 +1684,6 @@ function renderStatistics(){
 
     for(let i=0; i<dayNapList.length - 1; i++){
       const gap = mins(dayNapList[i+1].start) - mins(dayNapList[i].end);
-      // ONLY register as a wake window if baby was awake >= 20 mins
       if(gap >= 20){
         wakeWindows.push({ label: `W${wakeWindows.length + 1} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
       }
@@ -1801,7 +1806,6 @@ function updateBabyAge(){
   }
 }
 
-// Next Nap Window from True Final Wake (Ignoring Gaps < 20 mins)
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
@@ -1820,7 +1824,6 @@ function showNextNap(){
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
-    // The last nap in chronological order is the true awake reference
     startRef = dayNaps[dayNaps.length-1].end;
     napLabel = `Nap ${dayNaps.length + 1}`;
   }
