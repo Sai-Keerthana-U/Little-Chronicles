@@ -3,12 +3,12 @@
 <head>
 <meta charset="utf-8"/>
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
-<title>Little Chronicles — Baby Tracker</title>
+<title>Little Chronicles</title>
 
-<!-- Fonts -->
+<!-- Modern Typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -19,264 +19,260 @@
 :root {
   --bg: #f8fafc;
   --surface: #ffffff;
-  --surface-subtle: #f1f5f9;
-  --text-main: #0f172a;
+  --surface-alt: #f1f5f9;
+  --text-primary: #0f172a;
+  --text-secondary: #475569;
   --text-muted: #64748b;
   --border: #e2e8f0;
-  --border-focus: #cbd5e1;
+  --border-strong: #cbd5e1;
 
-  --accent-primary: #0f172a;
-  --accent-primary-hover: #1e293b;
-  
-  --indigo-accent: #6366f1;
-  --indigo-subtle: #eef2ff;
-  
-  --emerald-accent: #059669;
-  --emerald-subtle: #ecfdf5;
+  --accent: #0f172a;
+  --accent-subtle: #f1f5f9;
 
-  --amber-accent: #d97706;
-  --amber-subtle: #fffbeb;
+  --tag-good: #059669;
+  --tag-good-bg: #ecfdf5;
+  --tag-warn: #d97706;
+  --tag-warn-bg: #fffbeb;
+  --tag-bad: #dc2626;
+  --tag-bad-bg: #fef2f2;
 
   --danger: #dc2626;
-  --danger-subtle: #fef2f2;
-
-  --radius-sm: 8px;
-  --radius-md: 12px;
-  --radius-lg: 16px;
-  --shadow-sm: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --radius: 10px;
 }
 
 body.dark-mode {
   --bg: #090d16;
-  --surface: #131b2e;
-  --surface-subtle: #1c263e;
-  --text-main: #f8fafc;
+  --surface: #121926;
+  --surface-alt: #1a2333;
+  --text-primary: #f8fafc;
+  --text-secondary: #cbd5e1;
   --text-muted: #94a3b8;
-  --border: #243049;
-  --border-focus: #3b4b6e;
+  --border: #1e293b;
+  --border-strong: #334155;
 
-  --accent-primary: #f8fafc;
-  --accent-primary-hover: #e2e8f0;
+  --accent: #f8fafc;
+  --accent-subtle: #1e293b;
 
-  --indigo-accent: #818cf8;
-  --indigo-subtle: #1e1b4b;
-
-  --emerald-accent: #34d399;
-  --emerald-subtle: #064e3b;
-
-  --amber-accent: #fbbf24;
-  --amber-subtle: #451a03;
+  --tag-good: #34d399;
+  --tag-good-bg: #064e3b;
+  --tag-warn: #fbbf24;
+  --tag-warn-bg: #451a03;
+  --tag-bad: #f87171;
+  --tag-bad-bg: #450a0a;
 
   --danger: #f87171;
-  --danger-subtle: #450a0a;
 }
 
 * { box-sizing: border-box; -webkit-tap-highlight-color: transparent; }
 body {
   margin: 0;
   background: var(--bg);
-  color: var(--text-main);
+  color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  transition: background 0.2s, color 0.2s;
   padding-bottom: 80px;
   -webkit-font-smoothing: antialiased;
 }
-.container { max-width: 580px; margin: auto; padding: 16px 16px 30px; }
+.container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
 /* Clean Minimal Header */
-header { margin: 6px 0 18px; }
-.header-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
-.header-brand { display: flex; flex-direction: column; }
-.header-title { font-size: 20px; font-weight: 800; letter-spacing: -0.5px; margin: 0; color: var(--text-main); }
-.header-sub { font-size: 12px; font-weight: 500; color: var(--text-muted); margin-top: 2px; }
+header { margin-bottom: 16px; }
+.header-row { display: flex; align-items: center; justify-content: space-between; }
+.brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin: 0; }
+.brand-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
 
-.header-controls { display: flex; gap: 6px; align-items: center; }
-.btn-icon {
+.header-actions { display: flex; gap: 6px; }
+.btn-util {
   background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--text-main);
-  padding: 6px 12px;
-  border-radius: var(--radius-sm);
+  color: var(--text-secondary);
   font-size: 11.5px;
-  font-weight: 600;
+  font-weight: 500;
+  padding: 5px 10px;
+  border-radius: 6px;
   cursor: pointer;
-  box-shadow: var(--shadow-sm);
 }
+.btn-util:active { background: var(--surface-alt); }
 
-.btn-icon:hover { border-color: var(--border-focus); }
-
-/* Quick Action Top Bar */
-.action-bar {
-  display: flex;
-  gap: 6px;
-  margin-top: 12px;
-}
-.action-btn {
-  flex: 1;
+/* Quick Actions Strip */
+.quick-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+.strip-btn {
   background: var(--surface);
   border: 1px solid var(--border);
-  color: var(--text-main);
-  padding: 8px 10px;
-  border-radius: var(--radius-sm);
+  color: var(--text-primary);
   font-size: 11.5px;
   font-weight: 600;
+  padding: 8px;
+  border-radius: 6px;
   cursor: pointer;
   text-align: center;
-  transition: all 0.15s ease;
 }
-.action-btn:hover { background: var(--surface-subtle); }
-.action-btn.primary-action {
-  background: var(--accent-primary);
-  color: var(--bg);
-  border-color: var(--accent-primary);
-}
+.strip-btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
-/* Base Cards */
-.card {
+/* Unified Section Card */
+.section-card {
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
+  border-radius: var(--radius);
   padding: 16px;
   margin-bottom: 12px;
-  box-shadow: var(--shadow-sm);
 }
-.section-heading {
-  font-size: 14px;
-  font-weight: 700;
-  letter-spacing: -0.2px;
+.section-title {
+  font-size: 13.5px;
+  font-weight: 600;
+  color: var(--text-primary);
   margin: 0 0 12px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  color: var(--text-main);
 }
-.grid-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
-.field-label { display: block; font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
+
+/* Form Styles */
+.form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
+.field-group { display: flex; flex-direction: column; }
+.field-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
 input, select, textarea {
   width: 100%;
+  height: 38px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-sm);
-  padding: 8px 10px;
+  border-radius: 6px;
+  padding: 0 10px;
   background: var(--surface);
-  color: var(--text-main);
-  font-size: 13.5px;
-  font-weight: 500;
+  color: var(--text-primary);
+  font-size: 13px;
   outline: none;
   font-family: inherit;
-  transition: border-color 0.15s;
 }
-input:focus, select:focus, textarea:focus { border-color: var(--indigo-accent); }
+textarea { height: auto; padding: 8px 10px; resize: vertical; }
+input:focus, select:focus, textarea:focus { border-color: var(--border-strong); }
 
-button {
-  font-family: inherit;
-  cursor: pointer;
-  transition: all 0.15s ease;
-}
-.btn-sm {
-  padding: 7px 12px;
-  border-radius: var(--radius-sm);
-  font-size: 12px;
+.btn-submit {
+  height: 38px;
+  background: var(--accent);
+  color: var(--bg);
+  border: 0;
+  border-radius: 6px;
+  font-size: 12.5px;
   font-weight: 600;
-  border: 1px solid transparent;
+  cursor: pointer;
+  padding: 0 14px;
 }
-.btn-dark { background: var(--accent-primary); color: var(--bg); }
-.btn-outline { background: transparent; border-color: var(--border); color: var(--text-main); }
-.btn-danger { background: var(--danger-subtle); color: var(--danger); border-color: transparent; }
+.btn-submit:active { opacity: 0.9; }
 
-/* Tab Switcher Minimal */
-.segmented-control {
+/* Clean Segmented Tab */
+.segmented {
   display: flex;
-  background: var(--surface-subtle);
-  padding: 3px;
-  border-radius: var(--radius-sm);
+  background: var(--surface-alt);
+  padding: 2px;
+  border-radius: 6px;
   margin-bottom: 12px;
 }
-.segment-btn {
+.seg-btn {
   flex: 1;
   border: 0;
   background: transparent;
   padding: 6px;
-  font-size: 11.5px;
-  font-weight: 600;
-  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 500;
+  border-radius: 5px;
   color: var(--text-muted);
   cursor: pointer;
 }
-.segment-btn.active {
+.seg-btn.active {
   background: var(--surface);
-  color: var(--text-main);
-  box-shadow: var(--shadow-sm);
+  color: var(--text-primary);
+  font-weight: 600;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Timeline Minimal Feeds */
-.timeline-item {
+/* Linear Timeline Feed */
+.timeline-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
   padding: 10px 12px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  margin-bottom: 6px;
+  border-radius: 6px;
   background: var(--surface);
+  margin-bottom: 6px;
 }
-.timeline-item.wake-indicator {
-  background: var(--amber-subtle);
-  border-color: rgba(217, 119, 6, 0.2);
+.timeline-row.wake {
+  background: var(--surface-alt);
+  border-color: var(--border);
 }
-.timeline-item.interval-tag {
-  background: var(--surface-subtle);
+.timeline-row.interval {
   border: 0;
-  padding: 6px 12px;
+  background: transparent;
+  padding: 4px 8px;
+  margin-left: 12px;
   font-size: 11px;
-  font-weight: 600;
+  font-weight: 500;
   color: var(--text-muted);
-  border-radius: var(--radius-sm);
-  margin: 3px 0 3px 12px;
 }
-.timeline-meta-title { font-size: 13px; font-weight: 700; color: var(--text-main); }
-.timeline-meta-sub { font-size: 11.5px; font-weight: 600; color: var(--indigo-accent); margin-top: 1px; }
 
-/* Metric Strip */
-.metrics-strip {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 8px;
-  margin-top: 10px;
+.item-title { font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
+.item-meta { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+
+.row-actions { display: flex; gap: 8px; align-items: center; }
+.action-link {
+  background: transparent;
+  border: 0;
+  padding: 0;
+  font-size: 11.5px;
+  font-weight: 500;
+  color: var(--text-muted);
+  cursor: pointer;
 }
-.metric-box {
-  background: var(--surface-subtle);
+.action-link:hover { color: var(--text-primary); }
+.action-link.delete { color: var(--danger); }
+
+/* Key Metric Bar */
+.metric-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 6px;
+  margin-top: 12px;
+}
+.metric-card {
+  background: var(--surface-alt);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 10px 8px;
+  border-radius: 6px;
+  padding: 8px;
   text-align: center;
 }
-.metric-val { font-size: 15px; font-weight: 800; color: var(--text-main); }
-.metric-lbl { font-size: 10px; font-weight: 600; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
+.metric-num { font-size: 14px; font-weight: 700; color: var(--text-primary); }
+.metric-label { font-size: 10px; font-weight: 500; color: var(--text-muted); margin-top: 1px; }
 
-/* Collapsible Panels */
-details.panel-dropdown {
-  background: var(--surface);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 11px 13px;
-  margin-bottom: 8px;
+.target-note {
+  font-size: 11px;
+  color: var(--text-muted);
+  margin-top: 8px;
+  line-height: 1.4;
+  padding: 8px 10px;
+  background: var(--surface-alt);
+  border-radius: 6px;
 }
-details.panel-dropdown summary {
-  font-size: 12.5px;
-  font-weight: 700;
+
+/* Collapsible Panel */
+details.panel {
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 8px 12px;
+  margin-bottom: 8px;
+  background: var(--surface);
+}
+details.panel summary {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-primary);
   cursor: pointer;
   display: flex;
   justify-content: space-between;
   list-style: none;
-  color: var(--text-main);
 }
-details.panel-dropdown summary::-webkit-details-marker { display: none; }
-details.panel-dropdown summary::after { content: '→'; font-size: 11px; color: var(--text-muted); transition: transform 0.2s; }
-details.panel-dropdown[open] summary::after { transform: rotate(90deg); }
-.panel-content { margin-top: 10px; }
+details.panel summary::-webkit-details-marker { display: none; }
+details.panel summary::after { content: '+'; font-weight: 400; font-size: 12px; }
+details.panel[open] summary::after { content: '−'; }
+.panel-body { margin-top: 8px; }
 
-/* Clean Minimal Bottom Navigation */
-.nav-bar {
+/* Bottom Nav */
+.bottom-bar {
   position: fixed;
   bottom: 0;
   left: 0;
@@ -288,357 +284,377 @@ details.panel-dropdown[open] summary::after { transform: rotate(90deg); }
   padding: 6px 12px 10px;
   z-index: 30;
 }
-.nav-tab {
+.nav-item {
   background: transparent;
   border: 0;
   color: var(--text-muted);
-  font-size: 11px;
-  font-weight: 600;
+  font-size: 11.5px;
+  font-weight: 500;
   padding: 6px 12px;
-  border-radius: var(--radius-sm);
+  border-radius: 6px;
   cursor: pointer;
 }
-.nav-tab.active { color: var(--text-main); background: var(--surface-subtle); }
+.nav-item.active {
+  color: var(--text-primary);
+  background: var(--surface-alt);
+  font-weight: 600;
+}
 
 .tracker-section { display: none; }
 .tracker-section.active-section { display: block; }
 
-/* Modal Design System */
-.modal-overlay {
+/* Modal System */
+.overlay {
   position: fixed;
   inset: 0;
-  background: rgba(15, 23, 42, 0.45);
-  backdrop-filter: blur(4px);
+  background: rgba(0, 0, 0, 0.4);
   display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
   z-index: 50;
 }
-.modal-overlay.show { display: flex; }
-.modal-card {
-  width: min(440px, 100%);
+.overlay.show { display: flex; }
+.modal-box {
+  width: min(420px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 20px;
+  border-radius: var(--radius);
+  padding: 18px;
   max-height: 85vh;
   overflow-y: auto;
-  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
 }
-.modal-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
-.modal-title { font-size: 15px; font-weight: 800; margin: 0; }
-.btn-close { background: var(--surface-subtle); border: 0; color: var(--text-main); font-weight: 700; border-radius: 6px; padding: 4px 8px; cursor: pointer; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
+.modal-title { font-size: 14px; font-weight: 700; margin: 0; }
+.btn-close { background: transparent; border: 0; font-size: 14px; color: var(--text-muted); cursor: pointer; }
 
-.stat-entry-card {
+.stat-item {
+  padding: 8px 10px;
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
-  padding: 10px 12px;
+  border-radius: 6px;
   margin-bottom: 6px;
-  background: var(--surface);
+  font-size: 12px;
 }
-.stat-entry-card.good { border-left: 3px solid var(--emerald-accent); }
-.stat-entry-card.warn { border-left: 3px solid var(--amber-accent); }
-.stat-entry-card.alert { border-left: 3px solid var(--danger); }
-.stat-title-row { font-size: 13px; font-weight: 700; }
-.stat-sub-row { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
+.stat-item.good { border-left: 3px solid var(--tag-good); }
+.stat-item.warn { border-left: 3px solid var(--tag-warn); }
+.stat-item.bad { border-left: 3px solid var(--tag-bad); }
 
-.next-nap-banner {
-  background: var(--indigo-subtle);
-  border: 1px solid rgba(99, 102, 241, 0.2);
-  border-radius: var(--radius-md);
-  padding: 14px;
-  text-align: center;
-}
-.next-nap-time { font-size: 22px; font-weight: 800; color: var(--indigo-accent); letter-spacing: -0.5px; margin: 4px 0; }
-
-.timer-box {
-  background: var(--surface-subtle);
+.rec-banner {
+  background: var(--surface-alt);
   border: 1px solid var(--border);
-  border-radius: var(--radius-md);
+  border-radius: 6px;
   padding: 12px;
   text-align: center;
-  margin-bottom: 10px;
 }
-.timer-digits { font-size: 24px; font-weight: 800; font-family: monospace; margin: 4px 0; }
+.rec-time { font-size: 18px; font-weight: 700; color: var(--text-primary); margin: 4px 0; }
+
+.timer-wrap {
+  background: var(--surface-alt);
+  border-radius: 6px;
+  padding: 10px;
+  text-align: center;
+  margin-bottom: 8px;
+}
+.timer-num { font-size: 20px; font-weight: 700; font-family: monospace; margin: 4px 0; }
 </style>
 </head>
 <body>
 <div class="container">
 <header>
-  <div class="header-top">
+  <div class="header-row">
     <div class="header-brand">
-      <h1 class="header-title">Little Chronicles</h1>
-      <span class="header-sub" id="headerSubTitle">Daily record</span>
+      <h1 class="brand-name">Little Chronicles</h1>
+      <span class="brand-sub" id="headerSubTitle">Daily record</span>
     </div>
-    <div class="header-controls">
-      <button class="btn-icon" onclick="openProfileModal()">Profile</button>
-      <button class="btn-icon" onclick="toggleDarkMode()" id="themeBtn">Dark</button>
+    <div class="header-actions">
+      <button class="btn-util" onclick="openProfileModal()">Profile</button>
+      <button class="btn-util" onclick="toggleDarkMode()" id="themeBtn">Dark</button>
     </div>
   </div>
 
-  <div class="action-bar">
-    <button class="action-btn primary-action" onclick="saveDay()">Save Day</button>
-    <button class="action-btn" onclick="openStatsModal()">Analytics</button>
-    <button class="action-btn" onclick="openTimersModal()">Timers</button>
+  <div class="quick-strip">
+    <button class="strip-btn primary" onclick="saveDay()">Save Day</button>
+    <button class="strip-btn" onclick="openStatsModal()">Analytics</button>
+    <button class="strip-btn" onclick="openTimersModal()">Timers</button>
   </div>
 </header>
 
-<!-- HOME / SETUP SECTION -->
-<div id="sec-home" class="card tracker-section active-section">
-  <div class="section-heading"><span>Calendar &amp; Baby Age</span></div>
+<!-- HOME -->
+<div id="sec-home" class="section-card tracker-section active-section">
+  <div class="section-title">Calendar &amp; Baby Age</div>
   <div class="grid-2">
-    <div><span class="field-label">Selected Date</span><input id="date" type="date"/></div>
-    <div><span class="field-label">Age</span><input id="babyAge" type="text" readonly placeholder="Set DOB in Profile"/></div>
+    <div class="field-group">
+      <label class="field-label">Date</label>
+      <input id="date" type="date"/>
+    </div>
+    <div class="field-group">
+      <label class="field-label">Age</label>
+      <input id="babyAge" type="text" readonly placeholder="Set DOB in Profile"/>
+    </div>
   </div>
-  <div id="ageGuidance" class="hint">Set DOB in Profile for age-adjusted wake and sleep targets.</div>
+  <div id="ageGuidance" class="target-note">Set DOB in Profile for age-adjusted wake and sleep targets.</div>
 </div>
 
 <!-- SLEEP SECTION -->
-<div id="sec-sleep" class="card tracker-section">
-  <div class="section-heading"><span>Sleep &amp; Wake Windows</span></div>
+<div id="sec-sleep" class="section-card tracker-section">
+  <div class="section-title">Sleep &amp; Wake Tracking</div>
   
   <!-- Morning Wake Selector -->
-  <div class="entry-box">
-    <span class="field-label">Morning Wake-up Time</span>
-    <div style="display:flex;gap:6px;margin-top:4px">
-      <input id="morningWakeTime" type="time" style="flex:1" onchange="saveMorningWake()"/>
-      <button class="btn-sm btn-dark" onclick="saveMorningWake()">Save</button>
+  <div class="form-grid" style="margin-bottom:12px">
+    <div class="field-group">
+      <label class="field-label">Morning Wake Time</label>
+      <input id="morningWakeTime" type="time" onchange="saveMorningWake()"/>
     </div>
-    <div id="wakeTimeHint" class="hint">Auto-detected from night sleep or manual.</div>
+    <button class="btn-submit" style="background:var(--surface-alt);color:var(--text-primary);border:1px solid var(--border)" onclick="saveMorningWake()">Save Wake</button>
   </div>
 
   <!-- Nap vs Night Selector -->
-  <div class="entry-box">
-    <div class="segmented-control">
-      <button class="segment-btn active" id="btnTypeNap" onclick="setSleepMode('nap')">Daytime Nap</button>
-      <button class="segment-btn" id="btnTypeNight" onclick="setSleepMode('night')">Night Bedtime</button>
-    </div>
+  <div class="segmented">
+    <button class="seg-btn active" id="btnTypeNap" onclick="setSleepMode('nap')">Daytime Nap</button>
+    <button class="seg-btn" id="btnTypeNight" onclick="setSleepMode('night')">Night Sleep</button>
+  </div>
 
-    <!-- Nap Form -->
-    <div id="napFormBox">
-      <div class="grid-2">
-        <div><span class="field-label">Nap Start</span><input id="napStartOnly" type="time"/></div>
-        <div><span class="field-label">Nap End</span><input id="napEndOnly" type="time"/></div>
+  <!-- Nap Form -->
+  <div id="napFormBox">
+    <div class="form-grid">
+      <div class="field-group">
+        <label class="field-label">Start Time</label>
+        <input id="napStartOnly" type="time"/>
       </div>
-      <div style="display:flex;justify-content:flex-end;margin-top:10px">
-        <button id="napSubmitBtn" class="btn-sm btn-dark" onclick="addDaytimeNap()">Log Nap</button>
+      <div class="field-group">
+        <label class="field-label">End Time</label>
+        <input id="napEndOnly" type="time"/>
       </div>
     </div>
-
-    <!-- Night Sleep Form -->
-    <div id="nightFormBox" style="display:none">
-      <div class="grid-2">
-        <div><span class="field-label">Bedtime (Evening)</span><input id="nightStartOnly" type="time"/></div>
-        <div><span class="field-label">Wake-up (Morning)</span><input id="nightEndOnly" type="time"/></div>
-      </div>
-      <div style="display:flex;justify-content:flex-end;margin-top:10px">
-        <button id="nightSubmitBtn" class="btn-sm btn-dark" onclick="addNightBedtime()">Log Night Sleep</button>
-      </div>
+    <div style="margin-top:8px">
+      <button id="napSubmitBtn" class="btn-submit" style="width:100%" onclick="addDaytimeNap()">Log Nap</button>
     </div>
   </div>
 
-  <div style="margin-bottom:12px">
-    <button class="btn-sm btn-outline" style="width:100%" onclick="showNextNap()">View Next Nap Recommendation</button>
+  <!-- Night Sleep Form -->
+  <div id="nightFormBox" style="display:none">
+    <div class="form-grid">
+      <div class="field-group">
+        <label class="field-label">Bedtime (Evening)</label>
+        <input id="nightStartOnly" type="time"/>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Wake Time (Morning)</label>
+        <input id="nightEndOnly" type="time"/>
+      </div>
+    </div>
+    <div style="margin-top:8px">
+      <button id="nightSubmitBtn" class="btn-submit" style="width:100%" onclick="addNightBedtime()">Log Night Sleep</button>
+    </div>
   </div>
 
-  <!-- Collapsible Timeline -->
-  <details class="panel-dropdown" open>
-    <summary>Timeline (<span id="timelineCount">0</span>)</summary>
-    <div class="panel-content" id="sleepTimelineContainer"></div>
+  <div style="margin:12px 0 10px">
+    <button class="strip-btn" style="width:100%" onclick="showNextNap()">View Next Nap Recommendation</button>
+  </div>
+
+  <!-- Timeline Feed -->
+  <details class="panel" open>
+    <summary>Timeline (<span id="timelineCount">0</span> entries)</summary>
+    <div class="panel-body" id="sleepTimelineContainer"></div>
   </details>
 
-  <!-- Metrics Overview -->
-  <div class="metrics-strip">
-    <div class="metric-box">
-      <div class="metric-val" id="nightTotal">0 min</div>
-      <div class="metric-lbl">Night Sleep</div>
+  <!-- Metric Strip -->
+  <div class="metric-row">
+    <div class="metric-card">
+      <div class="metric-num" id="nightTotal">0 min</div>
+      <div class="metric-label">Night Sleep</div>
     </div>
-    <div class="metric-box">
-      <div class="metric-val" id="napTotal">0 min</div>
-      <div class="metric-lbl">Naps</div>
+    <div class="metric-card">
+      <div class="metric-num" id="napTotal">0 min</div>
+      <div class="metric-label">Naps</div>
     </div>
-    <div class="metric-box">
-      <div class="metric-val" id="overallTotal">0 min</div>
-      <div class="metric-lbl">24-Hr Total</div>
+    <div class="metric-card">
+      <div class="metric-num" id="overallTotal">0 min</div>
+      <div class="metric-label">24h Total</div>
     </div>
   </div>
-
-  <div id="sleepRemainingBox" class="hint" style="margin-top:10px;font-weight:600"></div>
+  <div id="sleepRemainingBox" class="target-note"></div>
 </div>
 
 <!-- FEEDING SECTION -->
-<div id="sec-milk" class="card tracker-section">
-  <div class="section-heading"><span>Feeding</span></div>
-  <div class="entry-box">
-    <div class="grid-2">
-      <div><span class="field-label">Feed Time</span><input id="feedTime" type="time"/></div>
-      <div><span class="field-label">Amount (ml)</span><input id="feedMl" min="0" placeholder="60" step="5" type="number"/></div>
+<div id="sec-milk" class="section-card tracker-section">
+  <div class="section-title">Feeding</div>
+  <div class="form-grid">
+    <div class="field-group">
+      <label class="field-label">Feed Time</label>
+      <input id="feedTime" type="time"/>
     </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:10px">
-      <button id="feedSubmitBtn" class="btn-sm btn-dark" onclick="addFeed()">Log Feed</button>
+    <div class="field-group">
+      <label class="field-label">Amount (ml)</label>
+      <input id="feedMl" min="0" placeholder="60" step="5" type="number"/>
     </div>
   </div>
+  <div style="margin-top:8px">
+    <button id="feedSubmitBtn" class="btn-submit" style="width:100%" onclick="addFeed()">Log Feed</button>
+  </div>
 
-  <div style="margin-bottom:12px">
-    <button class="btn-sm btn-outline" style="width:100%" onclick="showNextFeed()">View Next Feed Recommendation</button>
+  <div style="margin:12px 0 10px">
+    <button class="strip-btn" style="width:100%" onclick="showNextFeed()">View Next Feed Recommendation</button>
   </div>
 
   <div id="feedEntries"></div>
 
-  <div class="metrics-strip">
-    <div class="metric-box" style="grid-column: span 1.5">
-      <div class="metric-val" id="milkTotal">0 ml</div>
-      <div class="metric-lbl">Total Intake</div>
+  <div class="metric-row" style="grid-template-columns:1fr 1fr">
+    <div class="metric-card">
+      <div class="metric-num" id="milkTotal">0 ml</div>
+      <div class="metric-label">Total Intake</div>
     </div>
-    <div class="metric-box" style="grid-column: span 1.5">
-      <div class="metric-val" id="feedCount">0</div>
-      <div class="metric-lbl">Total Feeds</div>
+    <div class="metric-card">
+      <div class="metric-num" id="feedCount">0</div>
+      <div class="metric-label">Feed Count</div>
     </div>
   </div>
-  <div id="milkRemainingBox" class="hint" style="margin-top:10px;font-weight:600"></div>
+  <div id="milkRemainingBox" class="target-note"></div>
 </div>
 
 <!-- GROWTH SECTION -->
-<div id="sec-growth" class="card tracker-section">
-  <div class="section-heading"><span>Growth &amp; Weight</span></div>
-  <div class="entry-box">
-    <div class="grid-2">
-      <div><span class="field-label">Log Date</span><input id="weightDate" type="date"/></div>
-      <div><span class="field-label">Weight (kg)</span><input id="weightKg" min="0" step="0.01" placeholder="6.2" type="number"/></div>
+<div id="sec-growth" class="section-card tracker-section">
+  <div class="section-title">Growth Tracking</div>
+  <div class="form-grid">
+    <div class="field-group">
+      <label class="field-label">Date</label>
+      <input id="weightDate" type="date"/>
     </div>
-    <div style="display:flex;justify-content:flex-end;margin-top:10px">
-      <button class="btn-sm btn-dark" onclick="addWeight()">Save Weight</button>
+    <div class="field-group">
+      <label class="field-label">Weight (kg)</label>
+      <input id="weightKg" min="0" step="0.01" placeholder="e.g. 6.2" type="number"/>
     </div>
   </div>
-  <div id="weightEntries"></div>
+  <div style="margin-top:8px">
+    <button class="btn-submit" style="width:100%" onclick="addWeight()">Save Weight</button>
+  </div>
+  <div id="weightEntries" style="margin-top:12px"></div>
 </div>
 
 <!-- NOTES SECTION -->
-<div id="sec-notes" class="card tracker-section">
-  <div class="section-heading"><span>Daily Notes</span></div>
-  <div class="entry-box">
-    <textarea id="noteInput" rows="3" placeholder="Add observations, milestones or doctor notes..."></textarea>
-    <div style="display:flex;justify-content:flex-end;margin-top:8px">
-      <button class="btn-sm btn-dark" onclick="addNote()">Add Note</button>
-    </div>
+<div id="sec-notes" class="section-card tracker-section">
+  <div class="section-title">Daily Notes</div>
+  <div class="field-group">
+    <textarea id="noteInput" rows="3" placeholder="Enter notes or observations..."></textarea>
   </div>
-  <div id="notesEntries"></div>
+  <div style="margin-top:8px">
+    <button class="btn-submit" style="width:100%" onclick="addNote()">Save Note</button>
+  </div>
+  <div id="notesEntries" style="margin-top:12px"></div>
 </div>
 
 </div>
 
-<!-- Minimal Bottom Navigation Bar -->
-<nav class="nav-bar">
-  <button class="nav-tab active" onclick="switchSection('sec-home', this)">Home</button>
-  <button class="nav-tab" onclick="switchSection('sec-sleep', this)">Sleep</button>
-  <button class="nav-tab" onclick="switchSection('sec-milk', this)">Feeding</button>
-  <button class="nav-tab" onclick="switchSection('sec-growth', this)">Growth</button>
-  <button class="nav-tab" onclick="switchSection('sec-notes', this)">Notes</button>
+<!-- Minimal Bottom Navigation -->
+<nav class="bottom-bar">
+  <button class="nav-item active" onclick="switchSection('sec-home', this)">Home</button>
+  <button class="nav-item" onclick="switchSection('sec-sleep', this)">Sleep</button>
+  <button class="nav-item" onclick="switchSection('sec-milk', this)">Feeding</button>
+  <button class="nav-item" onclick="switchSection('sec-growth', this)">Growth</button>
+  <button class="nav-item" onclick="switchSection('sec-notes', this)">Notes</button>
 </nav>
 
 <!-- Profile Modal -->
-<div class="modal-overlay" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
-  <div class="modal-card">
-    <div class="modal-head">
+<div class="overlay" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
+  <div class="modal-box">
+    <div class="modal-header">
       <span class="modal-title">Settings &amp; Sync</span>
       <button class="btn-close" onclick="closeProfileModal()">✕</button>
     </div>
     
-    <div class="entry-box">
+    <div style="margin-bottom:12px">
       <div id="userLoggedOutView">
-        <span class="field-label" style="font-weight:700">Account Synchronization</span>
+        <label class="field-label">Cloud Sync Account</label>
         <input id="authEmail" type="email" placeholder="name@example.com" style="margin-bottom:6px"/>
-        <input id="authPassword" type="password" placeholder="Password" style="margin-bottom:8px"/>
+        <input id="authPassword" type="password" placeholder="Password" style="margin-bottom:6px"/>
         <div style="display:flex;gap:6px">
-          <button class="btn-sm btn-dark" style="flex:1" onclick="emailSignIn()">Sign In</button>
-          <button class="btn-sm btn-outline" style="flex:1" onclick="emailSignUp()">Sign Up</button>
+          <button class="btn-submit" style="flex:1" onclick="emailSignIn()">Sign In</button>
+          <button class="btn-util" style="flex:1" onclick="emailSignUp()">Sign Up</button>
         </div>
       </div>
       <div id="userLoggedInView" style="display:none;text-align:center">
-        <div style="font-size:12px;font-weight:700;color:var(--emerald-accent)">Cloud Sync Active</div>
-        <div id="userEmailLabel" style="font-size:11px;color:var(--text-muted);margin:3px 0 8px"></div>
-        <button class="btn-sm btn-danger" onclick="signOutUser()">Sign Out</button>
+        <div style="font-size:12px;font-weight:600;color:var(--tag-good)">Cloud Sync Active</div>
+        <div id="userEmailLabel" style="font-size:11px;color:var(--text-muted);margin:2px 0 8px"></div>
+        <button class="btn-util" style="color:var(--danger)" onclick="signOutUser()">Sign Out</button>
       </div>
     </div>
 
-    <div class="entry-box">
-      <span class="field-label">Baby Name</span>
-      <input id="babyNameInput" type="text" placeholder="Enter name" style="margin-bottom:8px"/>
-      <span class="field-label">Birth Date</span>
+    <div style="margin-bottom:12px">
+      <label class="field-label">Baby Name</label>
+      <input id="babyNameInput" type="text" placeholder="Name" style="margin-bottom:6px"/>
+      <label class="field-label">Birth Date</label>
       <input id="babyDobInput" type="date"/>
-      <div style="display:flex;justify-content:flex-end;margin-top:10px">
-        <button class="btn-sm btn-dark" onclick="saveProfileDetails()">Save Details</button>
+      <div style="margin-top:8px">
+        <button class="btn-submit" style="width:100%" onclick="saveProfileDetails()">Save Profile</button>
       </div>
     </div>
 
-    <button class="btn-sm btn-outline" style="width:100%;margin-top:8px" onclick="closeProfileModal(); openHistoryModal();">Open Past Days History</button>
+    <button class="btn-util" style="width:100%" onclick="closeProfileModal(); openHistoryModal();">View Saved History</button>
   </div>
 </div>
 
-<!-- Analytics / Stats Modal -->
-<div class="modal-overlay" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
-  <div class="modal-card">
-    <div class="modal-head">
-      <span class="modal-title">Analytics</span>
+<!-- Analytics Modal -->
+<div class="overlay" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
+  <div class="modal-box">
+    <div class="modal-header">
+      <span class="modal-title">Daily Analytics</span>
       <button class="btn-close" onclick="closeStatsModal()">✕</button>
     </div>
     
-    <div class="segmented-control">
-      <button class="segment-btn active" onclick="switchStatTime('daily', this)">Daily</button>
-      <button class="segment-btn" onclick="switchStatTime('weekly', this)">7-Day Avg</button>
-      <button class="segment-btn" onclick="switchStatTime('monthly', this)">30-Day Avg</button>
+    <div class="segmented">
+      <button class="seg-btn active" onclick="switchStatTime('daily', this)">Daily</button>
+      <button class="seg-btn" onclick="switchStatTime('weekly', this)">7-Day Avg</button>
+      <button class="seg-btn" onclick="switchStatTime('monthly', this)">30-Day Avg</button>
     </div>
 
     <div style="margin-bottom:10px">
-      <span class="field-label">Filter Category</span>
       <select id="statSelect" onchange="renderStatistics()">
         <option value="all">All Metrics</option>
         <option value="wake">Wake Windows</option>
-        <option value="nap">Sleep Durations</option>
+        <option value="nap">Sleep Sessions</option>
         <option value="milk">Milk Intake</option>
       </select>
     </div>
     
     <div id="statistics"></div>
-    <button class="btn-sm btn-outline" style="width:100%;margin-top:12px" onclick="closeStatsModal()">Close</button>
+    <button class="btn-util" style="width:100%;margin-top:10px" onclick="closeStatsModal()">Close</button>
   </div>
 </div>
 
 <!-- Live Timers Modal -->
-<div class="modal-overlay" id="timersModal" onclick="if(event.target===this)closeTimersModal()">
-  <div class="modal-card">
-    <div class="modal-head">
+<div class="overlay" id="timersModal" onclick="if(event.target===this)closeTimersModal()">
+  <div class="modal-box">
+    <div class="modal-header">
       <span class="modal-title">Live Timers</span>
       <button class="btn-close" onclick="closeTimersModal()">✕</button>
     </div>
     
-    <div class="timer-box">
-      <div class="field-label" style="font-weight:700">Nap Session</div>
-      <div class="timer-digits" id="napTimerDisplay">00:00:00</div>
-      <div class="actions" style="justify-content:center">
-        <input type="time" id="napTimerStartInput" style="width:auto"/>
-        <button class="btn-sm btn-dark" id="startNapTimerBtn" onclick="toggleNapTimer()">Start</button>
-        <button class="btn-sm btn-outline" onclick="resetNapTimer()">Reset</button>
+    <div class="timer-wrap">
+      <div class="field-label">Nap Duration</div>
+      <div class="timer-num" id="napTimerDisplay">00:00:00</div>
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
+        <input type="time" id="napTimerStartInput" style="width:auto;height:32px"/>
+        <button class="btn-submit" id="startNapTimerBtn" style="height:32px" onclick="toggleNapTimer()">Start</button>
+        <button class="btn-util" onclick="resetNapTimer()">Reset</button>
       </div>
     </div>
 
-    <div class="timer-box">
-      <div class="field-label" style="font-weight:700">Feeding Session</div>
-      <div class="timer-digits" id="feedTimerDisplay">00:00:00</div>
-      <div class="actions" style="justify-content:center">
-        <input type="time" id="feedTimerStartInput" style="width:auto"/>
-        <button class="btn-sm btn-dark" id="startFeedTimerBtn" onclick="toggleFeedTimer()">Start</button>
-        <button class="btn-sm btn-outline" onclick="resetFeedTimer()">Reset</button>
+    <div class="timer-wrap">
+      <div class="field-label">Feed Duration</div>
+      <div class="timer-num" id="feedTimerDisplay">00:00:00</div>
+      <div style="display:flex;gap:6px;justify-content:center;margin-top:6px">
+        <input type="time" id="feedTimerStartInput" style="width:auto;height:32px"/>
+        <button class="btn-submit" id="startFeedTimerBtn" style="height:32px" onclick="toggleFeedTimer()">Start</button>
+        <button class="btn-util" onclick="resetFeedTimer()">Reset</button>
       </div>
     </div>
   </div>
 </div>
 
 <!-- History Modal -->
-<div class="modal-overlay" id="historyModal" onclick="if(event.target===this)closeHistoryModal()">
-  <div class="modal-card">
-    <div class="modal-head">
+<div class="overlay" id="historyModal" onclick="if(event.target===this)closeHistoryModal()">
+  <div class="modal-box">
+    <div class="modal-header">
       <span class="modal-title">Saved Logs</span>
       <button class="btn-close" onclick="closeHistoryModal()">✕</button>
     </div>
@@ -646,10 +662,10 @@ details.panel-dropdown[open] summary::after { transform: rotate(90deg); }
   </div>
 </div>
 
-<!-- Recommendations Modal -->
-<div class="modal-overlay" id="nextNapModal" onclick="if(event.target===this)closeNextNap()">
-  <div class="modal-card">
-    <div class="modal-head">
+<!-- Next Nap Modal -->
+<div class="overlay" id="nextNapModal" onclick="if(event.target===this)closeNextNap()">
+  <div class="modal-box">
+    <div class="modal-header">
       <span class="modal-title">Nap Timing</span>
       <button class="btn-close" onclick="closeNextNap()">✕</button>
     </div>
@@ -657,9 +673,10 @@ details.panel-dropdown[open] summary::after { transform: rotate(90deg); }
   </div>
 </div>
 
-<div class="modal-overlay" id="nextFeedModal" onclick="if(event.target===this)closeNextFeed()">
-  <div class="modal-card">
-    <div class="modal-head">
+<!-- Next Feed Modal -->
+<div class="overlay" id="nextFeedModal" onclick="if(event.target===this)closeNextFeed()">
+  <div class="modal-box">
+    <div class="modal-header">
       <span class="modal-title">Feed Timing</span>
       <button class="btn-close" onclick="closeNextFeed()">✕</button>
     </div>
@@ -718,14 +735,14 @@ function emailSignUp(){
   const e = document.getElementById("authEmail").value.trim();
   const p = document.getElementById("authPassword").value.trim();
   if(!e || !p){ alert("Enter email and password."); return; }
-  auth.createUserWithEmailAndPassword(e, p).then(() => alert("Account created and signed in.")).catch(err => alert("Sign Up Error: " + err.message));
+  auth.createUserWithEmailAndPassword(e, p).then(() => alert("Account created.")).catch(err => alert(err.message));
 }
 
 function emailSignIn(){
   const e = document.getElementById("authEmail").value.trim();
   const p = document.getElementById("authPassword").value.trim();
   if(!e || !p){ alert("Enter email and password."); return; }
-  auth.signInWithEmailAndPassword(e, p).then(() => alert("Signed in.")).catch(err => alert("Sign In Error: " + err.message));
+  auth.signInWithEmailAndPassword(e, p).then(() => alert("Signed in.")).catch(err => alert(err.message));
 }
 
 function signOutUser(){ auth.signOut().then(() => alert("Signed out.")); }
@@ -799,13 +816,13 @@ if(localStorage.getItem("adhriti_theme") === "dark"){
 
 function switchStatTime(period, btnEl){
   currentStatTime = period;
-  btnEl.parentElement.querySelectorAll('.segment-btn').forEach(p => p.classList.remove('active'));
+  btnEl.parentElement.querySelectorAll('.seg-btn').forEach(p => p.classList.remove('active'));
   btnEl.classList.add('active');
   renderStatistics();
 }
 
 function openStatsModal(){ 
-  try { renderStatistics(); } catch(err) { console.error("Stats render error:", err); }
+  try { renderStatistics(); } catch(err) {}
   document.getElementById("statsModal").classList.add("show"); 
 }
 function closeStatsModal(){ document.getElementById("statsModal").classList.remove("show"); }
@@ -817,7 +834,7 @@ function refreshStatistics(){
 }
 
 function switchSection(secId, btnEl){
-  document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(t => t.classList.remove('active'));
   if(btnEl) btnEl.classList.add('active');
   document.querySelectorAll('.tracker-section').forEach(s => {
     s.classList.toggle('active-section', s.id === secId);
@@ -897,8 +914,7 @@ function toggleNapTimer(){
       const elapsed = new Date() - napStartTime;
       document.getElementById("napTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
     }, 1000);
-    btn.textContent = "End";
-    btn.className = "btn-sm btn-danger";
+    btn.textContent = "Stop";
   } else {
     clearInterval(napTimerInterval);
     napTimerInterval = null;
@@ -919,7 +935,6 @@ function resetNapTimer(){
   document.getElementById("napTimerStartInput").value = "";
   const btn = document.getElementById("startNapTimerBtn");
   btn.textContent = "Start";
-  btn.className = "btn-sm btn-dark";
 }
 
 function toggleFeedTimer(){
@@ -932,12 +947,11 @@ function toggleFeedTimer(){
       const elapsed = new Date() - feedStartTime;
       document.getElementById("feedTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
     }, 1000);
-    btn.textContent = "Save";
-    btn.className = "btn-sm btn-danger";
+    btn.textContent = "Stop";
   } else {
     clearInterval(feedTimerInterval);
     feedTimerInterval = null;
-    const amount = prompt("Enter feed amount in ml:", "60");
+    const amount = prompt("Enter amount in ml:", "60");
     if(amount !== null && amount.trim() !== ""){
       document.getElementById("feedMl").value = amount;
       addFeed();
@@ -955,7 +969,6 @@ function resetFeedTimer(){
   document.getElementById("feedTimerStartInput").value = "";
   const btn = document.getElementById("startFeedTimerBtn");
   btn.textContent = "Start";
-  btn.className = "btn-sm btn-dark";
 }
 
 function db(){
@@ -1016,7 +1029,7 @@ function saveMorningWake(){
   saveDb(database);
   day.wakeTime = wTime;
   render();
-  alert("Morning wake time saved: " + wTime);
+  alert("Wake time saved.");
 }
 
 function render(){
@@ -1024,9 +1037,6 @@ function render(){
   
   const effectiveWake = getEffectiveWakeTime(day.date);
   document.getElementById("morningWakeTime").value = day.wakeTime || effectiveWake.time || "";
-  document.getElementById("wakeTimeHint").textContent = effectiveWake.auto 
-    ? `Auto-detected from night wake: ${effectiveWake.time}`
-    : `Set morning wake-up for ${fmtDate(day.date)}`;
 
   updateBabyAge();
   document.getElementById("feedEntries").innerHTML = "";
@@ -1054,8 +1064,8 @@ function renderSleepTimeline(naps, wakeTimeStr){
 
   if(wakeTimeStr){
     const wakeCard = document.createElement("div");
-    wakeCard.className = "timeline-item wake-indicator";
-    wakeCard.innerHTML = `<div class="timeline-meta-title">Morning Wake-up: ${wakeTimeStr}</div>`;
+    wakeCard.className = "timeline-row wake";
+    wakeCard.innerHTML = `<div class="item-title">Morning Wake-up: ${wakeTimeStr}</div>`;
     box.appendChild(wakeCard);
   }
 
@@ -1068,7 +1078,7 @@ function renderSleepTimeline(naps, wakeTimeStr){
       const gap = mins(n.start) - mins(lastWake);
       if(gap > 0){
         const wCard = document.createElement("div");
-        wCard.className = "timeline-item interval-tag";
+        wCard.className = "timeline-row interval";
         wCard.innerHTML = `Wake Window ${idx + 1}: ${lastWake} → ${n.start} (${durationText(gap)})`;
         box.appendChild(wCard);
       }
@@ -1076,15 +1086,15 @@ function renderSleepTimeline(naps, wakeTimeStr){
 
     const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
     const nCard = document.createElement("div");
-    nCard.className = "timeline-item";
+    nCard.className = "timeline-row";
     nCard.innerHTML = `
       <div>
-        <div class="timeline-meta-title">Nap ${idx + 1} — ${n.start} – ${n.end}</div>
-        <div class="timeline-meta-sub">${durationText(dur)}</div>
+        <div class="item-title">Nap ${idx + 1} — ${n.start} – ${n.end}</div>
+        <div class="item-meta">${durationText(dur)}</div>
       </div>
-      <div>
-        <button class="btn-sm btn-outline" onclick="editNap(${realIndex})" style="padding:4px 8px;margin-right:4px">Edit</button>
-        <button class="btn-sm btn-danger" onclick="removeNap(${realIndex})" style="padding:4px 8px">Remove</button>
+      <div class="row-actions">
+        <button class="action-link" onclick="editNap(${realIndex})">Edit</button>
+        <button class="action-link delete" onclick="removeNap(${realIndex})">Delete</button>
       </div>`;
     box.appendChild(nCard);
 
@@ -1097,35 +1107,35 @@ function renderSleepTimeline(naps, wakeTimeStr){
     const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
 
     const nightCard = document.createElement("div");
-    nightCard.className = "timeline-item";
+    nightCard.className = "timeline-row";
     nightCard.innerHTML = `
       <div>
-        <div class="timeline-meta-title">Night Sleep — ${n.start} – ${endFormatted}</div>
-        <div class="timeline-meta-sub" style="color:var(--text-muted)">${durationText(dur)}</div>
+        <div class="item-title">Night Sleep — ${n.start} – ${endFormatted}</div>
+        <div class="item-meta">${durationText(dur)}</div>
       </div>
-      <div>
-        <button class="btn-sm btn-outline" onclick="editNap(${realIndex})" style="padding:4px 8px;margin-right:4px">Edit</button>
-        <button class="btn-sm btn-danger" onclick="removeNap(${realIndex})" style="padding:4px 8px">Remove</button>
+      <div class="row-actions">
+        <button class="action-link" onclick="editNap(${realIndex})">Edit</button>
+        <button class="action-link delete" onclick="removeNap(${realIndex})">Delete</button>
       </div>`;
     box.appendChild(nightCard);
   });
 
   if(!naps.length && !wakeTimeStr){
-    box.innerHTML = '<div class="empty">No entries logged for this date.</div>';
+    box.innerHTML = '<div class="empty" style="padding:8px;font-size:11px">No sleep logs for this date.</div>';
   }
 }
 
 function drawFeed(f,i){
   const el=document.createElement("div");
-  el.className="timeline-item";
+  el.className="timeline-row";
   el.innerHTML=
     `<div>
-      <div class="timeline-meta-title">Feed ${i+1} — ${f.time}</div>
-      <div class="timeline-meta-sub" style="color:var(--emerald-accent)">${f.ml} ml</div>
+      <div class="item-title">Feed ${i+1} — ${f.time}</div>
+      <div class="item-meta">${f.ml} ml</div>
     </div>
-    <div>
-      <button class="btn-sm btn-outline" onclick="editFeed(${i})" style="padding:4px 8px;margin-right:4px">Edit</button>
-      <button class="btn-sm btn-danger" onclick="removeFeed(${i})" style="padding:4px 8px">Remove</button>
+    <div class="row-actions">
+      <button class="action-link" onclick="editFeed(${i})">Edit</button>
+      <button class="action-link delete" onclick="removeFeed(${i})">Delete</button>
     </div>`;
   document.getElementById("feedEntries").appendChild(el);
 }
@@ -1134,9 +1144,9 @@ function addDaytimeNap(){
   const sDate = day.date || today();
   const start = document.getElementById("napStartOnly").value;
   const end = document.getElementById("napEndOnly").value;
-  if(!start || !end){ alert("Enter both start and end time."); return; }
+  if(!start || !end){ alert("Enter start and end times."); return; }
   const d = calcDateTimeDuration(sDate, start, sDate, end);
-  if(d <= 0){ alert("Nap end time must be after start time."); return; }
+  if(d <= 0){ alert("End time must be after start time."); return; }
 
   saveSleepEntry(sDate, start, sDate, end);
   document.getElementById("napStartOnly").value = "";
@@ -1147,7 +1157,7 @@ function addNightBedtime(){
   const sDate = day.date || today();
   const start = document.getElementById("nightStartOnly").value;
   const end = document.getElementById("nightEndOnly").value;
-  if(!start || !end){ alert("Enter bedtime and wake-up time."); return; }
+  if(!start || !end){ alert("Enter bedtime and wake times."); return; }
   const eDate = nextDay(sDate);
 
   saveSleepEntry(sDate, start, eDate, end);
@@ -1258,7 +1268,7 @@ function saveNotes(){
 
 function addNote(){
   const txt = document.getElementById("noteInput").value.trim();
-  if(!txt){ alert("Enter note text."); return; }
+  if(!txt){ alert("Enter note."); return; }
   notes.unshift({ text: txt, time: new Date().toLocaleDateString() });
   document.getElementById("noteInput").value = "";
   saveNotes();
@@ -1273,11 +1283,11 @@ function renderNotes(){
   const box = document.getElementById("notesEntries");
   if(!box) return;
   box.innerHTML = "";
-  if(!notes.length){ box.innerHTML = '<div class="empty">No notes added.</div>'; return; }
+  if(!notes.length){ box.innerHTML = '<div class="empty">No notes.</div>'; return; }
   notes.forEach((n, i) => {
     const el = document.createElement("div");
-    el.className = "timeline-item";
-    el.innerHTML = `<div><div class="timeline-meta-title">${n.text}</div><div class="timeline-meta-sub" style="color:var(--text-muted)">${n.time}</div></div><button class="btn-sm btn-danger" onclick="removeNote(${i})">Remove</button>`;
+    el.className = "timeline-row";
+    el.innerHTML = `<div><div class="item-title">${n.text}</div><div class="item-meta">${n.time}</div></div><button class="action-link delete" onclick="removeNote(${i})">Delete</button>`;
     box.appendChild(el);
   });
 }
@@ -1314,8 +1324,8 @@ function renderWeights(){
   if(!weights.length){ box.innerHTML = '<div class="empty">No weights logged.</div>'; return; }
   weights.forEach((w, i) => {
     const el = document.createElement("div");
-    el.className = "timeline-item";
-    el.innerHTML = `<div><div class="timeline-meta-title">${fmtDate(w.date)} — ${w.kg} kg</div></div><button class="btn-sm btn-danger" onclick="removeWeight(${i})">Remove</button>`;
+    el.className = "timeline-row";
+    el.innerHTML = `<div><div class="item-title">${fmtDate(w.date)} — ${w.kg} kg</div></div><button class="action-link delete" onclick="removeWeight(${i})">Delete</button>`;
     box.appendChild(el);
   });
 }
@@ -1345,7 +1355,7 @@ function updateSleepTotals(){
     const idealNapMins = p.idealNapTotalMins || 210;
     const remainingNapMins = Math.max(0, idealNapMins - napMins);
     sleepBox.textContent = remainingNapMins === 0 
-      ? `Daytime nap target reached (${durationText(napMins)}). Total: ${durationText(total24Hr)}` 
+      ? `Daytime nap target reached (${durationText(napMins)}). Total sleep: ${durationText(total24Hr)}` 
       : `Remaining daytime nap target: ${durationText(remainingNapMins)} (Target: ${durationText(idealNapMins)}). Total: ${durationText(total24Hr)}`;
   }
 }
@@ -1374,7 +1384,7 @@ function wakeWindowStatus(minutes){
   if(minutes>=p.wakeMin && minutes<=p.wakeMax)return {cls:"good",label:"Optimal window"};
   const margin=Math.max(15,Math.round((p.wakeMax-p.wakeMin)*0.5));
   if(minutes>=p.wakeMin-margin && minutes<=p.wakeMax+margin)return {cls:"warn",label:"Slightly off-schedule"};
-  return {cls:"alert",label:"Outside target range"};
+  return {cls:"bad",label:"Outside target range"};
 }
 
 function renderStatistics(){
@@ -1389,14 +1399,14 @@ function renderStatistics(){
     intro="Age profile: <b>" + (a ? `${a.months}m ${a.days}d` : p.label) + "</b>";
   }
 
-  let out='<div class="stat-entry-card" style="border-left:none;background:var(--surface-subtle)">'+intro+'</div>';
+  let out='<div class="stat-item" style="border-left:0;background:var(--surface-alt)">'+intro+'</div>';
   const database = db();
   const currentDayData = database[day.date] || day;
   const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
 
   // WAKE WINDOWS
   if(sel==="all" || sel==="wake"){
-    out+='<div class="stat-group-title">Wake Windows</div>';
+    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Wake Windows</div>';
     const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
     let wakeWindows = [];
 
@@ -1414,39 +1424,39 @@ function renderStatistics(){
     }
 
     if(!wakeWindows.length){
-      out += '<div class="empty">Log Morning Wake Time &amp; Naps to calculate wake windows.</div>';
+      out += '<div class="empty" style="font-size:11.5px">Set Morning Wake Time &amp; Naps to view wake windows.</div>';
     } else {
       wakeWindows.forEach((w) => {
         const st = wakeWindowStatus(w.mins);
         const rec = p ? ` · Target: ${p.wakeMin}–${p.wakeMax}m` : '';
-        out += `<div class="stat-entry-card ${st.cls}"><div class="stat-title-row">${w.label} — ${durationText(w.mins)}</div><div class="stat-sub-row">${st.label}${rec}</div></div>`;
+        out += `<div class="stat-item ${st.cls}"><div style="font-weight:600">${w.label} — ${durationText(w.mins)}</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">${st.label}${rec}</div></div>`;
       });
     }
   }
 
   if(sel==="all" || sel==="nap"){
-    out+='<div class="stat-group-title">Sleep Sessions</div>';
+    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Sleep Sessions</div>';
     if(!naps.length){
-      out+='<div class="empty">No sleep recorded today.</div>';
+      out+='<div class="empty" style="font-size:11.5px">No sleep recorded today.</div>';
     }else{
       naps.forEach((n,i)=>{
         const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
         const isNight = isNightSleepEntry(n);
         const title = isNight ? `Night Sleep — ${durationText(m)}` : `Nap ${i+1} — ${n.start}–${n.end} (${durationText(m)})`;
         const ideal = isNight ? '10–12h target' : `${p ? p.napMin : 30}–${p.napMax || 120}m target`;
-        out+=`<div class="stat-entry-card good"><div class="stat-title-row">${title}</div><div class="stat-sub-row">${ideal}</div></div>`;
+        out+=`<div class="stat-item good"><div style="font-weight:600">${title}</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">${ideal}</div></div>`;
       });
     }
   }
 
   if(sel==="all" || sel==="milk"){
-    out+='<div class="stat-group-title">Milk Intake</div>';
+    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Milk Intake</div>';
     const feeds = currentDayData.feeds || [];
     const totalMl=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
     if(!feeds.length){
-      out+='<div class="empty">No feeds recorded today.</div>';
+      out+='<div class="empty" style="font-size:11.5px">No feeds recorded today.</div>';
     } else {
-      out+=`<div class="stat-entry-card good"><div class="stat-title-row">Total Intake — ${totalMl} ml</div><div class="stat-sub-row">Target: ${p ? `${p.milkMin}–${p.milkMax} ml/day` : '600–900 ml'}</div></div>`;
+      out+=`<div class="stat-item good"><div style="font-weight:600">Total Intake — ${totalMl} ml</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">Target: ${p ? `${p.milkMin}–${p.milkMax} ml/day` : '600–900 ml'}</div></div>`;
     }
   }
 
@@ -1496,7 +1506,7 @@ function updateBabyAge(){
   if(ageBox) ageBox.value=monthText;
   const profile=getAgeProfile();
   if(guide && profile){
-    guide.textContent=`Age: ${monthText} • Window: ${profile.wakeMin}–${profile.wakeMax}m • Milk: ${profile.milkMin}–${profile.milkMax}ml • Ideal Naps: ~${durationText(profile.idealNapTotalMins)}`;
+    guide.textContent=`Age: ${monthText} • Wake window: ${profile.wakeMin}–${profile.wakeMax}m • Daily milk: ${profile.milkMin}–${profile.milkMax}ml`;
   }
 }
 
@@ -1505,7 +1515,7 @@ function showNextNap(){
   const currentDayData = database[day.date] || day;
   const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const p = getAgeProfile();
-  if(!p){ alert("Set DOB in Profile for suggestions."); return; }
+  if(!p){ alert("Set DOB in Profile for recommendations."); return; }
 
   const effectiveWake = getEffectiveWakeTime(day.date);
   const wakeRef = day.wakeTime || effectiveWake.time;
@@ -1514,7 +1524,7 @@ function showNextNap(){
   let napLabel = "";
 
   if(!dayNaps.length){
-    if(!wakeRef){ alert("Set Morning Wake-up Time first."); return; }
+    if(!wakeRef){ alert("Set Morning Wake Time first."); return; }
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
@@ -1526,10 +1536,10 @@ function showNextNap(){
   const latest = mins(startRef) + p.wakeMax;
 
   document.getElementById("nextNapSuggestion").innerHTML = `
-    <div class="next-nap-banner">
-      <div class="field-label" style="font-weight:700">${napLabel} Target Window</div>
-      <div class="next-nap-time">${time(earliest)} – ${time(latest)}</div>
-      <div class="hint" style="margin-top:4px">Wake Window: <b>${p.wakeMin}–${p.wakeMax} min</b> (Awake at ${startRef})</div>
+    <div class="rec-banner">
+      <div style="font-size:11px;font-weight:600;color:var(--text-muted)">${napLabel.toUpperCase()} WINDOW</div>
+      <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
+      <div style="font-size:11px;color:var(--text-muted)">Based on wake-up at ${startRef} (Target: ${p.wakeMin}–${p.wakeMax}m)</div>
     </div>
   `;
   document.getElementById("nextNapModal").classList.add("show");
@@ -1538,17 +1548,17 @@ function showNextNap(){
 function closeNextNap(){ document.getElementById("nextNapModal").classList.remove("show"); }
 
 function showNextFeed(){
-  if(!day.feeds || !day.feeds.length){alert("Add at least one feed first.");return;}
+  if(!day.feeds || !day.feeds.length){alert("Add at least one feed.");return;}
   const p=getAgeProfile();
-  if(!p){alert("Set DOB in Profile for suggestions.");return;}
+  if(!p){alert("Set DOB in Profile for recommendations.");return;}
   const last=day.feeds[day.feeds.length-1];
   const earliest=mins(last.time)+p.feedMin;
   const latest=mins(last.time)+p.feedMax;
   document.getElementById("nextFeedSuggestion").innerHTML=
-    `<div class="next-nap-banner" style="background:var(--emerald-subtle);border-color:rgba(5,150,105,0.2)">
-      <div class="field-label" style="color:var(--emerald-accent);font-weight:700">Next Feed Target</div>
-      <div class="next-nap-time" style="color:var(--emerald-accent)">${time(earliest)} – ${time(latest)}</div>
-      <div class="hint" style="margin-top:4px">Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</b></div>
+    `<div class="rec-banner">
+      <div style="font-size:11px;font-weight:600;color:var(--text-muted)">NEXT FEED WINDOW</div>
+      <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
+      <div style="font-size:11px;color:var(--text-muted)">Interval: ${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</div>
     </div>`;
   document.getElementById("nextFeedModal").classList.add("show");
 }
@@ -1563,7 +1573,7 @@ function saveDay(){
   d[day.date].feeds = day.feeds || [];
   saveDb(d);
   renderHistory();
-  alert("Day saved successfully.");
+  alert("Day saved.");
 }
 
 function loadDateFor(targetDate){
@@ -1594,12 +1604,12 @@ function renderHistory(){
     const ml = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
     const overall = naps.reduce((s,n)=> s + calcDateTimeDuration(n.startDate||x, n.start, n.endDate||x, n.end),0);
 
-    return `<div class="timeline-item">
+    return `<div class="timeline-row" style="margin-bottom:6px">
       <div>
-        <div class="timeline-meta-title">${fmtDate(x)}</div>
-        <div class="timeline-meta-sub" style="color:var(--text-muted)">Sleep: ${durationText(overall)} · Milk: ${ml} ml</div>
+        <div class="item-title">${fmtDate(x)}</div>
+        <div class="item-meta">Sleep: ${durationText(overall)} · Milk: ${ml} ml</div>
       </div>
-      <button class="btn-sm btn-dark" onclick="openDay('${x}')">Load</button>
+      <button class="btn-util" onclick="openDay('${x}')">Load</button>
     </div>`;
   }).join("");
 }
@@ -1618,7 +1628,7 @@ loadNotes();
 loadWeights();
 loadDate();
 updateBabyAge();
-switchSection('sec-home', document.querySelector('.nav-tab'));
+switchSection('sec-home', document.querySelector('.nav-item'));
 </script>
 </body>
 </html>
