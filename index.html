@@ -21,6 +21,7 @@
   --border:#ebdcd5;
   --danger:#e05252;
   
+  /* Section Color Themes */
   --home-bg:#ffffff;
   --home-accent:#d97757;
   --home-border:#ebdcd5;
@@ -155,6 +156,9 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .total{border-radius:12px;padding:10px;text-align:center}
 .total strong{display:block;font-size:18px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
 
+.sub-header-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 4px;color:var(--muted)}
+.remaining-note-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.4;font-weight:600}
+
 .history-item{border:1px solid var(--border);border-radius:12px;padding:10px;margin:8px 0;background:var(--card)}
 .history-header{display:flex;justify-space:between;align-items:center;margin-bottom:4px}
 .history-date{font-weight:800;color:var(--accent);font-size:14px}
@@ -247,8 +251,18 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep</h2>
+  
+  <!-- Morning Wake Time Input -->
+  <div class="entry-box" style="margin-bottom:8px">
+    <label>☀️ Morning Wake Up Time (Calculates Nap 1)</label>
+    <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
+      <input id="morningWakeTime" type="time" style="flex:1" onchange="saveMorningWake()"/>
+      <button class="secondary small-btn" onclick="saveMorningWake()">Save Wake</button>
+    </div>
+  </div>
+
   <div class="entry-box">
-    <label>Log Nap or Sleep (Supports Past Dates)</label>
+    <label>Log Nap or Night Sleep (Supports Any Date)</label>
     <div class="sleep-form-grid" style="margin-top:6px">
       <div>
         <label>Start Date &amp; Time</label>
@@ -269,14 +283,29 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
       <button id="napSubmitBtn" class="primary small-btn" onclick="addNap()">Add Sleep Entry</button>
     </div>
   </div>
+
   <div class="actions">
     <button class="secondary small-btn" onclick="showNextNap()">⏭️ Next nap timing suggestion</button>
   </div>
-  <div class="entries" id="napEntries"></div>
+
+  <!-- Separated Sleep Entries -->
+  <div class="sub-header-title">🌙 Night Sleep (Bedtime Date Rule)</div>
+  <div class="entries" id="nightSleepEntries"></div>
+
+  <div class="sub-header-title">💤 Daytime Naps</div>
+  <div class="entries" id="dayNapEntries"></div>
+
+  <!-- Totals Section Separated -->
   <div class="totals" style="margin-top:10px">
-    <div class="total" style="grid-column:1/-1"><strong id="overallTotal">0 min</strong><span>Total 24-hr Sleep (Bedtime Date Rule)</span></div>
+    <div class="total"><strong id="nightTotal">0 min</strong><span>Night Sleep</span></div>
+    <div class="total"><strong id="napTotal">0 min</strong><span>Daytime Naps</span></div>
   </div>
-  <div class="hint" style="text-align:center;margin-top:4px;">Overnight sleep counts toward the day it started (bedtime date).</div>
+  <div class="totals" style="margin-top:6px">
+    <div class="total" style="grid-column:1/-1"><strong id="overallTotal">0 min</strong><span>Total 24-hr Sleep</span></div>
+  </div>
+
+  <!-- Remaining Sleep Target Note -->
+  <div id="sleepRemainingBox" class="remaining-note-box"></div>
 </div>
 
 <div id="sec-milk" class="card tracker-section">
@@ -296,6 +325,9 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <div class="total"><strong id="milkTotal">0 ml</strong><span>Total milk</span></div>
     <div class="total"><strong id="feedCount">0</strong><span>Total feeds</span></div>
   </div>
+
+  <!-- Remaining Milk Target Note -->
+  <div id="milkRemainingBox" class="remaining-note-box"></div>
 </div>
 
 <div id="sec-growth" class="card tracker-section">
@@ -513,19 +545,9 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <button class="close" onclick="closeNextNap()">✕</button>
     <h3>Next nap timing</h3>
     <div id="nextNapSuggestion"></div>
-    <div class="hint">Based on latest recorded nap. Reference only.</div>
+    <div class="hint">Based on morning wake time or latest nap. Reference only.</div>
     <button class="primary" style="width:100%;margin-top:10px" onclick="closeNextNap()">Close</button>
   </div>
-</div>
-
-<div class="modal" id="napModal" onclick="if(event.target===this)closeNapModal()">
-<div class="modal-box">
-<button class="close" onclick="closeNapModal()">✕</button>
-<h3>Suggested nap timings</h3>
-<div id="suggestions"></div>
-<div class="hint">Reference only — not saved to actual naps.</div>
-<button class="primary" onclick="closeNapModal()" style="width:100%;margin-top:10px">Close</button>
-</div>
 </div>
 
 <script>
@@ -556,7 +578,7 @@ let editingWeightIndex=-1;
 let editingNoteIndex=-1;
 let currentStatTime="daily";
 
-let day={date:"",naps:[],feeds:[]};
+let day={date:"",wakeTime:"",naps:[],feeds:[]};
 let weights=[];
 let notes=[];
 
@@ -874,13 +896,19 @@ function fmtDate(s){
   return new Date(s+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
 }
 
+function isNightSleepEntry(n){
+  if(!n) return false;
+  const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+  const startHour = parseInt((n.start||"0").split(":")[0], 10);
+  return startHour >= 19 || startHour < 6 || dur >= 240;
+}
+
 // Master Database Auto-Cleaner & Synchronizer
 function db(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
     let changed = false;
     
-    // Scan all saved dates
     Object.keys(raw).forEach(dayKey => {
       if(raw[dayKey] && raw[dayKey].naps && Array.isArray(raw[dayKey].naps)){
         const validNaps = [];
@@ -891,20 +919,18 @@ function db(){
           const sDate = n.startDate || dayKey;
           const keySig = `${sDate}_${n.start}_${n.endDate}_${n.end}`;
 
-          // If entry was recorded on a different start date, move it to its proper date
           if(sDate !== dayKey){
-            if(!raw[sDate]) raw[sDate] = { date: sDate, naps: [], feeds: [] };
+            if(!raw[sDate]) raw[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
             if(!raw[sDate].naps) raw[sDate].naps = [];
             const exists = raw[sDate].naps.some(x => x.start === n.start && x.end === n.end && x.startDate === sDate);
             if(!exists) raw[sDate].naps.push(n);
             changed = true;
           } else {
-            // Keep unique entry for this day
             if(!seen.has(keySig)){
               seen.add(keySig);
               validNaps.push(n);
             } else {
-              changed = true; // removed duplicate
+              changed = true;
             }
           }
         });
@@ -919,6 +945,16 @@ function db(){
 }
 
 function saveDb(x){localStorage.setItem(KEY,JSON.stringify(x))}
+
+function saveMorningWake(){
+  const wTime = document.getElementById("morningWakeTime").value;
+  const database = db();
+  if(!database[day.date]) database[day.date] = { date: day.date, wakeTime:"", naps: [], feeds: [] };
+  database[day.date].wakeTime = wTime;
+  saveDb(database);
+  day.wakeTime = wTime;
+  render();
+}
 
 function loadNotes(){
   try{ notes = JSON.parse(localStorage.getItem(NOTES_KEY)||"[]"); }
@@ -1102,39 +1138,67 @@ function durationText(n){
 }
 
 function render(){
-  document.getElementById("date").value=day.date;
+  document.getElementById("date").value = day.date;
+  document.getElementById("morningWakeTime").value = day.wakeTime || "";
   updateBabyAge();
 
-  document.getElementById("napEntries").innerHTML="";
-  document.getElementById("feedEntries").innerHTML="";
+  document.getElementById("nightSleepEntries").innerHTML = "";
+  document.getElementById("dayNapEntries").innerHTML = "";
+  document.getElementById("feedEntries").innerHTML = "";
 
   const database = db();
   const dateObj = database[day.date] || day;
   
-  // Strictly only show naps that started on this current day
-  const dayNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
+  // Strictly filter only sleep entries that started on this day
+  const allNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
 
-  dayNaps.forEach((n,i)=>drawNap(n,i));
+  const nightEntries = [];
+  const dayNapList = [];
+
+  allNaps.forEach((n, originalIndex) => {
+    if(isNightSleepEntry(n)){
+      nightEntries.push({ nap: n, index: originalIndex });
+    } else {
+      dayNapList.push({ nap: n, index: originalIndex });
+    }
+  });
+
+  if(!nightEntries.length){
+    document.getElementById("nightSleepEntries").innerHTML = '<div class="empty">No night sleep logged for this bedtime date.</div>';
+  } else {
+    nightEntries.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "Night Sleep", "nightSleepEntries"));
+  }
+
+  if(!dayNapList.length){
+    document.getElementById("dayNapEntries").innerHTML = '<div class="empty">No daytime naps logged.</div>';
+  } else {
+    dayNapList.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "Nap", "dayNapList"));
+  }
+
   (dateObj.feeds || []).forEach((f,i)=>drawFeed(f,i));
 
   totals();
   renderStatistics();
 }
 
-function drawNap(n,i){
+function drawSleepCard(n, realIndex, displayNum, labelText, containerId){
   const el=document.createElement("div");
   el.className="entry";
   const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
   const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate)} ${n.end}` : n.end;
   
   el.innerHTML=
-    `<div><div class="entry-main">Sleep ${i+1} — ${n.start} – ${endFormatted}</div>
+    `<div><div class="entry-main">${labelText} ${displayNum} — ${n.start} – ${endFormatted}</div>
      <div class="stat-detail">${durationText(dur)}</div></div>
      <div class="entry-actions">
-       <button class="secondary small-btn" onclick="editNap(${i})">Edit</button>
-       <button class="danger remove" onclick="removeNap(${i})">Remove</button>
+       <button class="secondary small-btn" onclick="editNap(${realIndex})">Edit</button>
+       <button class="danger remove" onclick="removeNap(${realIndex})">Remove</button>
      </div>`;
-  document.getElementById("napEntries").appendChild(el);
+  
+  const container = containerId === "nightSleepEntries" 
+    ? document.getElementById("nightSleepEntries") 
+    : document.getElementById("dayNapEntries");
+  container.appendChild(el);
 }
 
 function drawFeed(f,i){
@@ -1165,7 +1229,7 @@ function addNap(){
   const database = db();
   
   if(!database[sDate]) {
-    database[sDate] = { date: sDate, naps: [], feeds: [] };
+    database[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
   }
   if(!database[sDate].naps) database[sDate].naps = [];
 
@@ -1198,7 +1262,7 @@ function addFeed(){
 
   const database = db();
   if(!database[targetDate]) {
-    database[targetDate] = { date: targetDate, naps: [], feeds: [] };
+    database[targetDate] = { date: targetDate, wakeTime:"", naps: [], feeds: [] };
   }
   if(!database[targetDate].feeds) database[targetDate].feeds = [];
 
@@ -1277,8 +1341,45 @@ function updateSleepTotals(){
   const database = db();
   const dayData = database[day.date] || day;
   const naps = (dayData.naps || []).filter(n => (n.startDate || day.date) === day.date);
-  const totalMins = naps.reduce((s,n) => s + calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end), 0);
-  document.getElementById("overallTotal").textContent = durationText(totalMins);
+  
+  let nightMins = 0;
+  let napMins = 0;
+
+  naps.forEach(n => {
+    const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+    if(isNightSleepEntry(n)){
+      nightMins += dur;
+    } else {
+      napMins += dur;
+    }
+  });
+
+  const total24Hr = nightMins + napMins;
+
+  document.getElementById("nightTotal").textContent = durationText(nightMins);
+  document.getElementById("napTotal").textContent = durationText(napMins);
+  document.getElementById("overallTotal").textContent = durationText(total24Hr);
+
+  // Render sleep target remaining notes
+  const p = getAgeProfile();
+  const sleepBox = document.getElementById("sleepRemainingBox");
+  if(sleepBox){
+    if(!p){
+      sleepBox.innerHTML = `💡 Total sleep: <b>${durationText(total24Hr)}</b>. Set DOB in Profile for remaining daytime nap targets.`;
+    } else {
+      const idealNapMins = p.idealNapTotalMins || 210;
+      const remainingNapMins = Math.max(0, idealNapMins - napMins);
+      const napStatusText = remainingNapMins === 0 
+        ? `✅ Daytime nap target achieved!` 
+        : `💤 Remaining daytime nap target: <b>${durationText(remainingNapMins)}</b> (Target: ${durationText(idealNapMins)})`;
+
+      sleepBox.innerHTML = `
+        <div>🌙 Night Sleep: <b>${durationText(nightMins)}</b> (Recommended: 10–12 hrs)</div>
+        <div style="margin-top:3px">${napStatusText}</div>
+        <div style="font-size:11px;color:var(--muted);margin-top:4px">Total 24-hr Sleep: <b>${durationText(total24Hr)}</b> / ${durationText(p.sleepMin)}–${durationText(p.sleepMax)} target.</div>
+      `;
+    }
+  }
 }
 
 function totals(){
@@ -1288,6 +1389,23 @@ function totals(){
   const ml=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
   document.getElementById("milkTotal").textContent=ml+" ml";
   document.getElementById("feedCount").textContent=feeds.length;
+  
+  // Render Milk remaining note
+  const p = getAgeProfile();
+  const milkBox = document.getElementById("milkRemainingBox");
+  if(milkBox){
+    if(!p){
+      milkBox.innerHTML = `🍼 Logged: <b>${ml} ml</b>. Set DOB in Profile for daily milk targets.`;
+    } else {
+      const remainingMl = Math.max(0, p.milkMin - ml);
+      const milkStatusText = ml >= p.milkMin 
+        ? `✅ Daily milk target achieved (${ml} ml logged)!` 
+        : `🍼 Target remaining for today: <b>${remainingMl} ml</b> (Recommended: ${p.milkMin}–${p.milkMax} ml/day)`;
+
+      milkBox.innerHTML = `${milkStatusText}`;
+    }
+  }
+
   updateSleepTotals();
 }
 
@@ -1436,8 +1554,7 @@ function renderStatistics(){
         dayNaps.forEach((n,i)=>{
           const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
           const s=sleepEntryStatus(m, n.start);
-          const startHour = parseInt((n.start||"0").split(":")[0], 10);
-          const isNight = startHour >= 19 || startHour < 6 || m >= 240;
+          const isNight = isNightSleepEntry(n);
           
           let detail=s.label;
           if(p) {
@@ -1530,15 +1647,15 @@ function getAgeProfile(){
   const m=getBabyAgeInMonths();
   if(m===null)return null;
 
-  if(m<2) return {label:"0–1 months", wakeMin:45,wakeMax:75, feedMin:90,feedMax:150,napMin:30,napMax:180, milkMin:450,milkMax:750, sleepMin:840,sleepMax:1020};
-  if(m<3) return {label:"2 months", wakeMin:60,wakeMax:90, feedMin:120,feedMax:180,napMin:30,napMax:150, milkMin:600,milkMax:900, sleepMin:840,sleepMax:960};
-  if(m<4) return {label:"3 months", wakeMin:75,wakeMax:105, feedMin:120,feedMax:180,napMin:30,napMax:120, milkMin:700,milkMax:950, sleepMin:840,sleepMax:960};
-  if(m<5) return {label:"4 months", wakeMin:90,wakeMax:120, feedMin:120,feedMax:180,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960};
-  if(m<6) return {label:"5 months", wakeMin:105,wakeMax:135, feedMin:150,feedMax:210,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960};
-  if(m<7) return {label:"6 months", wakeMin:120,wakeMax:150, feedMin:150,feedMax:210,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960};
-  if(m<9) return {label:"7–8 months", wakeMin:150,wakeMax:180, feedMin:150,feedMax:240,napMin:30,napMax:120, milkMin:700,milkMax:950, sleepMin:720,sleepMax:900};
-  if(m<12) return {label:"9–11 months", wakeMin:180,wakeMax:240, feedMin:180,feedMax:240,napMin:30,napMax:120, milkMin:650,milkMax:900, sleepMin:720,sleepMax:900};
-  return {label:"12+ months", wakeMin:240,wakeMax:300, feedMin:180,feedMax:300,napMin:30,napMax:120, milkMin:400,milkMax:700, sleepMin:660,sleepMax:840};
+  if(m<2) return {label:"0–1 months", wakeMin:45,wakeMax:75, feedMin:90,feedMax:150,napMin:30,napMax:180, milkMin:450,milkMax:750, sleepMin:840,sleepMax:1020, idealNapTotalMins:300};
+  if(m<3) return {label:"2 months", wakeMin:60,wakeMax:90, feedMin:120,feedMax:180,napMin:30,napMax:150, milkMin:600,milkMax:900, sleepMin:840,sleepMax:960, idealNapTotalMins:270};
+  if(m<4) return {label:"3 months", wakeMin:75,wakeMax:105, feedMin:120,feedMax:180,napMin:30,napMax:120, milkMin:700,milkMax:950, sleepMin:840,sleepMax:960, idealNapTotalMins:240};
+  if(m<5) return {label:"4 months", wakeMin:90,wakeMax:120, feedMin:120,feedMax:180,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960, idealNapTotalMins:210};
+  if(m<6) return {label:"5 months", wakeMin:105,wakeMax:135, feedMin:150,feedMax:210,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960, idealNapTotalMins:180};
+  if(m<7) return {label:"6 months", wakeMin:120,wakeMax:150, feedMin:150,feedMax:210,napMin:30,napMax:120, milkMin:720,milkMax:960, sleepMin:720,sleepMax:960, idealNapTotalMins:180};
+  if(m<9) return {label:"7–8 months", wakeMin:150,wakeMax:180, feedMin:150,feedMax:240,napMin:30,napMax:120, milkMin:700,milkMax:950, sleepMin:720,sleepMax:900, idealNapTotalMins:150};
+  if(m<12) return {label:"9–11 months", wakeMin:180,wakeMax:240, feedMin:180,feedMax:240,napMin:30,napMax:120, milkMin:650,milkMax:900, sleepMin:720,sleepMax:900, idealNapTotalMins:150};
+  return {label:"12+ months", wakeMin:240,wakeMax:300, feedMin:180,feedMax:300,napMin:30,napMax:120, milkMin:400,milkMax:700, sleepMin:660,sleepMax:840, idealNapTotalMins:120};
 }
 
 function updateBabyAge(){
@@ -1563,27 +1680,51 @@ function updateBabyAge(){
       "Age profile: "+monthText+" "+dayText+
       " • Wake window "+profile.wakeMin+"–"+profile.wakeMax+
       " min • Milk target "+profile.milkMin+"–"+profile.milkMax+" ml"+
-      " • Sleep target "+Math.round(profile.sleepMin/60)+"–"+Math.round(profile.sleepMax/60)+" hrs";
+      " • Nap target ~"+durationText(profile.idealNapTotalMins);
   }
 }
 
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
-  const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
+  const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n));
+  const p = getAgeProfile();
 
-  if(!naps.length){alert("Add at least one actual sleep entry first.");return;}
-  const p=getAgeProfile();
-  if(!p){alert("Set baby's DOB in Profile first so the next nap can be age-based.");return;}
-  const last=naps[naps.length-1];
-  const earliest=mins(last.end)+p.wakeMin;
-  const latest=mins(last.end)+p.wakeMax;
+  if(!p){ alert("Set baby's DOB in Profile first so the next nap can be age-based."); return; }
+
+  // Case 1: No daytime naps logged yet, calculate Nap 1 from morning wake time
+  if(!dayNaps.length){
+    const morningWake = currentDayData.wakeTime;
+    if(!morningWake){
+      alert("Set 'Morning Wake Up Time' above or add a sleep entry first to calculate Nap 1.");
+      return;
+    }
+    const earliest = mins(morningWake) + p.wakeMin;
+    const latest = mins(morningWake) + p.wakeMax;
+
+    document.getElementById("nextNapSuggestion").innerHTML=
+      `<div class="range-box"><strong>Nap 1 (Calculated from Morning Wake: ${morningWake})</strong>
+        <small>Earliest start: <b>${time(earliest)}</b></small>
+        <small>Latest start: <b>${time(latest)}</b></small>
+        <small>Wake window 1: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
+        <small>Ideal nap duration: <b>${p.napMin}–${p.napMax} min</b></small>
+      </div>`;
+    document.getElementById("nextNapModal").classList.add("show");
+    return;
+  }
+
+  // Case 2: Calculate subsequent nap from last daytime nap end time
+  const last = dayNaps[dayNaps.length-1];
+  const earliest = mins(last.end) + p.wakeMin;
+  const latest = mins(last.end) + p.wakeMax;
+
   document.getElementById("nextNapSuggestion").innerHTML=
-    `<div class="range-box"><strong>Sleep ${naps.length+1}</strong>
+    `<div class="range-box"><strong>Nap ${dayNaps.length+1}</strong>
+      <small>Calculated from Nap ${dayNaps.length} wake: <b>${last.end}</b></small>
       <small>Earliest start: <b>${time(earliest)}</b></small>
       <small>Latest start: <b>${time(latest)}</b></small>
       <small>Age-based wake window: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
-      <small>Reference nap length: <b>${p.napMin}–${p.napMax} min</b></small>
+      <small>Ideal nap duration: <b>${p.napMin}–${p.napMax} min</b></small>
     </div>`;
   document.getElementById("nextNapModal").classList.add("show");
 }
@@ -1608,41 +1749,14 @@ function showNextFeed(){
 
 function closeNextFeed(){ document.getElementById("nextFeedModal").classList.remove("show"); }
 
-function suggestNaps(){
-  const p=getAgeProfile() || {wakeMin:90, wakeMax:120, napMin:45, napMax:90};
-  const windowMins=Math.round((p.wakeMin+p.wakeMax)/2);
-  const napMins=Math.round((p.napMin+p.napMax)/2);
-
-  let cur=mins("08:00");
-  const suggestions=[];
-
-  for(let i=0;i<3;i++){
-    const s=cur+windowMins;
-    const e=s+napMins;
-    suggestions.push({
-      start:time(s),
-      end:time(e),
-      duration:napMins
-    });
-    cur=e;
-  }
-
-  document.getElementById("suggestions").innerHTML=suggestions.map((n,i)=>
-    `<div class="suggestion"><strong>Nap ${i+1}</strong> · ${n.start} – ${n.end} · ${n.duration} min</div>`
-  ).join("");
-
-  document.getElementById("napModal").classList.add("show");
-}
-
-function closeNapModal(){ document.getElementById("napModal").classList.remove("show"); }
-
 function saveDay(){
   day.date=document.getElementById("date").value||today();
 
   const d=db();
   if(!d[day.date]) {
-    d[day.date] = { date: day.date, naps: [], feeds: [] };
+    d[day.date] = { date: day.date, wakeTime: day.wakeTime||"", naps: [], feeds: [] };
   }
+  d[day.date].wakeTime = day.wakeTime || "";
   d[day.date].feeds = day.feeds || [];
   saveDb(d);
 
@@ -1656,11 +1770,12 @@ function loadDateFor(targetDate){
 
   day=d[targetDate]
     ? JSON.parse(JSON.stringify(d[targetDate]))
-    : {date:targetDate,naps:[],feeds:[]};
+    : {date:targetDate,wakeTime:"",naps:[],feeds:[]};
 
   if(!day.naps) day.naps = [];
   if(!day.feeds) day.feeds = [];
 
+  document.getElementById("morningWakeTime").value = day.wakeTime || "";
   document.getElementById("napStartDate").value = targetDate;
   document.getElementById("napEndDate").value = targetDate;
 
