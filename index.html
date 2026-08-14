@@ -12,34 +12,25 @@
 
 <style>
 :root{
-  --bg:#fdf8f6;
+  --bg:#f8f9fc;
   --card:#ffffff;
-  --text:#332e2b;
-  --muted:#786f6a;
+  --text:#2d3748;
+  --muted:#718096;
   --accent:#d97757;
-  --light:#f7e8e1;
-  --border:#ebdcd5;
-  --danger:#e05252;
+  --light:#fef3ee;
+  --border:#e2e8f0;
+  --danger:#e53e3e;
   
-  --home-bg:#ffffff;
-  --home-accent:#d97757;
-  --home-border:#ebdcd5;
-
-  --sleep-bg:#f6f0ff;
   --sleep-accent:#8b5cf6;
-  --sleep-border:#e9d8ff;
-  
-  --milk-bg:#ecfdf5;
+  --sleep-light:#f5f3ff;
+  --sleep-border:#ddd6fe;
+
   --milk-accent:#10b981;
+  --milk-light:#ecfdf5;
   --milk-border:#a7f3d0;
   
-  --growth-bg:#f0fdf4;
   --growth-accent:#059669;
-  --growth-border:#bbf7d0;
-
-  --notes-bg:#fffbeb;
   --notes-accent:#f59e0b;
-  --notes-border:#fde68a;
 }
 
 body.dark-mode {
@@ -52,55 +43,42 @@ body.dark-mode {
   --border:#33333e;
   --danger:#ef4444;
   
-  --home-bg:#1e1e24;
-  --home-accent:#e07a5f;
-  --home-border:#33333e;
-
-  --sleep-bg:#221a36;
   --sleep-accent:#c084fc;
-  --sleep-border:#422a61;
-  
-  --milk-bg:#122921;
+  --sleep-light:#231a38;
+  --sleep-border:#4c2d79;
+
   --milk-accent:#34d399;
-  --milk-border:#1d4ed8;
-
-  --growth-bg:#142e22;
-  --growth-accent:#10b981;
-  --growth-border:#047857;
-
-  --notes-bg:#2b220d;
-  --notes-accent:#fbbf24;
-  --notes-border:#523e10;
+  --milk-light:#132e24;
+  --milk-border:#1d5c44;
 }
 
 *{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",sans-serif;transition:background 0.3s, color 0.3s;padding-bottom:75px}
-.container{max-width:700px;margin:auto;padding:12px 12px 20px}
+body{margin:0;background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;transition:background 0.3s, color 0.3s;padding-bottom:75px}
+.container{max-width:680px;margin:auto;padding:12px 14px 25px}
 
 header{display:block;margin:4px 0 14px}
 .header-top-row{display:flex;align-items:center;justify-space:space-between;gap:8px;margin-bottom:2px}
 .header-titles{flex:1;min-width:0}
-h1{font-size:22px;margin:0;background:linear-gradient(135deg, #d97757, #8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+h1{font-size:22px;margin:0;background:linear-gradient(135deg, #d97757, #8b5cf6);-webkit-background-clip:text;-webkit-text-fill-color:transparent;font-weight:800}
 .sub{color:var(--muted);font-size:12px;margin-top:2px;margin-bottom:8px}
 
 .header-actions{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
 
-.top-btn{background:linear-gradient(135deg, #d97757, #e06843);color:#fff;border:0;padding:7px 11px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;white-space:nowrap;box-shadow:0 2px 8px rgba(217,119,87,0.25);transition:transform 0.1s}
-.top-btn:active{transform:scale(0.96)}
-.top-btn.sec{background:linear-gradient(135deg, #8b5cf6, #7c3aed);box-shadow:0 2px 8px rgba(139,92,246,0.25)}
-.top-btn.stats-btn{background:linear-gradient(135deg, #f59e0b, #d97706);color:#fff;box-shadow:0 2px 8px rgba(245,158,11,0.25)}
-.top-btn.timer-btn{background:linear-gradient(135deg, #4f46e5, #4338ca);color:#fff;box-shadow:0 2px 8px rgba(79,70,229,0.25)}
+.top-btn{background:linear-gradient(135deg, #d97757, #e06843);color:#fff;border:0;padding:7px 12px;border-radius:10px;font-size:11px;font-weight:700;cursor:pointer;box-shadow:0 2px 6px rgba(217,119,87,0.25)}
+.top-btn.sec{background:linear-gradient(135deg, #8b5cf6, #7c3aed);box-shadow:0 2px 6px rgba(139,92,246,0.25)}
+.top-btn.stats-btn{background:linear-gradient(135deg, #f59e0b, #d97706);box-shadow:0 2px 6px rgba(245,158,11,0.25)}
+.top-btn.timer-btn{background:linear-gradient(135deg, #4f46e5, #4338ca);box-shadow:0 2px 6px rgba(79,70,229,0.25)}
 .top-btn.outline{background:var(--card);color:var(--text);border:1px solid var(--border);box-shadow:0 2px 4px rgba(0,0,0,0.03)}
 
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 4px 12px rgba(0,0,0,.03)}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:14px;margin-bottom:12px;box-shadow:0 2px 10px rgba(0,0,0,.02)}
 h2{font-size:17px;margin:0 0 10px;display:flex;align-items:center;gap:6px}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 label{display:block;font-size:11px;font-weight:700;margin-bottom:4px;color:var(--muted)}
-input, select, textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--text);font-size:14px;outline:none;transition:border 0.2s;font-family:inherit}
+input, select, textarea{width:100%;border:1px solid var(--border);border-radius:10px;padding:8px 10px;background:var(--card);color:var(--text);font-size:14px;outline:none;font-family:inherit}
 input:focus, select:focus, textarea:focus{border-color:var(--accent)}
 button{border:0;border-radius:10px;padding:9px 12px;font:inherit;font-weight:700;cursor:pointer}
-.primary{background:var(--accent);color:#fff;box-shadow:0 2px 8px rgba(217,119,87,0.25)}.secondary{background:var(--light);color:var(--text)}
-.ghost{background:#f7f3f1;color:var(--text)}.danger{background:#fce8e8;color:var(--danger)}
+.primary{background:var(--accent);color:#fff}.secondary{background:var(--light);color:var(--text)}
+.ghost{background:#f1f5f9;color:var(--text)}.danger{background:#fee2e2;color:var(--danger)}
 body.dark-mode .ghost{background:#2a2a32;color:var(--text)}
 body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 
@@ -108,64 +86,49 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .hint{font-size:11px;color:var(--muted);margin-top:5px}
 
 .bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--card);border-top:1px solid var(--border);display:flex;justify-space:space-around;padding:4px 0;z-index:15;box-shadow:0 -4px 15px rgba(0,0,0,0.05)}
-.bottom-tab{display:flex;flex-direction:column;align-items:center;background:transparent;border:0;border-top:3px solid transparent;color:var(--muted);font-size:10px;font-weight:700;padding:6px 6px;cursor:pointer;transition:all 0.2s;flex:1}
-.bottom-tab span{font-size:18px;margin-bottom:2px;transition:transform 0.2s}
+.bottom-tab{display:flex;flex-direction:column;align-items:center;background:transparent;border:0;border-top:3px solid transparent;color:var(--muted);font-size:10px;font-weight:700;padding:6px 6px;cursor:pointer;flex:1}
+.bottom-tab span{font-size:18px;margin-bottom:2px}
 .bottom-tab.active{color:var(--accent);border-top-color:var(--accent);background:var(--light)}
-.bottom-tab.active span{transform:scale(1.15)}
 
 .tracker-section{display:none}
 .tracker-section.active-section{display:block}
 
-#sec-home{background:var(--home-bg);border-color:var(--home-border)}
-#sec-home h2{color:var(--home-accent)}
+/* Clean Form Containers */
+.entry-box{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px}
+.type-pills{display:flex;background:var(--card);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:10px}
+.type-pill{flex:1;text-align:center;padding:7px;font-size:11px;font-weight:700;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.type-pill.active{background:var(--accent);color:#fff}
+.type-pill.sleep-pill.active{background:var(--sleep-accent);color:#fff}
 
-#sec-sleep{background:var(--sleep-bg);border-color:var(--sleep-border)}
-#sec-sleep h2{color:var(--sleep-accent)}
-#sec-sleep .primary{background:var(--sleep-accent);box-shadow:0 2px 8px rgba(139,92,246,0.25)}
-#sec-sleep .total{background:var(--card);border:1px solid var(--sleep-border)}
+/* Sleep Section Timeline Cards */
+.timeline-card{display:flex;align-items:center;justify-space:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0}
+.timeline-card.wake{background:#fffbeb;border-color:#fde68a}
+body.dark-mode .timeline-card.wake{background:#2e2410;border-color:#59400d}
+.timeline-card.window{background:#f8fafc;border-left:3px solid #94a3b8;margin:3px 0 3px 12px;padding:6px 10px;font-size:11px;color:var(--muted)}
+body.dark-mode .timeline-card.window{background:#18181c;border-color:#334155}
+.timeline-card.nap{background:var(--sleep-light);border-color:var(--sleep-border)}
+.timeline-card.night{background:#f1f5f9;border-color:#cbd5e1}
+body.dark-mode .timeline-card.night{background:#1e222b;border-color:#334155}
 
-#sec-milk{background:var(--milk-bg);border-color:var(--milk-border)}
-#sec-milk h2{color:var(--milk-accent)}
-#sec-milk .primary{background:var(--milk-accent);box-shadow:0 2px 8px rgba(16,185,129,0.25)}
-#sec-milk .total{background:var(--card);border:1px solid var(--milk-border)}
+.entry-main{font-weight:750;font-size:13px}
+.remove{padding:4px 8px;font-size:11px}
 
-#sec-growth{background:var(--growth-bg);border-color:var(--growth-border)}
-#sec-growth h2{color:var(--growth-accent)}
-#sec-growth .primary{background:var(--growth-accent);box-shadow:0 2px 8px rgba(5,150,105,0.25)}
-
-#sec-notes{background:var(--notes-bg);border-color:var(--notes-border)}
-#sec-notes h2{color:var(--notes-accent)}
-#sec-notes .primary{background:var(--notes-accent);box-shadow:0 2px 8px rgba(245,158,11,0.25)}
-
-.entry-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px}
-.entries{margin-top:8px}
-.entry{display:flex;align-items:center;justify-space:space-between;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
-.entry-main{font-weight:700;font-size:13px}
-.remove{padding:5px 8px;font-size:11px}
 .totals{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
-.total{border-radius:12px;padding:10px;text-align:center}
-.total strong{display:block;font-size:18px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
+.total{border-radius:12px;padding:10px;text-align:center;background:var(--card);border:1px solid var(--border)}
+.total strong{display:block;font-size:17px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
 
-/* Clean Tab Switcher for Sleep Log Types */
-.type-pills{display:flex;background:var(--bg);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:10px}
-.type-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer}
-.type-pill.active{background:var(--card);color:var(--text);box-shadow:0 2px 4px rgba(0,0,0,0.05)}
-
-.sub-header-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 4px;color:var(--muted)}
 .remaining-note-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.45;font-weight:600}
 
-.hidden{display:none}.empty{color:var(--muted);text-align:center;padding:8px;font-size:12px}
+.hidden{display:none}.empty{color:var(--muted);text-align:center;padding:10px;font-size:12px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:14px;z-index:30}
 .modal.show{display:flex}
-.modal-box{width:min(470px,100%);background:var(--card);color:var(--text);border-radius:18px;padding:16px;box-shadow:0 15px 45px rgba(0,0,0,.3);max-height:85vh;overflow-y:auto;border:1px solid var(--border)}
-.modal-box h3{margin:0 0 8px;font-size:18px;color:var(--text)}
+.modal-box{width:min(470px,100%);background:var(--card);color:var(--text);border-radius:18px;padding:16px;max-height:85vh;overflow-y:auto;border:1px solid var(--border)}
 .close{float:right;background:var(--light);color:var(--text);padding:5px 8px;border-radius:8px;border:0;cursor:pointer}
 
 .traffic{width:11px;height:11px;border-radius:50%;flex:0 0 11px}.traffic.green{background:#10b981}.traffic.yellow{background:#f59e0b}.traffic.red{background:#ef4444}
 .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:8px}.legend span{display:flex;align-items:center;gap:3px}
 
-.stat-card{border-radius:12px;padding:10px 12px;margin:6px 0;color:#3f3936}
-body.dark-mode .stat-card{color:#f3f3f6}
+.stat-card{border-radius:12px;padding:10px 12px;margin:6px 0}
 .stat-card.green{background:#d1fae5;border:1px solid #a7f3d0}
 body.dark-mode .stat-card.green{background:#064e3b;border-color:#047857}
 .stat-card.yellow{background:#fef3c7;border:1px solid #fde68a}
@@ -173,30 +136,16 @@ body.dark-mode .stat-card.yellow{background:#78350f;border-color:#b45309}
 .stat-card.red{background:#fee2e2;border:1px solid #fca5a5}
 body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
 
-.stat-card .stat-title{font-weight:750;font-size:14px}.stat-card .stat-detail{font-size:11px;margin-top:3px;color:#5e5651}
-body.dark-mode .stat-card .stat-detail{color:#d1d5db}
+.stat-card .stat-title{font-weight:750;font-size:13.5px}
+.stat-card .stat-detail{font-size:11px;margin-top:2px}
 .stat-group-title{font-size:13px;font-weight:800;margin:12px 0 4px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:3px}
-.small-btn{padding:5px 8px;font-size:11px}.entry-actions{display:flex;gap:4px;align-items:center}
-.range-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px}
-.range-box strong{font-size:15px}.range-box small{display:block;color:var(--muted);margin-top:3px}
-.age-badge{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
 
 .time-pills{display:flex;gap:4px;margin-bottom:10px;background:var(--bg);padding:3px;border-radius:12px;border:1px solid var(--border)}
-.time-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;color:var(--muted);cursor:pointer;background:transparent;border:0;transition:all 0.2s}
+.time-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;color:var(--muted);cursor:pointer;background:transparent;border:0}
 .time-pill.active{background:var(--card);color:var(--text);box-shadow:0 2px 4px rgba(0,0,0,0.05)}
 
-.trend-bar-wrap{background:var(--border);border-radius:6px;height:8px;width:100%;overflow:hidden;margin-top:5px}
-.trend-bar-fill{height:100%;background:var(--accent);border-radius:6px;transition:width 0.3s ease}
-.trend-bar-fill.milk{background:var(--milk-accent)}
-.trend-bar-fill.sleep{background:var(--sleep-accent)}
-
-.timer-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;text-align:center}
-.timer-card h4{margin:0 0 2px;font-size:14px;color:var(--accent)}
-.timer-display{font-size:24px;font-weight:800;font-mono:monospace;margin:4px 0;color:var(--text)}
-.timer-controls{display:flex;gap:4px;align-items:center;justify-content:center;margin-top:6px;flex-wrap:wrap}
-.timer-controls input[type="time"]{width:auto;padding:5px 6px;font-size:12px}
-
-.profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between;transition:all 0.2s}
+.age-badge{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
+.profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between}
 .auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:left}
 </style>
 </head>
@@ -229,40 +178,41 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 
 <!-- SLEEP SECTION: Clean, Organized, Intuitive -->
 <div id="sec-sleep" class="card tracker-section">
-  <h2>🌙 Sleep Tracking</h2>
+  <h2>🌙 Sleep Tracker</h2>
   
-  <!-- Morning Wake-up Time Card -->
+  <!-- Morning Wake Time Card -->
   <div class="entry-box">
-    <label>☀️ Morning Wake-up Time (Calculates Nap 1 &amp; Wake Window 1)</label>
-    <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
+    <label style="color:var(--text);font-size:12px">☀️ Morning Wake-up Time</label>
+    <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
       <input id="morningWakeTime" type="time" style="flex:1" onchange="saveMorningWake()"/>
       <button class="secondary small-btn" onclick="saveMorningWake()">Save Wake</button>
     </div>
+    <div id="wakeTimeHint" class="hint" style="margin-top:4px">Automatically detected or manually set.</div>
   </div>
 
-  <!-- Sleep Logging Switcher -->
+  <!-- Easy Switcher: Daytime Nap vs Night Sleep -->
   <div class="entry-box">
     <div class="type-pills">
-      <button class="type-pill active" id="btnTypeNap" onclick="setSleepLogMode('nap')">💤 Daytime Nap</button>
-      <button class="type-pill" id="btnTypeNight" onclick="setSleepLogMode('night')">🌙 Night Bedtime</button>
+      <button class="type-pill sleep-pill active" id="btnTypeNap" onclick="setSleepMode('nap')">💤 Daytime Nap</button>
+      <button class="type-pill sleep-pill" id="btnTypeNight" onclick="setSleepMode('night')">🌙 Night Bedtime</button>
     </div>
 
-    <!-- Daytime Nap Form (Clean Same-Day Input) -->
+    <!-- Nap Form -->
     <div id="napFormBox">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
         <div><label>Nap Start Time</label><input id="napStartOnly" type="time"/></div>
         <div><label>Nap End Time</label><input id="napEndOnly" type="time"/></div>
       </div>
       <div class="actions" style="justify-content:flex-end;margin-top:8px">
-        <button id="napSubmitBtn" class="primary small-btn" onclick="addDaytimeNap()">Add Daytime Nap</button>
+        <button id="napSubmitBtn" class="primary small-btn" onclick="addDaytimeNap()">Add Nap</button>
       </div>
     </div>
 
-    <!-- Night Bedtime Form (Overnight Date Handled Automatically) -->
+    <!-- Night Sleep Form -->
     <div id="nightFormBox" style="display:none">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
         <div><label>Bedtime Start (Tonight)</label><input id="nightStartOnly" type="time"/></div>
-        <div><label>Wake-up (Next Morning)</label><input id="nightEndOnly" type="time"/></div>
+        <div><label>Wake-up (Tomorrow Morning)</label><input id="nightEndOnly" type="time"/></div>
       </div>
       <div class="actions" style="justify-content:flex-end;margin-top:8px">
         <button id="nightSubmitBtn" class="primary small-btn" onclick="addNightBedtime()">Add Night Sleep</button>
@@ -270,19 +220,16 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     </div>
   </div>
 
-  <div class="actions">
+  <div class="actions" style="margin-bottom:8px">
     <button class="secondary small-btn" onclick="showNextNap()">⏭️ Next nap timing suggestion</button>
   </div>
 
-  <!-- Distinct Sections -->
-  <div class="sub-header-title">💤 Logged Daytime Naps</div>
-  <div class="entries" id="dayNapEntries"></div>
-
-  <div class="sub-header-title">🌙 Logged Night Sleep</div>
-  <div class="entries" id="nightSleepEntries"></div>
+  <!-- Combined Daily Chronological Sleep Timeline -->
+  <div style="font-size:12px;font-weight:800;color:var(--sleep-accent);margin:14px 0 6px">📅 Daily Sleep Timeline</div>
+  <div id="sleepTimelineContainer"></div>
 
   <!-- Totals Summary -->
-  <div class="totals" style="margin-top:10px">
+  <div class="totals" style="margin-top:12px">
     <div class="total"><strong id="nightTotal">0 min</strong><span>Night Sleep</span></div>
     <div class="total"><strong id="napTotal">0 min</strong><span>Daytime Naps</span></div>
   </div>
@@ -290,16 +237,18 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <div class="total" style="grid-column:1/-1"><strong id="overallTotal">0 min</strong><span>Total 24-hr Sleep</span></div>
   </div>
 
-  <!-- Remaining Sleep Target Note -->
   <div id="sleepRemainingBox" class="remaining-note-box"></div>
 </div>
 
+<!-- FEEDING SECTION -->
 <div id="sec-milk" class="card tracker-section">
   <h2>🍼 Feeding</h2>
   <div class="entry-box">
-    <div class="entry-form">
+    <div class="grid">
       <div><label>Feed time</label><input id="feedTime" type="time"/></div>
       <div><label>Amount (ml)</label><input id="feedMl" min="0" placeholder="60" step="5" type="number"/></div>
+    </div>
+    <div class="actions" style="justify-content:flex-end;margin-top:8px">
       <button id="feedSubmitBtn" class="primary" onclick="addFeed()">OK</button>
     </div>
   </div>
@@ -314,25 +263,29 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <div id="milkRemainingBox" class="remaining-note-box"></div>
 </div>
 
+<!-- GROWTH SECTION -->
 <div id="sec-growth" class="card tracker-section">
   <h2>Growth 📈</h2>
   <div class="entry-box">
-    <div class="entry-form">
+    <div class="grid">
       <div><label>Log Date</label><input id="weightDate" type="date"/></div>
       <div><label>Weight (kg)</label><input id="weightKg" min="0" step="0.01" placeholder="e.g. 6.2" type="number"/></div>
-      <button id="weightSubmitBtn" class="primary" onclick="addWeight()">OK</button>
+    </div>
+    <div class="actions" style="justify-content:flex-end;margin-top:8px">
+      <button class="primary" onclick="addWeight()">Save Weight</button>
     </div>
   </div>
   <div class="entries" id="weightEntries"></div>
 </div>
 
+<!-- NOTES SECTION -->
 <div id="sec-notes" class="card tracker-section">
   <h2>Notes 📝</h2>
   <div class="entry-box">
-    <label for="noteInput">Add Note</label>
+    <label>Add Note</label>
     <textarea id="noteInput" rows="3" placeholder="Write anything here..."></textarea>
-    <div class="actions" style="justify-content:flex-end">
-      <button id="noteSubmitBtn" class="primary small-btn" onclick="addNote()">Save Note</button>
+    <div class="actions" style="justify-content:flex-end;margin-top:6px">
+      <button class="primary small-btn" onclick="addNote()">Save Note</button>
     </div>
   </div>
   <div class="entries" id="notesEntries"></div>
@@ -340,6 +293,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 
 </div>
 
+<!-- Navigation -->
 <nav class="bottom-nav">
   <button class="bottom-tab active" onclick="switchSection('sec-home', this)"><span>🏠</span>Home</button>
   <button class="bottom-tab" onclick="switchSection('sec-sleep', this)"><span>🌙</span>Sleep</button>
@@ -348,6 +302,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <button class="bottom-tab" onclick="switchSection('sec-notes', this)"><span>📝</span>Notes</button>
 </nav>
 
+<!-- Profile Modal -->
 <div class="modal" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
   <div class="modal-box">
     <button class="close" onclick="closeProfileModal()">✕</button>
@@ -394,7 +349,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   </div>
 </div>
 
-<!-- Stats Modal with Wake Window Evaluation -->
+<!-- Stats Modal with Wake Window Calculations -->
 <div class="modal" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <button class="close" onclick="closeStatsModal()">✕</button>
@@ -479,8 +434,6 @@ const DOB_KEY="adhritiBabyDob_v1";
 
 let editingNapIndex=-1;
 let editingFeedIndex=-1;
-let editingWeightIndex=-1;
-let editingNoteIndex=-1;
 let currentStatTime="daily";
 
 let day={date:"",wakeTime:"",naps:[],feeds:[]};
@@ -529,7 +482,7 @@ function syncCloudData(){
   loadDate();
 }
 
-function setSleepLogMode(mode){
+function setSleepMode(mode){
   if(mode === 'nap'){
     document.getElementById("btnTypeNap").classList.add("active");
     document.getElementById("btnTypeNight").classList.remove("active");
@@ -601,6 +554,12 @@ function switchSection(secId, btnEl){
 function today(){
   const d=new Date(),o=d.getTimezoneOffset();
   return new Date(d-o*60000).toISOString().slice(0,10);
+}
+
+function prevDay(dateStr){
+  const d = new Date(dateStr + "T12:00:00");
+  d.setDate(d.getDate() - 1);
+  return d.toISOString().slice(0,10);
 }
 
 function nextDay(dateStr){
@@ -682,6 +641,24 @@ function db(){
 
 function saveDb(x){ localStorage.setItem(KEY, JSON.stringify(x)); }
 
+// Detects or retrieves morning wake-up time
+function getEffectiveWakeTime(targetDate){
+  const database = db();
+  const dateObj = database[targetDate] || {};
+  if(dateObj.wakeTime) return { time: dateObj.wakeTime, auto: false };
+
+  // Check if previous night had sleep ending on this day
+  const pDate = prevDay(targetDate);
+  const pDateObj = database[pDate];
+  if(pDateObj && pDateObj.naps){
+    const nightSleep = pDateObj.naps.find(n => isNightSleepEntry(n) && (n.endDate === targetDate || n.startDate === pDate));
+    if(nightSleep && nightSleep.end){
+      return { time: nightSleep.end, auto: true };
+    }
+  }
+  return { time: "", auto: false };
+}
+
 function saveMorningWake(){
   const wTime = document.getElementById("morningWakeTime").value;
   const database = db();
@@ -690,68 +667,110 @@ function saveMorningWake(){
   saveDb(database);
   day.wakeTime = wTime;
   render();
-  alert("Morning wake time saved: " + wTime);
+  alert("Morning wake-up time set: " + wTime);
 }
 
 function render(){
   document.getElementById("date").value = day.date;
-  document.getElementById("morningWakeTime").value = day.wakeTime || "";
-  updateBabyAge();
+  
+  const effectiveWake = getEffectiveWakeTime(day.date);
+  document.getElementById("morningWakeTime").value = day.wakeTime || effectiveWake.time || "";
+  document.getElementById("wakeTimeHint").textContent = effectiveWake.auto 
+    ? `✨ Automatically detected from previous night's wake-up: ${effectiveWake.time}`
+    : `Set morning wake-up time for ${fmtDate(day.date)}`;
 
-  document.getElementById("nightSleepEntries").innerHTML = "";
-  document.getElementById("dayNapEntries").innerHTML = "";
+  updateBabyAge();
   document.getElementById("feedEntries").innerHTML = "";
 
   const database = db();
   const dateObj = database[day.date] || day;
   const allNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
 
-  const nightEntries = [];
-  const dayNapList = [];
-
-  allNaps.forEach((n, originalIndex) => {
-    if(isNightSleepEntry(n)) nightEntries.push({ nap: n, index: originalIndex });
-    else dayNapList.push({ nap: n, index: originalIndex });
-  });
-
-  if(!nightEntries.length){
-    document.getElementById("nightSleepEntries").innerHTML = '<div class="empty">No night sleep logged.</div>';
-  } else {
-    nightEntries.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "🌙 Night Sleep", "nightSleepEntries"));
-  }
-
-  if(!dayNapList.length){
-    document.getElementById("dayNapEntries").innerHTML = '<div class="empty">No daytime naps logged.</div>';
-  } else {
-    dayNapList.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "💤 Nap", "dayNapEntries"));
-  }
-
+  renderSleepTimeline(allNaps, effectiveWake.time || day.wakeTime);
   (dateObj.feeds || []).forEach((f,i)=>drawFeed(f,i));
 
   totals();
   renderStatistics();
 }
 
-function drawSleepCard(n, realIndex, displayNum, labelText, containerId){
-  const el=document.createElement("div");
-  el.className="entry";
-  const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-  const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
-  
-  el.innerHTML=
-    `<div><div class="entry-main">${labelText} ${displayNum} — ${n.start} – ${endFormatted}</div>
-     <div class="stat-detail">${durationText(dur)}</div></div>
-     <div class="entry-actions">
-       <button class="secondary small-btn" onclick="editNap(${realIndex})">Edit</button>
-       <button class="danger remove" onclick="removeNap(${realIndex})">Remove</button>
-     </div>`;
-  
-  document.getElementById(containerId).appendChild(el);
+function renderSleepTimeline(naps, wakeTimeStr){
+  const box = document.getElementById("sleepTimelineContainer");
+  box.innerHTML = "";
+
+  const dayNaps = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
+  const nightNaps = naps.filter(n => isNightSleepEntry(n));
+
+  // 1. Morning Wake Card
+  if(wakeTimeStr){
+    const wakeCard = document.createElement("div");
+    wakeCard.className = "timeline-card wake";
+    wakeCard.innerHTML = `<div><div class="entry-main">☀️ Morning Wake-up: ${wakeTimeStr}</div></div>`;
+    box.appendChild(wakeCard);
+  }
+
+  // 2. Daytime Naps & In-Between Wake Windows
+  let lastWake = wakeTimeStr;
+
+  dayNaps.forEach((n, idx) => {
+    const realIndex = naps.indexOf(n);
+
+    // Calculate wake window before this nap
+    if(lastWake){
+      const gap = mins(n.start) - mins(lastWake);
+      if(gap > 0){
+        const wCard = document.createElement("div");
+        wCard.className = "timeline-card window";
+        wCard.innerHTML = `⏰ <b>Wake Window ${idx + 1}</b>: ${lastWake} ➔ ${n.start} (${durationText(gap)})`;
+        box.appendChild(wCard);
+      }
+    }
+
+    // Nap Card
+    const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+    const nCard = document.createElement("div");
+    nCard.className = "timeline-card nap";
+    nCard.innerHTML = `
+      <div>
+        <div class="entry-main">💤 Nap ${idx + 1} — ${n.start} – ${n.end}</div>
+        <div class="stat-detail" style="color:var(--sleep-accent);font-weight:700">${durationText(dur)}</div>
+      </div>
+      <div class="entry-actions">
+        <button class="secondary small-btn" onclick="editNap(${realIndex})">Edit</button>
+        <button class="danger remove" onclick="removeNap(${realIndex})">Remove</button>
+      </div>`;
+    box.appendChild(nCard);
+
+    lastWake = n.end;
+  });
+
+  // 3. Night Sleep Card
+  nightNaps.forEach((n) => {
+    const realIndex = naps.indexOf(n);
+    const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+    const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
+
+    const nightCard = document.createElement("div");
+    nightCard.className = "timeline-card night";
+    nightCard.innerHTML = `
+      <div>
+        <div class="entry-main">🌙 Night Sleep — ${n.start} – ${endFormatted}</div>
+        <div class="stat-detail" style="font-weight:700">${durationText(dur)}</div>
+      </div>
+      <div class="entry-actions">
+        <button class="secondary small-btn" onclick="editNap(${realIndex})">Edit</button>
+        <button class="danger remove" onclick="removeNap(${realIndex})">Remove</button>
+      </div>`;
+    box.appendChild(nightCard);
+  });
+
+  if(!naps.length && !wakeTimeStr){
+    box.innerHTML = '<div class="empty">No wake time or sleep entries logged for today yet.</div>';
+  }
 }
 
 function drawFeed(f,i){
   const el=document.createElement("div");
-  el.className="entry";
+  el.className="timeline-card";
   el.innerHTML=
     `<div><div class="entry-main">Feed ${i+1} — ${f.time} (${f.ml} ml)</div></div>
      <div class="entry-actions">
@@ -795,7 +814,7 @@ function saveSleepEntry(sDate, start, eDate, end){
   if(editingNapIndex>=0){
     database[sDate].naps[editingNapIndex] = entryObj;
     editingNapIndex=-1;
-    document.getElementById("napSubmitBtn").textContent="Add Daytime Nap";
+    document.getElementById("napSubmitBtn").textContent="Add Nap";
   }else{
     database[sDate].naps.push(entryObj);
     database[sDate].naps.sort((a,b)=>mins(a.start)-mins(b.start));
@@ -835,11 +854,11 @@ function editNap(i){
   if(!n) return;
 
   if(isNightSleepEntry(n)){
-    setSleepLogMode('night');
+    setSleepMode('night');
     document.getElementById("nightStartOnly").value = n.start;
     document.getElementById("nightEndOnly").value = n.end;
   } else {
-    setSleepLogMode('nap');
+    setSleepMode('nap');
     document.getElementById("napStartOnly").value = n.start;
     document.getElementById("napEndOnly").value = n.end;
   }
@@ -964,16 +983,19 @@ function renderStatistics(){
   const currentDayData = database[day.date] || day;
   const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
 
-  // WAKE WINDOW CALCULATIONS (Morning Wake + Between Naps)
+  // WAKE WINDOW CALCULATIONS
   if(sel==="all" || sel==="wake"){
     out+='<div class="stat-group-title">⏰ Wake Windows</div>';
     const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
     let wakeWindows = [];
 
+    const effectiveWake = getEffectiveWakeTime(day.date);
+    const wakeRef = day.wakeTime || effectiveWake.time;
+
     // Window 1: Morning wake to Nap 1
-    if(currentDayData.wakeTime && dayNapList.length > 0){
-      const w1 = mins(dayNapList[0].start) - mins(currentDayData.wakeTime);
-      if(w1 > 0) wakeWindows.push({ label: `Window 1 (Wake ${currentDayData.wakeTime} ➔ Nap 1 ${dayNapList[0].start})`, mins: w1 });
+    if(wakeRef && dayNapList.length > 0){
+      const w1 = mins(dayNapList[0].start) - mins(wakeRef);
+      if(w1 > 0) wakeWindows.push({ label: `Window 1 (Wake ${wakeRef} ➔ Nap 1 ${dayNapList[0].start})`, mins: w1 });
     }
 
     // Windows between naps
@@ -983,7 +1005,7 @@ function renderStatistics(){
     }
 
     if(!wakeWindows.length){
-      out += '<div class="empty">Log your Morning Wake Time &amp; Daytime Naps to calculate wake windows.</div>';
+      out += '<div class="empty">Log Morning Wake Time &amp; Naps to calculate wake windows.</div>';
     } else {
       wakeWindows.forEach((w) => {
         const st = wakeWindowStatus(w.mins);
@@ -1080,16 +1102,18 @@ function showNextNap(){
   const p = getAgeProfile();
   if(!p){ alert("Set baby's DOB in Profile first so suggestions can be age-based."); return; }
 
+  const effectiveWake = getEffectiveWakeTime(day.date);
+  const wakeRef = day.wakeTime || effectiveWake.time;
+
   if(!dayNaps.length){
-    const morningWake = currentDayData.wakeTime;
-    if(!morningWake){
+    if(!wakeRef){
       alert("Set 'Morning Wake-up Time' above to calculate Nap 1.");
       return;
     }
-    const earliest = mins(morningWake) + p.wakeMin;
-    const latest = mins(morningWake) + p.wakeMax;
+    const earliest = mins(wakeRef) + p.wakeMin;
+    const latest = mins(wakeRef) + p.wakeMax;
     document.getElementById("nextNapSuggestion").innerHTML=
-      `<div class="range-box"><strong>Nap 1 (From Morning Wake: ${morningWake})</strong>
+      `<div class="range-box"><strong>Nap 1 (From Morning Wake: ${wakeRef})</strong>
         <small>Earliest start: <b>${time(earliest)}</b></small>
         <small>Latest start: <b>${time(latest)}</b></small>
         <small>Wake window 1: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
@@ -1149,7 +1173,6 @@ function loadDateFor(targetDate){
   day=d[targetDate] ? JSON.parse(JSON.stringify(d[targetDate])) : {date:targetDate,wakeTime:"",naps:[],feeds:[]};
   if(!day.naps) day.naps = [];
   if(!day.feeds) day.feeds = [];
-  document.getElementById("morningWakeTime").value = day.wakeTime || "";
   render();
 }
 
@@ -1172,12 +1195,12 @@ function renderHistory(){
     const ml = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
     const overall = naps.reduce((s,n)=> s + calcDateTimeDuration(n.startDate||x, n.start, n.endDate||x, n.end),0);
 
-    return `<div class="history-item">
-      <div class="history-header"><div class="history-date">${fmtDate(x)}</div></div>
-      <div class="history-meta">Overall Sleep: <b>${durationText(overall)}</b> · Milk: <b>${ml} ml</b></div>
-      <div class="history-actions">
-        <button class="primary small-btn" onclick="openDay('${x}')">📂 Load Day</button>
+    return `<div class="timeline-card" style="margin:8px 0">
+      <div>
+        <div class="entry-main">${fmtDate(x)}</div>
+        <div class="stat-detail">Sleep: <b>${durationText(overall)}</b> · Milk: <b>${ml} ml</b></div>
       </div>
+      <button class="primary small-btn" onclick="openDay('${x}')">📂 Load</button>
     </div>`;
   }).join("");
 }
