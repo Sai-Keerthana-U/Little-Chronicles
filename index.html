@@ -21,7 +21,6 @@
   --border:#ebdcd5;
   --danger:#e05252;
   
-  /* Section Color Themes */
   --home-bg:#ffffff;
   --home-accent:#d97757;
   --home-border:#ebdcd5;
@@ -249,7 +248,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep</h2>
   <div class="entry-box">
-    <label>Log Nap or Sleep (Supports Any Date)</label>
+    <label>Log Nap or Sleep (Supports Past Dates)</label>
     <div class="sleep-form-grid" style="margin-top:6px">
       <div>
         <label>Start Date &amp; Time</label>
@@ -875,30 +874,44 @@ function fmtDate(s){
   return new Date(s+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
 }
 
+// Master Database Auto-Cleaner & Synchronizer
 function db(){
   try{
     const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
     let changed = false;
-    // Auto-organize and clean misplaced sleep records across days
-    Object.keys(raw).forEach(d => {
-      if(raw[d] && raw[d].naps && Array.isArray(raw[d].naps)){
-        const validNapsForDay = [];
-        raw[d].naps.forEach(n => {
-          if(!n) return;
-          const sDate = n.startDate || d;
-          if(sDate !== d){
+    
+    // Scan all saved dates
+    Object.keys(raw).forEach(dayKey => {
+      if(raw[dayKey] && raw[dayKey].naps && Array.isArray(raw[dayKey].naps)){
+        const validNaps = [];
+        const seen = new Set();
+
+        raw[dayKey].naps.forEach(n => {
+          if(!n || !n.start || !n.end) return;
+          const sDate = n.startDate || dayKey;
+          const keySig = `${sDate}_${n.start}_${n.endDate}_${n.end}`;
+
+          // If entry was recorded on a different start date, move it to its proper date
+          if(sDate !== dayKey){
             if(!raw[sDate]) raw[sDate] = { date: sDate, naps: [], feeds: [] };
             if(!raw[sDate].naps) raw[sDate].naps = [];
-            const exists = raw[sDate].naps.some(x => x.start === n.start && x.end === n.end);
+            const exists = raw[sDate].naps.some(x => x.start === n.start && x.end === n.end && x.startDate === sDate);
             if(!exists) raw[sDate].naps.push(n);
             changed = true;
           } else {
-            validNapsForDay.push(n);
+            // Keep unique entry for this day
+            if(!seen.has(keySig)){
+              seen.add(keySig);
+              validNaps.push(n);
+            } else {
+              changed = true; // removed duplicate
+            }
           }
         });
-        raw[d].naps = validNapsForDay;
+        raw[dayKey].naps = validNaps;
       }
     });
+
     if(changed) localStorage.setItem(KEY, JSON.stringify(raw));
     return raw;
   }
@@ -1098,7 +1111,7 @@ function render(){
   const database = db();
   const dateObj = database[day.date] || day;
   
-  // Strictly filter only sleep entries that started on this day
+  // Strictly only show naps that started on this current day
   const dayNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
 
   dayNaps.forEach((n,i)=>drawNap(n,i));
@@ -1151,7 +1164,6 @@ function addNap(){
 
   const database = db();
   
-  // Save entry strictly under its bedtime start date
   if(!database[sDate]) {
     database[sDate] = { date: sDate, naps: [], feeds: [] };
   }
@@ -1649,8 +1661,8 @@ function loadDateFor(targetDate){
   if(!day.naps) day.naps = [];
   if(!day.feeds) day.feeds = [];
 
-  document.getElementById("napStartDate").value = day.date;
-  document.getElementById("napEndDate").value = day.date;
+  document.getElementById("napStartDate").value = targetDate;
+  document.getElementById("napEndDate").value = targetDate;
 
   editingNapIndex=-1;
   editingFeedIndex=-1;
@@ -1717,8 +1729,8 @@ function viewDayStats(x){
   openStatsModal();
 }
 
-document.getElementById("date").addEventListener("change", () => {
-  loadDate();
+document.getElementById("date").addEventListener("change", (e) => {
+  loadDateFor(e.target.value);
   updateBabyAge();
   renderStatistics();
 });
