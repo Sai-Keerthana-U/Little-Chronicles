@@ -100,7 +100,15 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .type-pill.active{background:var(--accent);color:#fff}
 .type-pill.sleep-pill.active{background:var(--sleep-accent);color:#fff}
 
-/* Sleep Section Timeline Cards */
+/* Collapsible Dropdown Card Styling */
+details.section-dropdown{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:10px}
+details.section-dropdown summary{font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;list-style:none;color:var(--text)}
+details.section-dropdown summary::-webkit-details-marker{display:none}
+details.section-dropdown summary::after{content:'▼';font-size:10px;color:var(--muted);transition:transform 0.2s}
+details.section-dropdown[open] summary::after{transform:rotate(180deg)}
+.dropdown-content{margin-top:10px}
+
+/* Timeline Cards */
 .timeline-card{display:flex;align-items:center;justify-space:space-between;background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin:6px 0}
 .timeline-card.wake{background:#fffbeb;border-color:#fde68a}
 body.dark-mode .timeline-card.wake{background:#2e2410;border-color:#59400d}
@@ -118,6 +126,13 @@ body.dark-mode .timeline-card.night{background:#1e222b;border-color:#334155}
 .total strong{display:block;font-size:17px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
 
 .remaining-note-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.45;font-weight:600}
+
+/* Easy Next Nap Display */
+.nap-highlight-card{background:linear-gradient(135deg, #f5f3ff, #ede9fe);border:1px solid #ddd6fe;border-radius:14px;padding:14px;text-align:center;margin-bottom:10px}
+body.dark-mode .nap-highlight-card{background:#221a36;border-color:#4c2d79}
+.nap-target-time{font-size:24px;font-weight:900;color:var(--sleep-accent);margin:4px 0}
+.nap-tag-row{display:flex;gap:6px;justify-content:center;margin-top:8px}
+.nap-tag{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:4px 8px;font-size:11px;font-weight:700}
 
 .hidden{display:none}.empty{color:var(--muted);text-align:center;padding:10px;font-size:12px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:14px;z-index:30}
@@ -176,11 +191,11 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
   <div id="ageGuidance" class="hint" style="margin-top:10px">Set baby's DOB in Profile to make suggestions age-based.</div>
 </div>
 
-<!-- SLEEP SECTION: Clean, Organized, Intuitive -->
+<!-- SLEEP SECTION: Clean, Dropdown-Organized -->
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep Tracker</h2>
   
-  <!-- Morning Wake Time Card -->
+  <!-- Morning Wake Time -->
   <div class="entry-box">
     <label style="color:var(--text);font-size:12px">☀️ Morning Wake-up Time</label>
     <div style="display:flex;gap:6px;align-items:center;margin-top:6px">
@@ -200,8 +215,8 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
     <!-- Nap Form -->
     <div id="napFormBox">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
-        <div><label>Nap Start Time</label><input id="napStartOnly" type="time"/></div>
-        <div><label>Nap End Time</label><input id="napEndOnly" type="time"/></div>
+        <div><label>Nap Start</label><input id="napStartOnly" type="time"/></div>
+        <div><label>Nap End</label><input id="napEndOnly" type="time"/></div>
       </div>
       <div class="actions" style="justify-content:flex-end;margin-top:8px">
         <button id="napSubmitBtn" class="primary small-btn" onclick="addDaytimeNap()">Add Nap</button>
@@ -212,7 +227,7 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
     <div id="nightFormBox" style="display:none">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
         <div><label>Bedtime Start (Tonight)</label><input id="nightStartOnly" type="time"/></div>
-        <div><label>Wake-up (Tomorrow Morning)</label><input id="nightEndOnly" type="time"/></div>
+        <div><label>Wake-up (Next Morning)</label><input id="nightEndOnly" type="time"/></div>
       </div>
       <div class="actions" style="justify-content:flex-end;margin-top:8px">
         <button id="nightSubmitBtn" class="primary small-btn" onclick="addNightBedtime()">Add Night Sleep</button>
@@ -220,24 +235,30 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
     </div>
   </div>
 
-  <div class="actions" style="margin-bottom:8px">
-    <button class="secondary small-btn" onclick="showNextNap()">⏭️ Next nap timing suggestion</button>
+  <div class="actions" style="margin-bottom:12px">
+    <button class="secondary small-btn" onclick="showNextNap()">⏭️ View Next Nap Suggestion</button>
   </div>
 
-  <!-- Combined Daily Chronological Sleep Timeline -->
-  <div style="font-size:12px;font-weight:800;color:var(--sleep-accent);margin:14px 0 6px">📅 Daily Sleep Timeline</div>
-  <div id="sleepTimelineContainer"></div>
+  <!-- 1. Dropdown: Daily Sleep Timeline -->
+  <details class="section-dropdown" open>
+    <summary>📅 Daily Sleep Timeline (<span id="timelineCount">0</span> entries)</summary>
+    <div class="dropdown-content" id="sleepTimelineContainer"></div>
+  </details>
 
-  <!-- Totals Summary -->
-  <div class="totals" style="margin-top:12px">
-    <div class="total"><strong id="nightTotal">0 min</strong><span>Night Sleep</span></div>
-    <div class="total"><strong id="napTotal">0 min</strong><span>Daytime Naps</span></div>
-  </div>
-  <div class="totals" style="margin-top:6px">
-    <div class="total" style="grid-column:1/-1"><strong id="overallTotal">0 min</strong><span>Total 24-hr Sleep</span></div>
-  </div>
-
-  <div id="sleepRemainingBox" class="remaining-note-box"></div>
+  <!-- 2. Dropdown: Sleep Summary & Targets -->
+  <details class="section-dropdown" open>
+    <summary>📊 Daily Sleep Totals &amp; Targets</summary>
+    <div class="dropdown-content">
+      <div class="totals">
+        <div class="total"><strong id="nightTotal">0 min</strong><span>Night Sleep</span></div>
+        <div class="total"><strong id="napTotal">0 min</strong><span>Daytime Naps</span></div>
+      </div>
+      <div class="totals" style="margin-top:6px">
+        <div class="total" style="grid-column:1/-1"><strong id="overallTotal">0 min</strong><span>Total 24-hr Sleep</span></div>
+      </div>
+      <div id="sleepRemainingBox" class="remaining-note-box"></div>
+    </div>
+  </details>
 </div>
 
 <!-- FEEDING SECTION -->
@@ -349,7 +370,7 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
   </div>
 </div>
 
-<!-- Stats Modal with Wake Window Calculations -->
+<!-- Stats Modal with Wake Windows -->
 <div class="modal" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <button class="close" onclick="closeStatsModal()">✕</button>
@@ -396,16 +417,17 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
 <div class="modal" id="nextFeedModal" onclick="if(event.target===this)closeNextFeed()">
   <div class="modal-box">
     <button class="close" onclick="closeNextFeed()">✕</button>
-    <h3>Next feed timing</h3>
+    <h3>Next Feed Timing</h3>
     <div id="nextFeedSuggestion"></div>
     <button class="primary" style="width:100%;margin-top:10px" onclick="closeNextFeed()">Close</button>
   </div>
 </div>
 
+<!-- Ultra-Clean Next Nap Modal -->
 <div class="modal" id="nextNapModal" onclick="if(event.target===this)closeNextNap()">
   <div class="modal-box">
     <button class="close" onclick="closeNextNap()">✕</button>
-    <h3>Next nap timing</h3>
+    <h3>💤 Next Nap Recommendation</h3>
     <div id="nextNapSuggestion"></div>
     <button class="primary" style="width:100%;margin-top:10px" onclick="closeNextNap()">Close</button>
   </div>
@@ -540,7 +562,10 @@ function switchStatTime(period, btnEl){
   renderStatistics();
 }
 
-function openStatsModal(){ refreshStatistics(); document.getElementById("statsModal").classList.add("show"); }
+function openStatsModal(){ 
+  renderStatistics(); 
+  document.getElementById("statsModal").classList.add("show"); 
+}
 function closeStatsModal(){ document.getElementById("statsModal").classList.remove("show"); }
 
 function switchSection(secId, btnEl){
@@ -641,13 +666,11 @@ function db(){
 
 function saveDb(x){ localStorage.setItem(KEY, JSON.stringify(x)); }
 
-// Detects or retrieves morning wake-up time
 function getEffectiveWakeTime(targetDate){
   const database = db();
   const dateObj = database[targetDate] || {};
   if(dateObj.wakeTime) return { time: dateObj.wakeTime, auto: false };
 
-  // Check if previous night had sleep ending on this day
   const pDate = prevDay(targetDate);
   const pDateObj = database[pDate];
   if(pDateObj && pDateObj.naps){
@@ -695,10 +718,13 @@ function render(){
 
 function renderSleepTimeline(naps, wakeTimeStr){
   const box = document.getElementById("sleepTimelineContainer");
+  const countBadge = document.getElementById("timelineCount");
   box.innerHTML = "";
 
   const dayNaps = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const nightNaps = naps.filter(n => isNightSleepEntry(n));
+
+  if(countBadge) countBadge.textContent = naps.length + (wakeTimeStr ? 1 : 0);
 
   // 1. Morning Wake Card
   if(wakeTimeStr){
@@ -968,7 +994,7 @@ function wakeWindowStatus(minutes){
 
 function renderStatistics(){
   const box=document.getElementById("statistics");
-  if(!box)return;
+  if(!box) return;
   const sel=document.getElementById("statSelect") ? document.getElementById("statSelect").value : "all";
   const p=getAgeProfile();
 
@@ -1082,10 +1108,7 @@ function updateBabyAge(){
   const ageBox=document.getElementById("babyAge");
   const guide=document.getElementById("ageGuidance");
   const age=getBabyAgeParts();
-  if(!age){
-    if(ageBox) ageBox.value="";
-    return;
-  }
+  if(!age){ if(ageBox) ageBox.value=""; return; }
   const monthText=age.months+" month"+(age.months===1?"":"s");
   const dayText=age.days+" day"+(age.days===1?"":"s");
   if(ageBox) ageBox.value=monthText+" "+dayText;
@@ -1095,44 +1118,46 @@ function updateBabyAge(){
   }
 }
 
+// Ultra-Clean, Scannable Next Nap Card
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
-  const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n));
+  const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const p = getAgeProfile();
   if(!p){ alert("Set baby's DOB in Profile first so suggestions can be age-based."); return; }
 
   const effectiveWake = getEffectiveWakeTime(day.date);
   const wakeRef = day.wakeTime || effectiveWake.time;
 
+  let startRef = "";
+  let napLabel = "";
+
   if(!dayNaps.length){
     if(!wakeRef){
       alert("Set 'Morning Wake-up Time' above to calculate Nap 1.");
       return;
     }
-    const earliest = mins(wakeRef) + p.wakeMin;
-    const latest = mins(wakeRef) + p.wakeMax;
-    document.getElementById("nextNapSuggestion").innerHTML=
-      `<div class="range-box"><strong>Nap 1 (From Morning Wake: ${wakeRef})</strong>
-        <small>Earliest start: <b>${time(earliest)}</b></small>
-        <small>Latest start: <b>${time(latest)}</b></small>
-        <small>Wake window 1: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
-        <small>Ideal nap duration: <b>${p.napMin}–${p.napMax} min</b></small>
-      </div>`;
-    document.getElementById("nextNapModal").classList.add("show");
-    return;
+    startRef = wakeRef;
+    napLabel = "Nap 1";
+  } else {
+    startRef = dayNaps[dayNaps.length-1].end;
+    napLabel = `Nap ${dayNaps.length + 1}`;
   }
 
-  const last = dayNaps[dayNaps.length-1];
-  const earliest = mins(last.end) + p.wakeMin;
-  const latest = mins(last.end) + p.wakeMax;
-  document.getElementById("nextNapSuggestion").innerHTML=
-    `<div class="range-box"><strong>Nap ${dayNaps.length+1}</strong>
-      <small>Calculated from Nap ${dayNaps.length} wake: <b>${last.end}</b></small>
-      <small>Earliest start: <b>${time(earliest)}</b></small>
-      <small>Latest start: <b>${time(latest)}</b></small>
-      <small>Age-based wake window: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
-    </div>`;
+  const earliest = mins(startRef) + p.wakeMin;
+  const latest = mins(startRef) + p.wakeMax;
+
+  document.getElementById("nextNapSuggestion").innerHTML = `
+    <div class="nap-highlight-card">
+      <div style="font-size:12px;font-weight:800;color:var(--muted);text-transform:uppercase">${napLabel} Target Window</div>
+      <div class="nap-target-time">${time(earliest)} – ${time(latest)}</div>
+      <div style="font-size:11px;color:var(--muted)">Based on wake-up at <b>${startRef}</b></div>
+      <div class="nap-tag-row">
+        <span class="nap-tag">⏱️ Wake Window: ${p.wakeMin}–${p.wakeMax}m</span>
+        <span class="nap-tag">💤 Ideal Nap: ${p.napMin}–${p.napMax}m</span>
+      </div>
+    </div>
+  `;
   document.getElementById("nextNapModal").classList.add("show");
 }
 
@@ -1146,10 +1171,10 @@ function showNextFeed(){
   const earliest=mins(last.time)+p.feedMin;
   const latest=mins(last.time)+p.feedMax;
   document.getElementById("nextFeedSuggestion").innerHTML=
-    `<div class="range-box"><strong>Feed ${day.feeds.length+1}</strong>
-      <small>Earliest time: <b>${time(earliest)}</b></small>
-      <small>Latest time: <b>${time(latest)}</b></small>
-      <small>Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hrs</b></small>
+    `<div class="nap-highlight-card" style="background:#ecfdf5;border-color:#a7f3d0">
+      <div style="font-size:12px;font-weight:800;color:#047857;text-transform:uppercase">Next Feed Target</div>
+      <div class="nap-target-time" style="color:#059669">${time(earliest)} – ${time(latest)}</div>
+      <div style="font-size:11px;color:var(--muted)">Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hrs</b></div>
     </div>`;
   document.getElementById("nextFeedModal").classList.add("show");
 }
