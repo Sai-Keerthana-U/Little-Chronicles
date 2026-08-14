@@ -21,12 +21,11 @@
   --border:#ebdcd5;
   --danger:#e05252;
   
-  /* Section Color Themes */
   --home-bg:#ffffff;
   --home-accent:#d97757;
   --home-border:#ebdcd5;
 
-  --sleep-bg:#f5eeff;
+  --sleep-bg:#f6f0ff;
   --sleep-accent:#8b5cf6;
   --sleep-border:#e9d8ff;
   
@@ -41,10 +40,6 @@
   --notes-bg:#fffbeb;
   --notes-accent:#f59e0b;
   --notes-border:#fde68a;
-
-  --stats-bg:#fffbeb;
-  --stats-accent:#f59e0b;
-  --stats-border:#fde68a;
 }
 
 body.dark-mode {
@@ -76,10 +71,6 @@ body.dark-mode {
   --notes-bg:#2b220d;
   --notes-accent:#fbbf24;
   --notes-border:#523e10;
-  
-  --stats-bg:#2b220d;
-  --stats-accent:#fbbf24;
-  --stats-border:#523e10;
 }
 
 *{box-sizing:border-box}
@@ -146,38 +137,29 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 #sec-notes h2{color:var(--notes-accent)}
 #sec-notes .primary{background:var(--notes-accent);box-shadow:0 2px 8px rgba(245,158,11,0.25)}
 
-.entry-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px}
-.sleep-form-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;align-items:end}
+.entry-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:12px;margin-bottom:8px}
 .entries{margin-top:8px}
-.entry{display:flex;align-items:center;justify-space:space-between;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
+.entry{display:flex;align-items:center;justify-space:space-between;gap:6px;background:var(--card);border:1px solid var(--border);border-radius:10px;padding:9px 10px;margin:5px 0;box-shadow:0 2px 4px rgba(0,0,0,0.02)}
 .entry-main{font-weight:700;font-size:13px}
 .remove{padding:5px 8px;font-size:11px}
 .totals{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-top:8px}
 .total{border-radius:12px;padding:10px;text-align:center}
 .total strong{display:block;font-size:18px;font-weight:800}.total span{font-size:10px;color:var(--muted)}
 
-.sub-header-title{font-size:12px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin:10px 0 4px;color:var(--muted)}
-.remaining-note-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.4;font-weight:600}
+/* Clean Tab Switcher for Sleep Log Types */
+.type-pills{display:flex;background:var(--bg);border-radius:10px;padding:3px;border:1px solid var(--border);margin-bottom:10px}
+.type-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;border:0;background:transparent;color:var(--muted);cursor:pointer}
+.type-pill.active{background:var(--card);color:var(--text);box-shadow:0 2px 4px rgba(0,0,0,0.05)}
 
-.history-item{border:1px solid var(--border);border-radius:12px;padding:10px;margin:8px 0;background:var(--card)}
-.history-header{display:flex;justify-space:between;align-items:center;margin-bottom:4px}
-.history-date{font-weight:800;color:var(--accent);font-size:14px}
-.history-meta{font-size:11px;color:var(--muted);line-height:1.4}
-.history-actions{display:flex;gap:6px;margin-top:6px}
+.sub-header-title{font-size:11px;font-weight:800;text-transform:uppercase;letter-spacing:0.5px;margin:12px 0 4px;color:var(--muted)}
+.remaining-note-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px 12px;margin-top:10px;font-size:12px;line-height:1.45;font-weight:600}
 
-.note-time{font-size:10px;color:var(--muted);margin-top:4px}
-
-.hidden{display:none}.empty{color:var(--muted);text-align:center;padding:10px;font-size:12px}
+.hidden{display:none}.empty{color:var(--muted);text-align:center;padding:8px;font-size:12px}
 .modal{position:fixed;inset:0;background:rgba(0,0,0,.5);backdrop-filter:blur(3px);display:none;align-items:center;justify-content:center;padding:14px;z-index:30}
 .modal.show{display:flex}
 .modal-box{width:min(470px,100%);background:var(--card);color:var(--text);border-radius:18px;padding:16px;box-shadow:0 15px 45px rgba(0,0,0,.3);max-height:85vh;overflow-y:auto;border:1px solid var(--border)}
 .modal-box h3{margin:0 0 8px;font-size:18px;color:var(--text)}
 .close{float:right;background:var(--light);color:var(--text);padding:5px 8px;border-radius:8px;border:0;cursor:pointer}
-.suggestion{background:var(--bg);border-radius:10px;padding:9px;margin:6px 0;font-size:13px;border:1px solid var(--border)}
-@media(max-width:520px){
-  .grid{grid-template-columns:1fr}
-  .sleep-form-grid{grid-template-columns:1fr}
-}
 
 .traffic{width:11px;height:11px;border-radius:50%;flex:0 0 11px}.traffic.green{background:#10b981}.traffic.yellow{background:#f59e0b}.traffic.red{background:#ef4444}
 .legend{display:flex;gap:10px;flex-wrap:wrap;font-size:10px;color:var(--muted);margin-top:8px}.legend span{display:flex;align-items:center;gap:3px}
@@ -193,12 +175,11 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
 
 .stat-card .stat-title{font-weight:750;font-size:14px}.stat-card .stat-detail{font-size:11px;margin-top:3px;color:#5e5651}
 body.dark-mode .stat-card .stat-detail{color:#d1d5db}
-.stat-group-title{font-size:13px;font-weight:800;margin:10px 0 4px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:3px}
+.stat-group-title{font-size:13px;font-weight:800;margin:12px 0 4px;color:var(--accent);border-bottom:1px solid var(--border);padding-bottom:3px}
 .small-btn{padding:5px 8px;font-size:11px}.entry-actions{display:flex;gap:4px;align-items:center}
 .range-box{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:10px;margin-bottom:8px}
 .range-box strong{font-size:15px}.range-box small{display:block;color:var(--muted);margin-top:3px}
 .age-badge{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
-.stat-detail b{font-weight:800}
 
 .time-pills{display:flex;gap:4px;margin-bottom:10px;background:var(--bg);padding:3px;border-radius:12px;border:1px solid var(--border)}
 .time-pill{flex:1;text-align:center;padding:6px;font-size:11px;font-weight:700;border-radius:8px;color:var(--muted);cursor:pointer;background:transparent;border:0;transition:all 0.2s}
@@ -208,7 +189,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 .trend-bar-fill{height:100%;background:var(--accent);border-radius:6px;transition:width 0.3s ease}
 .trend-bar-fill.milk{background:var(--milk-accent)}
 .trend-bar-fill.sleep{background:var(--sleep-accent)}
-.trend-bar-fill.nap{background:var(--sleep-accent)}
 
 .timer-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;text-align:center}
 .timer-card h4{margin:0 0 2px;font-size:14px;color:var(--accent)}
@@ -217,8 +197,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 .timer-controls input[type="time"]{width:auto;padding:5px 6px;font-size:12px}
 
 .profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between;transition:all 0.2s}
-.profile-card-action:hover{border-color:var(--accent)}
-
 .auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:left}
 </style>
 </head>
@@ -249,38 +227,46 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
   <div id="ageGuidance" class="hint" style="margin-top:10px">Set baby's DOB in Profile to make suggestions age-based.</div>
 </div>
 
+<!-- SLEEP SECTION: Clean, Organized, Intuitive -->
 <div id="sec-sleep" class="card tracker-section">
-  <h2>🌙 Sleep</h2>
+  <h2>🌙 Sleep Tracking</h2>
   
-  <!-- Morning Wake Time Input -->
-  <div class="entry-box" style="margin-bottom:8px">
-    <label>☀️ Morning Wake Up Time (Calculates Nap 1)</label>
+  <!-- Morning Wake-up Time Card -->
+  <div class="entry-box">
+    <label>☀️ Morning Wake-up Time (Calculates Nap 1 &amp; Wake Window 1)</label>
     <div style="display:flex;gap:6px;align-items:center;margin-top:4px">
       <input id="morningWakeTime" type="time" style="flex:1" onchange="saveMorningWake()"/>
       <button class="secondary small-btn" onclick="saveMorningWake()">Save Wake</button>
     </div>
   </div>
 
+  <!-- Sleep Logging Switcher -->
   <div class="entry-box">
-    <label>Log Nap or Night Sleep (Supports Any Date)</label>
-    <div class="sleep-form-grid" style="margin-top:6px">
-      <div>
-        <label>Start Date &amp; Time</label>
-        <div style="display:flex;gap:4px">
-          <input id="napStartDate" type="date" style="flex:1.3"/>
-          <input id="napStart" type="time" style="flex:1"/>
-        </div>
+    <div class="type-pills">
+      <button class="type-pill active" id="btnTypeNap" onclick="setSleepLogMode('nap')">💤 Daytime Nap</button>
+      <button class="type-pill" id="btnTypeNight" onclick="setSleepLogMode('night')">🌙 Night Bedtime</button>
+    </div>
+
+    <!-- Daytime Nap Form (Clean Same-Day Input) -->
+    <div id="napFormBox">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div><label>Nap Start Time</label><input id="napStartOnly" type="time"/></div>
+        <div><label>Nap End Time</label><input id="napEndOnly" type="time"/></div>
       </div>
-      <div>
-        <label>End Date &amp; Time</label>
-        <div style="display:flex;gap:4px">
-          <input id="napEndDate" type="date" style="flex:1.3"/>
-          <input id="napEnd" type="time" style="flex:1"/>
-        </div>
+      <div class="actions" style="justify-content:flex-end;margin-top:8px">
+        <button id="napSubmitBtn" class="primary small-btn" onclick="addDaytimeNap()">Add Daytime Nap</button>
       </div>
     </div>
-    <div class="actions" style="justify-content:flex-end;margin-top:8px">
-      <button id="napSubmitBtn" class="primary small-btn" onclick="addNap()">Add Sleep Entry</button>
+
+    <!-- Night Bedtime Form (Overnight Date Handled Automatically) -->
+    <div id="nightFormBox" style="display:none">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px">
+        <div><label>Bedtime Start (Tonight)</label><input id="nightStartOnly" type="time"/></div>
+        <div><label>Wake-up (Next Morning)</label><input id="nightEndOnly" type="time"/></div>
+      </div>
+      <div class="actions" style="justify-content:flex-end;margin-top:8px">
+        <button id="nightSubmitBtn" class="primary small-btn" onclick="addNightBedtime()">Add Night Sleep</button>
+      </div>
     </div>
   </div>
 
@@ -288,14 +274,14 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <button class="secondary small-btn" onclick="showNextNap()">⏭️ Next nap timing suggestion</button>
   </div>
 
-  <!-- Separated Sleep Entries -->
-  <div class="sub-header-title">🌙 Night Sleep (Bedtime Date Rule)</div>
-  <div class="entries" id="nightSleepEntries"></div>
-
-  <div class="sub-header-title">💤 Daytime Naps</div>
+  <!-- Distinct Sections -->
+  <div class="sub-header-title">💤 Logged Daytime Naps</div>
   <div class="entries" id="dayNapEntries"></div>
 
-  <!-- Totals Section Separated -->
+  <div class="sub-header-title">🌙 Logged Night Sleep</div>
+  <div class="entries" id="nightSleepEntries"></div>
+
+  <!-- Totals Summary -->
   <div class="totals" style="margin-top:10px">
     <div class="total"><strong id="nightTotal">0 min</strong><span>Night Sleep</span></div>
     <div class="total"><strong id="napTotal">0 min</strong><span>Daytime Naps</span></div>
@@ -325,8 +311,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <div class="total"><strong id="milkTotal">0 ml</strong><span>Total milk</span></div>
     <div class="total"><strong id="feedCount">0</strong><span>Total feeds</span></div>
   </div>
-
-  <!-- Remaining Milk Target Note -->
   <div id="milkRemainingBox" class="remaining-note-box"></div>
 </div>
 
@@ -339,22 +323,14 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
       <button id="weightSubmitBtn" class="primary" onclick="addWeight()">OK</button>
     </div>
   </div>
-
-  <div class="chart-card">
-    <label style="font-weight:800;color:var(--growth-accent);font-size:12px;">📊 Weight Progress Diagram (kg)</label>
-    <div id="weightBarChart" class="bar-chart-container">
-      <div class="empty">No weight entries recorded yet.</div>
-    </div>
-  </div>
-
   <div class="entries" id="weightEntries"></div>
 </div>
 
 <div id="sec-notes" class="card tracker-section">
   <h2>Notes 📝</h2>
   <div class="entry-box">
-    <label for="noteInput">Add Note / Milestone Note</label>
-    <textarea id="noteInput" rows="3" placeholder="Write anything here (e.g. fussy today, new tooth, doctor advice)..."></textarea>
+    <label for="noteInput">Add Note</label>
+    <textarea id="noteInput" rows="3" placeholder="Write anything here..."></textarea>
     <div class="actions" style="justify-content:flex-end">
       <button id="noteSubmitBtn" class="primary small-btn" onclick="addNote()">Save Note</button>
     </div>
@@ -365,21 +341,11 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 </div>
 
 <nav class="bottom-nav">
-  <button class="bottom-tab active" onclick="switchSection('sec-home', this)">
-    <span>🏠</span>Home
-  </button>
-  <button class="bottom-tab" onclick="switchSection('sec-sleep', this)">
-    <span>🌙</span>Sleep
-  </button>
-  <button class="bottom-tab" onclick="switchSection('sec-milk', this)">
-    <span>🍼</span>Feeding
-  </button>
-  <button class="bottom-tab" onclick="switchSection('sec-growth', this)">
-    <span>📈</span>Growth
-  </button>
-  <button class="bottom-tab" onclick="switchSection('sec-notes', this)">
-    <span>📝</span>Notes
-  </button>
+  <button class="bottom-tab active" onclick="switchSection('sec-home', this)"><span>🏠</span>Home</button>
+  <button class="bottom-tab" onclick="switchSection('sec-sleep', this)"><span>🌙</span>Sleep</button>
+  <button class="bottom-tab" onclick="switchSection('sec-milk', this)"><span>🍼</span>Feeding</button>
+  <button class="bottom-tab" onclick="switchSection('sec-growth', this)"><span>📈</span>Growth</button>
+  <button class="bottom-tab" onclick="switchSection('sec-notes', this)"><span>📝</span>Notes</button>
 </nav>
 
 <div class="modal" id="profileModal" onclick="if(event.target===this)closeProfileModal()">
@@ -390,18 +356,15 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <div class="auth-box">
       <div id="userLoggedOutView">
         <strong style="font-size:13px;display:block;margin-bottom:6px;">☁️ Cloud Synchronization</strong>
-        
         <label>Email</label>
         <input id="authEmail" type="email" placeholder="name@example.com" style="margin-bottom:6px"/>
         <label>Password</label>
         <input id="authPassword" type="password" placeholder="••••••••" style="margin-bottom:8px"/>
-        
         <div style="display:flex;gap:6px">
           <button class="primary small-btn" style="flex:1" onclick="emailSignIn()">Sign In</button>
           <button class="secondary small-btn" style="flex:1" onclick="emailSignUp()">Sign Up</button>
         </div>
       </div>
-
       <div id="userLoggedInView" style="display:none;text-align:center">
         <strong style="font-size:13px;color:var(--milk-accent);display:block;">✅ Cloud Sync Active</strong>
         <span id="userEmailLabel" style="font-size:11px;color:var(--muted);display:block;margin:2px 0 8px;"></span>
@@ -412,10 +375,8 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <div class="entry-box" style="margin-top:10px">
       <label for="babyNameInput">Baby's Name</label>
       <input id="babyNameInput" type="text" placeholder="Enter baby's name" style="margin-top:4px"/>
-      
       <label for="babyDobInput" style="margin-top:8px">Baby DOB</label>
       <input id="babyDobInput" type="date" style="margin-top:4px"/>
-
       <div class="actions" style="justify-content:flex-end;margin-top:10px">
         <button class="primary small-btn" onclick="saveProfileDetails()">Save Profile Details</button>
       </div>
@@ -429,49 +390,11 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
       <span>➔</span>
     </div>
 
-    <div class="profile-card-action" onclick="closeProfileModal(); openBackupModal();">
-      <div>
-        <strong style="display:block;font-size:14px;">📦 Data Storage &amp; Backup</strong>
-        <span style="font-size:11px;color:var(--muted)">Download JSON backup or restore data</span>
-      </div>
-      <span>➔</span>
-    </div>
-
     <button class="ghost" style="width:100%;margin-top:14px" onclick="closeProfileModal()">Close</button>
   </div>
 </div>
 
-<div class="modal" id="timersModal" onclick="if(event.target===this)closeTimersModal()">
-  <div class="modal-box">
-    <button class="close" onclick="closeTimersModal()">✕</button>
-    <h3>⏱️ Live Nap &amp; Feed Timers</h3>
-    
-    <div class="timer-card">
-      <h4 style="color:var(--sleep-accent)">🌙 Nap Timer</h4>
-      <div class="timer-display" id="napTimerDisplay">00:00:00</div>
-      <div class="timer-controls">
-        <span style="font-size:11px;color:var(--muted)">Start:</span>
-        <input type="time" id="napTimerStartInput"/>
-        <button class="primary small-btn" id="startNapTimerBtn" onclick="toggleNapTimer()">▶️ Start Nap</button>
-        <button class="secondary small-btn" onclick="resetNapTimer()">🔄 Reset</button>
-      </div>
-    </div>
-
-    <div class="timer-card">
-      <h4 style="color:var(--milk-accent)">🍼 Milk Feed Timer</h4>
-      <div class="timer-display" id="feedTimerDisplay">00:00:00</div>
-      <div class="timer-controls">
-        <span style="font-size:11px;color:var(--muted)">Start:</span>
-        <input type="time" id="feedTimerStartInput"/>
-        <button class="primary small-btn" id="startFeedTimerBtn" onclick="toggleFeedTimer()">▶️ Start Feed</button>
-        <button class="secondary small-btn" onclick="resetFeedTimer()">🔄 Reset</button>
-      </div>
-    </div>
-
-    <button class="ghost" style="width:100%;margin-top:6px" onclick="closeTimersModal()">Close</button>
-  </div>
-</div>
-
+<!-- Stats Modal with Wake Window Evaluation -->
 <div class="modal" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <button class="close" onclick="closeStatsModal()">✕</button>
@@ -487,10 +410,9 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
       <label for="statSelect">Category:</label>
       <select id="statSelect" onchange="renderStatistics()">
         <option value="all">🌟 All Categories</option>
-        <option value="milk">🍼 Milk Intake</option>
-        <option value="overallSleep">🌙 Overall Sleep</option>
-        <option value="nap">💤 Nap Durations</option>
         <option value="wake">⏰ Wake Windows</option>
+        <option value="nap">💤 Sleep &amp; Naps</option>
+        <option value="milk">🍼 Milk Intake</option>
       </select>
     </div>
     
@@ -504,20 +426,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
       <span><i class="traffic red"></i> Outside normal range</span>
     </div>
     <button class="primary" style="width:100%;margin-top:12px" onclick="closeStatsModal()">Close</button>
-  </div>
-</div>
-
-<div class="modal" id="backupModal" onclick="if(event.target===this)closeBackupModal()">
-  <div class="modal-box">
-    <button class="close" onclick="closeBackupModal()">✕</button>
-    <h3>📦 Data Storage &amp; Backup</h3>
-    <p class="hint" style="font-size:12px;line-height:1.4;">Data is saved locally in your browser storage or synced to your cloud account.</p>
-    <div style="display:flex;flex-direction:column;gap:8px;margin-top:12px;">
-      <button class="primary" onclick="exportData()">📥 Download Data Backup (.json)</button>
-      <button class="secondary" onclick="document.getElementById('importFile').click()">📤 Import / Restore Backup</button>
-      <input type="file" id="importFile" accept=".json" style="display:none" onchange="importData(event)"/>
-    </div>
-    <button class="ghost" style="width:100%;margin-top:12px" onclick="closeBackupModal()">Close</button>
   </div>
 </div>
 
@@ -535,7 +443,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <button class="close" onclick="closeNextFeed()">✕</button>
     <h3>Next feed timing</h3>
     <div id="nextFeedSuggestion"></div>
-    <div class="hint">Based on latest recorded feed. Reference only.</div>
     <button class="primary" style="width:100%;margin-top:10px" onclick="closeNextFeed()">Close</button>
   </div>
 </div>
@@ -545,7 +452,6 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
     <button class="close" onclick="closeNextNap()">✕</button>
     <h3>Next nap timing</h3>
     <div id="nextNapSuggestion"></div>
-    <div class="hint">Based on morning wake time or latest nap. Reference only.</div>
     <button class="primary" style="width:100%;margin-top:10px" onclick="closeNextNap()">Close</button>
   </div>
 </div>
@@ -565,7 +471,6 @@ const auth = firebase.auth();
 const dbStore = firebase.firestore();
 
 let currentUser = null;
-
 const KEY="babyNapFeedTracker_v3";
 const WEIGHT_KEY="adhritiGrowthWeights_v1";
 const NOTES_KEY="adhritiAppNotes_v1";
@@ -581,11 +486,6 @@ let currentStatTime="daily";
 let day={date:"",wakeTime:"",naps:[],feeds:[]};
 let weights=[];
 let notes=[];
-
-let napTimerInterval = null;
-let napStartTime = null;
-let feedTimerInterval = null;
-let feedStartTime = null;
 
 auth.onAuthStateChanged((user) => {
   currentUser = user;
@@ -604,25 +504,17 @@ function emailSignUp(){
   const e = document.getElementById("authEmail").value.trim();
   const p = document.getElementById("authPassword").value.trim();
   if(!e || !p){ alert("Enter email and password."); return; }
-
-  auth.createUserWithEmailAndPassword(e, p)
-    .then((res) => { alert("Account created and signed in!"); })
-    .catch((err) => { alert("Sign Up Error: " + err.message); });
+  auth.createUserWithEmailAndPassword(e, p).then(() => alert("Account created and signed in!")).catch(err => alert("Sign Up Error: " + err.message));
 }
 
 function emailSignIn(){
   const e = document.getElementById("authEmail").value.trim();
   const p = document.getElementById("authPassword").value.trim();
   if(!e || !p){ alert("Enter email and password."); return; }
-
-  auth.signInWithEmailAndPassword(e, p)
-    .then((res) => { alert("Signed in successfully!"); })
-    .catch((err) => { alert("Sign In Error: " + err.message); });
+  auth.signInWithEmailAndPassword(e, p).then(() => alert("Signed in successfully!")).catch(err => alert("Sign In Error: " + err.message));
 }
 
-function signOutUser(){
-  auth.signOut().then(() => { alert("Signed out."); });
-}
+function signOutUser(){ auth.signOut().then(() => alert("Signed out.")); }
 
 function syncCloudData(){
   if(!currentUser) return;
@@ -637,13 +529,26 @@ function syncCloudData(){
   loadDate();
 }
 
+function setSleepLogMode(mode){
+  if(mode === 'nap'){
+    document.getElementById("btnTypeNap").classList.add("active");
+    document.getElementById("btnTypeNight").classList.remove("active");
+    document.getElementById("napFormBox").style.display = "block";
+    document.getElementById("nightFormBox").style.display = "none";
+  } else {
+    document.getElementById("btnTypeNight").classList.add("active");
+    document.getElementById("btnTypeNap").classList.remove("active");
+    document.getElementById("nightFormBox").style.display = "block";
+    document.getElementById("napFormBox").style.display = "none";
+  }
+}
+
 function openProfileModal(){ document.getElementById("profileModal").classList.add("show"); }
 function closeProfileModal(){ document.getElementById("profileModal").classList.remove("show"); }
 
 function loadProfileDetails(){
   const name = localStorage.getItem(NAME_KEY) || "";
   const dob = localStorage.getItem(DOB_KEY) || "2026-04-06";
-  
   document.getElementById("babyNameInput").value = name;
   document.getElementById("babyDobInput").value = dob;
   document.getElementById("headerSubTitle").textContent = name ? `${name}'s daily tracking` : "daily tracking";
@@ -652,27 +557,17 @@ function loadProfileDetails(){
 function saveProfileDetails(){
   const nameInput = document.getElementById("babyNameInput").value.trim();
   const dobInput = document.getElementById("babyDobInput").value;
-
   localStorage.setItem(NAME_KEY, nameInput);
   if(dobInput) localStorage.setItem(DOB_KEY, dobInput);
-
   document.getElementById("headerSubTitle").textContent = nameInput ? `${nameInput}'s daily tracking` : "daily tracking";
-  
   if(currentUser){
-    dbStore.collection("users").doc(currentUser.uid).collection("profile").doc("info").set({
-      name: nameInput,
-      dob: dobInput
-    }, {merge:true});
+    dbStore.collection("users").doc(currentUser.uid).collection("profile").doc("info").set({ name: nameInput, dob: dobInput }, {merge:true});
   }
-
   updateBabyAge();
   renderStatistics();
   alert("Profile updated successfully!");
   closeProfileModal();
 }
-
-function openTimersModal(){ document.getElementById("timersModal").classList.add("show"); }
-function closeTimersModal(){ document.getElementById("timersModal").classList.remove("show"); }
 
 function toggleDarkMode(){
   document.body.classList.toggle("dark-mode");
@@ -680,122 +575,14 @@ function toggleDarkMode(){
   document.getElementById("themeBtn").textContent = isDark ? "☀️ Light" : "🌙 Dark";
   localStorage.setItem("adhriti_theme", isDark ? "dark" : "light");
 }
-
 if(localStorage.getItem("adhriti_theme") === "dark"){
   document.body.classList.add("dark-mode");
   document.getElementById("themeBtn").textContent = "☀️ Light";
 }
 
-function formatTimer(ms){
-  const totalSecs = Math.floor(ms / 1000);
-  const hrs = String(Math.floor(totalSecs / 3600)).padStart(2, '0');
-  const mins = String(Math.floor((totalSecs % 3600) / 60)).padStart(2, '0');
-  const secs = String(totalSecs % 60).padStart(2, '0');
-  return `${hrs}:${mins}:${secs}`;
-}
-
-function parseManualTime(timeStr){
-  if(!timeStr) return null;
-  const [h, m] = timeStr.split(":").map(Number);
-  const d = new Date();
-  d.setHours(h, m, 0, 0);
-  return d;
-}
-
-function toggleNapTimer(){
-  const btn = document.getElementById("startNapTimerBtn");
-  const customStart = document.getElementById("napTimerStartInput").value;
-
-  if(!napTimerInterval){
-    if(customStart){
-      napStartTime = parseManualTime(customStart);
-    } else {
-      napStartTime = new Date();
-      document.getElementById("napTimerStartInput").value = time(napStartTime.getHours()*60 + napStartTime.getMinutes());
-    }
-    
-    document.getElementById("napStartDate").value = today();
-    document.getElementById("napStart").value = time(napStartTime.getHours()*60 + napStartTime.getMinutes());
-    
-    napTimerInterval = setInterval(() => {
-      const elapsed = new Date() - napStartTime;
-      document.getElementById("napTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
-    }, 1000);
-    
-    btn.textContent = "⏹️ End Nap";
-    btn.classList.replace("primary", "danger");
-  } else {
-    clearInterval(napTimerInterval);
-    napTimerInterval = null;
-    const now = new Date();
-    document.getElementById("napEndDate").value = today();
-    document.getElementById("napEnd").value = time(now.getHours()*60 + now.getMinutes());
-    addNap();
-    resetNapTimer();
-    closeTimersModal();
-  }
-}
-
-function resetNapTimer(){
-  if(napTimerInterval) clearInterval(napTimerInterval);
-  napTimerInterval = null;
-  napStartTime = null;
-  document.getElementById("napTimerDisplay").textContent = "00:00:00";
-  document.getElementById("napTimerStartInput").value = "";
-  const btn = document.getElementById("startNapTimerBtn");
-  btn.textContent = "▶️ Start Nap";
-  btn.className = "primary small-btn";
-}
-
-function toggleFeedTimer(){
-  const btn = document.getElementById("startFeedTimerBtn");
-  const customStart = document.getElementById("feedTimerStartInput").value;
-
-  if(!feedTimerInterval){
-    if(customStart){
-      feedStartTime = parseManualTime(customStart);
-    } else {
-      feedStartTime = new Date();
-      document.getElementById("feedTimerStartInput").value = time(feedStartTime.getHours()*60 + feedStartTime.getMinutes());
-    }
-    
-    document.getElementById("feedTime").value = time(feedStartTime.getHours()*60 + feedStartTime.getMinutes());
-    
-    feedTimerInterval = setInterval(() => {
-      const elapsed = new Date() - feedStartTime;
-      document.getElementById("feedTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
-    }, 1000);
-    
-    btn.textContent = "⏹️ Save Feed";
-    btn.classList.replace("primary", "danger");
-  } else {
-    clearInterval(feedTimerInterval);
-    feedTimerInterval = null;
-    const amount = prompt("Enter feed amount in ml:", "60");
-    if(amount !== null && amount.trim() !== ""){
-      document.getElementById("feedMl").value = amount;
-      addFeed();
-    }
-    resetFeedTimer();
-    closeTimersModal();
-  }
-}
-
-function resetFeedTimer(){
-  if(feedTimerInterval) clearInterval(feedTimerInterval);
-  feedTimerInterval = null;
-  feedStartTime = null;
-  document.getElementById("feedTimerDisplay").textContent = "00:00:00";
-  document.getElementById("feedTimerStartInput").value = "";
-  const btn = document.getElementById("startFeedTimerBtn");
-  btn.textContent = "▶️ Start Feed";
-  btn.className = "primary small-btn";
-}
-
 function switchStatTime(period, btnEl){
   currentStatTime = period;
-  const pills = document.querySelectorAll('.time-pill');
-  pills.forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.time-pill').forEach(p => p.classList.remove('active'));
   if(btnEl) btnEl.classList.add('active');
   renderStatistics();
 }
@@ -803,68 +590,11 @@ function switchStatTime(period, btnEl){
 function openStatsModal(){ refreshStatistics(); document.getElementById("statsModal").classList.add("show"); }
 function closeStatsModal(){ document.getElementById("statsModal").classList.remove("show"); }
 
-function openBackupModal(){ document.getElementById("backupModal").classList.add("show"); }
-function closeBackupModal(){ document.getElementById("backupModal").classList.remove("show"); }
-
-function exportData(){
-  const data = localStorage.getItem(KEY) || "{}";
-  const weightData = localStorage.getItem(WEIGHT_KEY) || "[]";
-  const notesData = localStorage.getItem(NOTES_KEY) || "[]";
-  const nameData = localStorage.getItem(NAME_KEY) || "";
-  const dobData = localStorage.getItem(DOB_KEY) || "";
-  const fullBackup = { 
-    tracker: JSON.parse(data), 
-    weights: JSON.parse(weightData),
-    notes: JSON.parse(notesData),
-    name: nameData,
-    dob: dobData
-  };
-  const blob = new Blob([JSON.stringify(fullBackup)], {type: "application/json"});
-  const url = URL.createObjectURL(blob);
-  const a = document.createElement("a");
-  a.href = url;
-  a.download = `little_chronicles_backup_${today()}.json`;
-  a.click();
-  URL.revokeObjectURL(url);
-}
-
-function importData(e){
-  const file = e.target.files[0];
-  if(!file) return;
-  const reader = new FileReader();
-  reader.onload = function(evt){
-    try {
-      const json = JSON.parse(evt.target.result);
-      if(json.tracker){
-        localStorage.setItem(KEY, JSON.stringify(json.tracker));
-        if(json.weights) localStorage.setItem(WEIGHT_KEY, JSON.stringify(json.weights));
-        if(json.notes) localStorage.setItem(NOTES_KEY, JSON.stringify(json.notes));
-        if(json.name !== undefined) localStorage.setItem(NAME_KEY, json.name);
-        if(json.dob !== undefined) localStorage.setItem(DOB_KEY, json.dob);
-      } else {
-        localStorage.setItem(KEY, JSON.stringify(json));
-      }
-      alert("Backup restored successfully!");
-      closeBackupModal();
-      loadProfileDetails();
-      loadWeights();
-      loadNotes();
-      loadDate();
-    } catch(err) { alert("Invalid backup file format."); }
-  };
-  reader.readAsText(file);
-}
-
 function switchSection(secId, btnEl){
-  const allSections = document.querySelectorAll('.tracker-section');
-  const allTabs = document.querySelectorAll('.bottom-tab');
-  
-  allTabs.forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.bottom-tab').forEach(t => t.classList.remove('active'));
   if(btnEl) btnEl.classList.add('active');
-
-  allSections.forEach(s => {
-    if(s.id === secId) s.classList.add('active-section');
-    else s.classList.remove('active-section');
+  document.querySelectorAll('.tracker-section').forEach(s => {
+    s.classList.toggle('active-section', s.id === secId);
   });
 }
 
@@ -873,11 +603,10 @@ function today(){
   return new Date(d-o*60000).toISOString().slice(0,10);
 }
 
-function nowTimestamp(){
-  const d = new Date();
-  const dateStr = d.toLocaleDateString(undefined, {day:"numeric", month:"short", year:"numeric"});
-  const timeStr = d.toLocaleTimeString(undefined, {hour:"2-digit", minute:"2-digit"});
-  return `${dateStr} at ${timeStr}`;
+function nextDay(dateStr){
+  const d = new Date(dateStr + "T12:00:00");
+  d.setDate(d.getDate() + 1);
+  return d.toISOString().slice(0,10);
 }
 
 function mins(t){
@@ -896,229 +625,6 @@ function fmtDate(s){
   return new Date(s+"T00:00:00").toLocaleDateString(undefined,{day:"numeric",month:"short",year:"numeric"});
 }
 
-function isNightSleepEntry(n){
-  if(!n) return false;
-  const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-  const startHour = parseInt((n.start||"0").split(":")[0], 10);
-  return startHour >= 19 || startHour < 6 || dur >= 240;
-}
-
-// Master Database Auto-Cleaner & Synchronizer
-function db(){
-  try{
-    const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
-    let changed = false;
-    
-    Object.keys(raw).forEach(dayKey => {
-      if(raw[dayKey] && raw[dayKey].naps && Array.isArray(raw[dayKey].naps)){
-        const validNaps = [];
-        const seen = new Set();
-
-        raw[dayKey].naps.forEach(n => {
-          if(!n || !n.start || !n.end) return;
-          const sDate = n.startDate || dayKey;
-          const keySig = `${sDate}_${n.start}_${n.endDate}_${n.end}`;
-
-          if(sDate !== dayKey){
-            if(!raw[sDate]) raw[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
-            if(!raw[sDate].naps) raw[sDate].naps = [];
-            const exists = raw[sDate].naps.some(x => x.start === n.start && x.end === n.end && x.startDate === sDate);
-            if(!exists) raw[sDate].naps.push(n);
-            changed = true;
-          } else {
-            if(!seen.has(keySig)){
-              seen.add(keySig);
-              validNaps.push(n);
-            } else {
-              changed = true;
-            }
-          }
-        });
-        raw[dayKey].naps = validNaps;
-      }
-    });
-
-    if(changed) localStorage.setItem(KEY, JSON.stringify(raw));
-    return raw;
-  }
-  catch(e){return{}}
-}
-
-function saveDb(x){localStorage.setItem(KEY,JSON.stringify(x))}
-
-function saveMorningWake(){
-  const wTime = document.getElementById("morningWakeTime").value;
-  const database = db();
-  if(!database[day.date]) database[day.date] = { date: day.date, wakeTime:"", naps: [], feeds: [] };
-  database[day.date].wakeTime = wTime;
-  saveDb(database);
-  day.wakeTime = wTime;
-  render();
-}
-
-function loadNotes(){
-  try{ notes = JSON.parse(localStorage.getItem(NOTES_KEY)||"[]"); }
-  catch(e){ notes = []; }
-  renderNotes();
-}
-
-function saveNotes(){
-  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
-  renderNotes();
-}
-
-function addNote(){
-  const txt = document.getElementById("noteInput").value.trim();
-  if(!txt){ alert("Please write some note text first."); return; }
-
-  const timestamp = nowTimestamp();
-
-  if(editingNoteIndex >= 0){
-    notes[editingNoteIndex] = { text: txt, time: timestamp };
-    editingNoteIndex = -1;
-    document.getElementById("noteSubmitBtn").textContent = "Save Note";
-  } else {
-    notes.unshift({ text: txt, time: timestamp });
-  }
-
-  document.getElementById("noteInput").value = "";
-  saveNotes();
-}
-
-function editNote(i){
-  const n = notes[i];
-  document.getElementById("noteInput").value = n.text;
-  editingNoteIndex = i;
-  document.getElementById("noteSubmitBtn").textContent = "Update Note";
-  document.getElementById("noteInput").scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-function removeNote(i){
-  notes.splice(i, 1);
-  saveNotes();
-}
-
-function renderNotes(){
-  const box = document.getElementById("notesEntries");
-  if(!box) return;
-  box.innerHTML = "";
-
-  if(!notes.length){
-    box.innerHTML = '<div class="empty">No persistent notes written yet. Write one above!</div>';
-    return;
-  }
-
-  notes.forEach((n, i) => {
-    const el = document.createElement("div");
-    el.className = "entry";
-    el.style.flexDirection = "column";
-    el.style.alignItems = "flex-start";
-    el.innerHTML = `
-      <div style="width:100%;display:flex;justify-content:space-between;align-items:flex-start">
-        <div class="entry-main" style="white-space:pre-wrap;line-height:1.4">${n.text}</div>
-        <div class="entry-actions" style="margin-left:8px">
-          <button class="secondary small-btn" onclick="editNote(${i})">Edit</button>
-          <button class="danger remove" onclick="removeNote(${i})">Remove</button>
-        </div>
-      </div>
-      <div class="note-time">🕒 Written on ${n.time}</div>`;
-    box.appendChild(el);
-  });
-}
-
-function loadWeights(){
-  try{ weights = JSON.parse(localStorage.getItem(WEIGHT_KEY)||"[]"); }
-  catch(e){ weights = []; }
-  weights.sort((a,b)=>a.date.localeCompare(b.date));
-  renderWeights();
-}
-
-function saveWeights(){
-  localStorage.setItem(WEIGHT_KEY, JSON.stringify(weights));
-  renderWeights();
-}
-
-function addWeight(){
-  const dateVal = document.getElementById("weightDate").value || today();
-  const kgVal = parseFloat(document.getElementById("weightKg").value);
-
-  if(isNaN(kgVal) || kgVal <= 0){
-    alert("Please enter a valid weight in kg.");
-    return;
-  }
-
-  if(editingWeightIndex >= 0){
-    weights[editingWeightIndex] = {date: dateVal, kg: kgVal};
-    editingWeightIndex = -1;
-    document.getElementById("weightSubmitBtn").textContent = "OK";
-  } else {
-    const idx = weights.findIndex(w => w.date === dateVal);
-    if(idx >= 0) weights[idx].kg = kgVal;
-    else weights.push({date: dateVal, kg: kgVal});
-  }
-
-  weights.sort((a,b)=>a.date.localeCompare(b.date));
-  document.getElementById("weightKg").value = "";
-  saveWeights();
-}
-
-function editWeight(i){
-  const w = weights[i];
-  document.getElementById("weightDate").value = w.date;
-  document.getElementById("weightKg").value = w.kg;
-  editingWeightIndex = i;
-  document.getElementById("weightSubmitBtn").textContent = "Update";
-  document.getElementById("weightDate").scrollIntoView({behavior:"smooth",block:"center"});
-}
-
-function removeWeight(i){
-  weights.splice(i, 1);
-  saveWeights();
-}
-
-function renderWeights(){
-  const entriesBox = document.getElementById("weightEntries");
-  const chartBox = document.getElementById("weightBarChart");
-  if(!entriesBox || !chartBox) return;
-
-  entriesBox.innerHTML = "";
-
-  if(!weights.length){
-    chartBox.innerHTML = '<div class="empty">No weight entries recorded yet.</div>';
-    entriesBox.innerHTML = '<div class="empty">No past weight logs.</div>';
-    return;
-  }
-
-  const maxKg = Math.max(...weights.map(w => w.kg));
-  let chartHTML = "";
-
-  weights.forEach((w) => {
-    const heightPct = maxKg > 0 ? Math.max(15, Math.round((w.kg / maxKg) * 100)) : 10;
-    chartHTML += `
-      <div class="chart-bar-col">
-        <div class="chart-bar-val">${w.kg} kg</div>
-        <div class="chart-bar" style="height:${heightPct}%"></div>
-        <div class="chart-bar-lbl">${fmtDate(w.date).split(',')[0]}</div>
-      </div>`;
-  });
-  chartBox.innerHTML = chartHTML;
-
-  weights.slice().reverse().forEach((w, origIndex) => {
-    const realIndex = weights.length - 1 - origIndex;
-    const el = document.createElement("div");
-    el.className = "entry";
-    el.innerHTML = `
-      <div>
-        <div class="entry-main">${fmtDate(w.date)} — ${w.kg} kg</div>
-      </div>
-      <div class="entry-actions">
-        <button class="secondary small-btn" onclick="editWeight(${realIndex})">Edit</button>
-        <button class="danger remove" onclick="removeWeight(${realIndex})">Remove</button>
-      </div>`;
-    entriesBox.appendChild(el);
-  });
-}
-
 function calcDateTimeDuration(startDate, startTime, endDate, endTime){
   try {
     const sDate = startDate || day.date;
@@ -1128,13 +634,63 @@ function calcDateTimeDuration(startDate, startTime, endDate, endTime){
     const end = new Date(`${eDate}T${endTime}:00`);
     const diffMs = end - start;
     return diffMs > 0 ? Math.round(diffMs / 60000) : 0;
-  } catch(e) {
-    return 0;
-  }
+  } catch(e) { return 0; }
 }
 
 function durationText(n){
   return n>=60 ? Math.floor(n/60)+"h "+(n%60)+"m" : n+" min";
+}
+
+function isNightSleepEntry(n){
+  if(!n) return false;
+  const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+  const startHour = parseInt((n.start||"0").split(":")[0], 10);
+  return startHour >= 19 || startHour < 6 || dur >= 240;
+}
+
+function db(){
+  try{
+    const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
+    let changed = false;
+    Object.keys(raw).forEach(dayKey => {
+      if(raw[dayKey] && raw[dayKey].naps && Array.isArray(raw[dayKey].naps)){
+        const validNaps = [];
+        const seen = new Set();
+        raw[dayKey].naps.forEach(n => {
+          if(!n || !n.start || !n.end) return;
+          const sDate = n.startDate || dayKey;
+          const keySig = `${sDate}_${n.start}_${n.endDate}_${n.end}`;
+          if(sDate !== dayKey){
+            if(!raw[sDate]) raw[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
+            if(!raw[sDate].naps) raw[sDate].naps = [];
+            if(!raw[sDate].naps.some(x => x.start === n.start && x.end === n.end && x.startDate === sDate)) raw[sDate].naps.push(n);
+            changed = true;
+          } else {
+            if(!seen.has(keySig)){
+              seen.add(keySig);
+              validNaps.push(n);
+            } else { changed = true; }
+          }
+        });
+        raw[dayKey].naps = validNaps;
+      }
+    });
+    if(changed) localStorage.setItem(KEY, JSON.stringify(raw));
+    return raw;
+  }catch(e){ return {}; }
+}
+
+function saveDb(x){ localStorage.setItem(KEY, JSON.stringify(x)); }
+
+function saveMorningWake(){
+  const wTime = document.getElementById("morningWakeTime").value;
+  const database = db();
+  if(!database[day.date]) database[day.date] = { date: day.date, wakeTime:"", naps: [], feeds: [] };
+  database[day.date].wakeTime = wTime;
+  saveDb(database);
+  day.wakeTime = wTime;
+  render();
+  alert("Morning wake time saved: " + wTime);
 }
 
 function render(){
@@ -1148,31 +704,26 @@ function render(){
 
   const database = db();
   const dateObj = database[day.date] || day;
-  
-  // Strictly filter only sleep entries that started on this day
   const allNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
 
   const nightEntries = [];
   const dayNapList = [];
 
   allNaps.forEach((n, originalIndex) => {
-    if(isNightSleepEntry(n)){
-      nightEntries.push({ nap: n, index: originalIndex });
-    } else {
-      dayNapList.push({ nap: n, index: originalIndex });
-    }
+    if(isNightSleepEntry(n)) nightEntries.push({ nap: n, index: originalIndex });
+    else dayNapList.push({ nap: n, index: originalIndex });
   });
 
   if(!nightEntries.length){
-    document.getElementById("nightSleepEntries").innerHTML = '<div class="empty">No night sleep logged for this bedtime date.</div>';
+    document.getElementById("nightSleepEntries").innerHTML = '<div class="empty">No night sleep logged.</div>';
   } else {
-    nightEntries.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "Night Sleep", "nightSleepEntries"));
+    nightEntries.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "🌙 Night Sleep", "nightSleepEntries"));
   }
 
   if(!dayNapList.length){
     document.getElementById("dayNapEntries").innerHTML = '<div class="empty">No daytime naps logged.</div>';
   } else {
-    dayNapList.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "Nap", "dayNapList"));
+    dayNapList.forEach((item, i) => drawSleepCard(item.nap, item.index, i + 1, "💤 Nap", "dayNapEntries"));
   }
 
   (dateObj.feeds || []).forEach((f,i)=>drawFeed(f,i));
@@ -1185,7 +736,7 @@ function drawSleepCard(n, realIndex, displayNum, labelText, containerId){
   const el=document.createElement("div");
   el.className="entry";
   const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-  const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate)} ${n.end}` : n.end;
+  const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
   
   el.innerHTML=
     `<div><div class="entry-main">${labelText} ${displayNum} — ${n.start} – ${endFormatted}</div>
@@ -1195,10 +746,7 @@ function drawSleepCard(n, realIndex, displayNum, labelText, containerId){
        <button class="danger remove" onclick="removeNap(${realIndex})">Remove</button>
      </div>`;
   
-  const container = containerId === "nightSleepEntries" 
-    ? document.getElementById("nightSleepEntries") 
-    : document.getElementById("dayNapEntries");
-  container.appendChild(el);
+  document.getElementById(containerId).appendChild(el);
 }
 
 function drawFeed(f,i){
@@ -1213,57 +761,57 @@ function drawFeed(f,i){
   document.getElementById("feedEntries").appendChild(el);
 }
 
-function addNap(){
-  const sDate = document.getElementById("napStartDate").value || day.date || today();
-  const start = document.getElementById("napStart").value;
-  const eDate = document.getElementById("napEndDate").value || sDate;
-  const end = document.getElementById("napEnd").value;
+function addDaytimeNap(){
+  const sDate = day.date || today();
+  const start = document.getElementById("napStartOnly").value;
+  const end = document.getElementById("napEndOnly").value;
+  if(!start || !end){ alert("Please enter both nap start and end time."); return; }
+  const d = calcDateTimeDuration(sDate, start, sDate, end);
+  if(d <= 0){ alert("Nap end time must be after start time."); return; }
 
-  if(!start || !end){ alert("Please enter both start and end time."); return; }
-  
-  const d = calcDateTimeDuration(sDate, start, eDate, end);
-  if(d <= 0){ alert("End time/date must be after start time/date."); return; }
+  saveSleepEntry(sDate, start, sDate, end);
+  document.getElementById("napStartOnly").value = "";
+  document.getElementById("napEndOnly").value = "";
+}
 
+function addNightBedtime(){
+  const sDate = day.date || today();
+  const start = document.getElementById("nightStartOnly").value;
+  const end = document.getElementById("nightEndOnly").value;
+  if(!start || !end){ alert("Please enter bedtime start and wake-up time."); return; }
+  const eDate = nextDay(sDate);
+
+  saveSleepEntry(sDate, start, eDate, end);
+  document.getElementById("nightStartOnly").value = "";
+  document.getElementById("nightEndOnly").value = "";
+}
+
+function saveSleepEntry(sDate, start, eDate, end){
   const entryObj = { startDate: sDate, start: start, endDate: eDate, end: end };
-
   const database = db();
-  
-  if(!database[sDate]) {
-    database[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
-  }
+  if(!database[sDate]) database[sDate] = { date: sDate, wakeTime:"", naps: [], feeds: [] };
   if(!database[sDate].naps) database[sDate].naps = [];
 
   if(editingNapIndex>=0){
     database[sDate].naps[editingNapIndex] = entryObj;
     editingNapIndex=-1;
-    document.getElementById("napSubmitBtn").textContent="Add Sleep Entry";
+    document.getElementById("napSubmitBtn").textContent="Add Daytime Nap";
   }else{
     database[sDate].naps.push(entryObj);
     database[sDate].naps.sort((a,b)=>mins(a.start)-mins(b.start));
   }
-
   saveDb(database);
   loadDateFor(sDate);
-
-  document.getElementById("napStart").value="";
-  document.getElementById("napEnd").value="";
-  alert("Sleep entry saved for " + fmtDate(sDate));
 }
 
 function addFeed(){
   const targetDate = document.getElementById("date").value || today();
   const t=document.getElementById("feedTime").value;
   const m=document.getElementById("feedMl").value;
-
-  if(!t||m===""){
-    alert("Enter both feed time and amount.");
-    return;
-  }
+  if(!t||m===""){ alert("Enter both feed time and amount."); return; }
 
   const database = db();
-  if(!database[targetDate]) {
-    database[targetDate] = { date: targetDate, wakeTime:"", naps: [], feeds: [] };
-  }
+  if(!database[targetDate]) database[targetDate] = { date: targetDate, wakeTime:"", naps: [], feeds: [] };
   if(!database[targetDate].feeds) database[targetDate].feeds = [];
 
   if(editingFeedIndex>=0){
@@ -1274,14 +822,10 @@ function addFeed(){
     database[targetDate].feeds.push({time:t,ml:Number(m)});
     database[targetDate].feeds.sort((a,b)=>mins(a.time)-mins(b.time));
   }
-
   saveDb(database);
   loadDateFor(targetDate);
-
   document.getElementById("feedTime").value="";
   document.getElementById("feedMl").value="";
-
-  alert("Feed saved for " + fmtDate(targetDate));
 }
 
 function editNap(i){
@@ -1290,13 +834,17 @@ function editNap(i){
   const n = (currentDayData.naps || [])[i];
   if(!n) return;
 
-  document.getElementById("napStartDate").value=n.startDate || day.date;
-  document.getElementById("napStart").value=n.start;
-  document.getElementById("napEndDate").value=n.endDate || day.date;
-  document.getElementById("napEnd").value=n.end;
-  editingNapIndex=i;
-  document.getElementById("napSubmitBtn").textContent="Update Entry";
-  document.getElementById("napStart").scrollIntoView({behavior:"smooth",block:"center"});
+  if(isNightSleepEntry(n)){
+    setSleepLogMode('night');
+    document.getElementById("nightStartOnly").value = n.start;
+    document.getElementById("nightEndOnly").value = n.end;
+  } else {
+    setSleepLogMode('nap');
+    document.getElementById("napStartOnly").value = n.start;
+    document.getElementById("napEndOnly").value = n.end;
+  }
+  editingNapIndex = i;
+  document.getElementById("napSubmitBtn").textContent = "Update Nap";
 }
 
 function editFeed(i){
@@ -1306,7 +854,6 @@ function editFeed(i){
   document.getElementById("feedMl").value=f.ml;
   editingFeedIndex=i;
   document.getElementById("feedSubmitBtn").textContent="Update";
-  document.getElementById("feedTime").scrollIntoView({behavior:"smooth",block:"center"});
 }
 
 function removeNap(i){
@@ -1315,10 +862,6 @@ function removeNap(i){
     database[day.date].naps.splice(i,1);
     saveDb(database);
     day = database[day.date];
-  }
-  if(editingNapIndex===i){
-    editingNapIndex=-1;
-    document.getElementById("napSubmitBtn").textContent="Add Sleep Entry";
   }
   render();
 }
@@ -1329,10 +872,6 @@ function removeFeed(i){
     database[day.date].feeds.splice(i,1);
     saveDb(database);
     day = database[day.date];
-  }
-  if(editingFeedIndex===i){
-    editingFeedIndex=-1;
-    document.getElementById("feedSubmitBtn").textContent="OK";
   }
   render();
 }
@@ -1347,34 +886,29 @@ function updateSleepTotals(){
 
   naps.forEach(n => {
     const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-    if(isNightSleepEntry(n)){
-      nightMins += dur;
-    } else {
-      napMins += dur;
-    }
+    if(isNightSleepEntry(n)) nightMins += dur;
+    else napMins += dur;
   });
 
   const total24Hr = nightMins + napMins;
-
   document.getElementById("nightTotal").textContent = durationText(nightMins);
   document.getElementById("napTotal").textContent = durationText(napMins);
   document.getElementById("overallTotal").textContent = durationText(total24Hr);
 
-  // Render sleep target remaining notes
   const p = getAgeProfile();
   const sleepBox = document.getElementById("sleepRemainingBox");
   if(sleepBox){
     if(!p){
-      sleepBox.innerHTML = `💡 Total sleep: <b>${durationText(total24Hr)}</b>. Set DOB in Profile for remaining daytime nap targets.`;
+      sleepBox.innerHTML = `💡 Total sleep: <b>${durationText(total24Hr)}</b>. Set DOB in Profile for age targets.`;
     } else {
       const idealNapMins = p.idealNapTotalMins || 210;
       const remainingNapMins = Math.max(0, idealNapMins - napMins);
       const napStatusText = remainingNapMins === 0 
-        ? `✅ Daytime nap target achieved!` 
+        ? `✅ Daytime nap target reached (${durationText(napMins)})!` 
         : `💤 Remaining daytime nap target: <b>${durationText(remainingNapMins)}</b> (Target: ${durationText(idealNapMins)})`;
 
       sleepBox.innerHTML = `
-        <div>🌙 Night Sleep: <b>${durationText(nightMins)}</b> (Recommended: 10–12 hrs)</div>
+        <div>🌙 Night Sleep: <b>${durationText(nightMins)}</b> (Target: 10–12 hrs)</div>
         <div style="margin-top:3px">${napStatusText}</div>
         <div style="font-size:11px;color:var(--muted);margin-top:4px">Total 24-hr Sleep: <b>${durationText(total24Hr)}</b> / ${durationText(p.sleepMin)}–${durationText(p.sleepMax)} target.</div>
       `;
@@ -1390,7 +924,6 @@ function totals(){
   document.getElementById("milkTotal").textContent=ml+" ml";
   document.getElementById("feedCount").textContent=feeds.length;
   
-  // Render Milk remaining note
   const p = getAgeProfile();
   const milkBox = document.getElementById("milkRemainingBox");
   if(milkBox){
@@ -1398,14 +931,11 @@ function totals(){
       milkBox.innerHTML = `🍼 Logged: <b>${ml} ml</b>. Set DOB in Profile for daily milk targets.`;
     } else {
       const remainingMl = Math.max(0, p.milkMin - ml);
-      const milkStatusText = ml >= p.milkMin 
+      milkBox.innerHTML = ml >= p.milkMin 
         ? `✅ Daily milk target achieved (${ml} ml logged)!` 
-        : `🍼 Target remaining for today: <b>${remainingMl} ml</b> (Recommended: ${p.milkMin}–${p.milkMax} ml/day)`;
-
-      milkBox.innerHTML = `${milkStatusText}`;
+        : `🍼 Target remaining for today: <b>${remainingMl} ml</b> (Target: ${p.milkMin}–${p.milkMax} ml/day)`;
     }
   }
-
   updateSleepTotals();
 }
 
@@ -1417,187 +947,75 @@ function wakeWindowStatus(minutes){
   return {cls:"red",label:"Outside age-based range"};
 }
 
-function napDurationStatus(minutes){
-  const p=getAgeProfile() || {napMin:30,napMax:120};
-  if(minutes>=p.napMin && minutes<=p.napMax)return {cls:"green",label:"Good for this age"};
-  const margin=15;
-  if(minutes>=Math.max(0,p.napMin-margin) && minutes<=p.napMax+margin)return {cls:"yellow",label:"Can improve"};
-  return {cls:"red",label:"Outside age-based range"};
-}
-
-function sleepEntryStatus(minutes, startStr){
-  const startHour = startStr ? parseInt(startStr.split(":")[0], 10) : 0;
-  const isNightSleep = startHour >= 19 || startHour < 6 || minutes >= 240;
-
-  if (isNightSleep) {
-    if (minutes >= 420 && minutes <= 780) {
-      return { cls: "green", label: "Good night sleep" };
-    } else if (minutes >= 360 && minutes <= 840) {
-      return { cls: "yellow", label: "Can improve" };
-    }
-    return { cls: "red", label: "Outside normal night range" };
-  } else {
-    return napDurationStatus(minutes);
-  }
-}
-
-function milkStatus(ml){
-  const p=getAgeProfile() || {milkMin:600,milkMax:900};
-  if(ml>=p.milkMin && ml<=p.milkMax) return {cls:"green",label:"Good daily intake"};
-  const margin=100;
-  if(ml>=p.milkMin-margin && ml<=p.milkMax+margin) return {cls:"yellow",label:"Can improve"};
-  return {cls:"red",label:"Outside age-based range"};
-}
-
-function sleepStatus(minsVal){
-  const p=getAgeProfile() || {sleepMin:720,sleepMax:960};
-  if(minsVal>=p.sleepMin && minsVal<=p.sleepMax) return {cls:"green",label:"Good overall sleep"};
-  const margin=60;
-  if(minsVal>=p.sleepMin-margin && minsVal<=p.sleepMax+margin) return {cls:"yellow",label:"Can improve"};
-  return {cls:"red",label:"Outside age-based range"};
-}
-
-function refreshStatistics(){
-  updateBabyAge();
-  updateSleepTotals();
-  renderStatistics();
-}
-
-function getAggregatedData(daysCount){
-  const database = db();
-  const sortedDates = Object.keys(database).sort((a,b)=>b.localeCompare(a)).slice(0, daysCount);
-  
-  let totalMilk = 0;
-  let totalSleepMins = 0;
-  let daysWithFeeds = 0;
-  let daysWithSleep = 0;
-
-  sortedDates.forEach(d => {
-    const item = database[d];
-    if(!item) return;
-    const milk = item.feeds ? item.feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0) : 0;
-    if(milk > 0){ totalMilk += milk; daysWithFeeds++; }
-
-    const daySleep = item.naps ? item.naps.filter(n => (n.startDate||d) === d).reduce((s,n)=>s+calcDateTimeDuration(n.startDate||d, n.start, n.endDate||d, n.end),0) : 0;
-
-    if(daySleep > 0){ totalSleepMins += daySleep; daysWithSleep++; }
-  });
-
-  return {
-    daysAnalyzed: sortedDates.length,
-    avgMilk: daysWithFeeds ? Math.round(totalMilk / daysWithFeeds) : 0,
-    avgSleep: daysWithSleep ? Math.round(totalSleepMins / daysWithSleep) : 0,
-    totalMilk,
-    totalSleepMins
-  };
-}
-
 function renderStatistics(){
   const box=document.getElementById("statistics");
   if(!box)return;
-
   const sel=document.getElementById("statSelect") ? document.getElementById("statSelect").value : "all";
   const p=getAgeProfile();
 
   let intro="Set baby's DOB in Profile for age-based statistics.";
   if(p){
     const a=getBabyAgeParts();
-    const ageText=a ? (a.months+" months "+a.days+" days") : p.label;
-    intro="Based on age: <b>"+ageText+"</b>";
+    intro="Based on age: <b>" + (a ? `${a.months} months ${a.days} days` : p.label) + "</b>";
   }
 
   let out='<div class="age-badge">'+intro+'</div>';
+  const database = db();
+  const currentDayData = database[day.date] || day;
+  const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
 
-  if(currentStatTime === "daily"){
-    if(sel==="all" || sel==="milk"){
-      out+='<div class="stat-group-title">🍼 Milk Intake</div>';
-      const database = db();
-      const currentDayData = database[day.date] || day;
-      const feeds = currentDayData.feeds || [];
-      const totalMl=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
-      if(!feeds.length){
-        out+='<div class="empty">No feeds recorded today.</div>';
-      }else if(p){
-        const st=milkStatus(totalMl);
-        out+='<div class="stat-card '+st.cls+'"><div class="stat-title">Total Milk — '+totalMl+' ml</div><div class="stat-detail">'+st.label+' · Recommended range: <b>'+p.milkMin+'–'+p.milkMax+' ml/day</b></div></div>';
-      }else{
-        out+='<div class="stat-card green"><div class="stat-title">Total Milk — '+totalMl+' ml</div><div class="stat-detail">Set DOB in Profile to compare with age recommendations.</div></div>';
-      }
+  // WAKE WINDOW CALCULATIONS (Morning Wake + Between Naps)
+  if(sel==="all" || sel==="wake"){
+    out+='<div class="stat-group-title">⏰ Wake Windows</div>';
+    const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
+    let wakeWindows = [];
+
+    // Window 1: Morning wake to Nap 1
+    if(currentDayData.wakeTime && dayNapList.length > 0){
+      const w1 = mins(dayNapList[0].start) - mins(currentDayData.wakeTime);
+      if(w1 > 0) wakeWindows.push({ label: `Window 1 (Wake ${currentDayData.wakeTime} ➔ Nap 1 ${dayNapList[0].start})`, mins: w1 });
     }
 
-    if(sel==="all" || sel==="overallSleep"){
-      out+='<div class="stat-group-title">🌙 Overall Sleep</div>';
-      const database = db();
-      const currentDayData = database[day.date] || day;
-      const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
-      const totalSleep = dayNaps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end),0);
-
-      if(!dayNaps.length){
-        out+='<div class="empty">Add sleep entries to see sleep statistics.</div>';
-      }else if(p){
-        const st=sleepStatus(totalSleep);
-        out+='<div class="stat-card '+st.cls+'"><div class="stat-title">Total 24-hr Sleep — '+durationText(totalSleep)+'</div><div class="stat-detail">'+st.label+' · Recommended target: <b>'+durationText(p.sleepMin)+'–'+durationText(p.sleepMax)+'</b></div></div>';
-      }else{
-        out+='<div class="stat-card green"><div class="stat-title">Total 24-hr Sleep — '+durationText(totalSleep)+'</div><div class="stat-detail">Set DOB in Profile to compare with age recommendations.</div></div>';
-      }
+    // Windows between naps
+    for(let i=0; i<dayNapList.length - 1; i++){
+      const gap = mins(dayNapList[i+1].start) - mins(dayNapList[i].end);
+      if(gap > 0) wakeWindows.push({ label: `Window ${wakeWindows.length + 1} (Nap ${i+1} Wake ➔ Nap ${i+2})`, mins: gap });
     }
 
-    if(sel==="all" || sel==="nap"){
-      out+='<div class="stat-group-title">💤 Sleep Durations</div>';
-      const database = db();
-      const currentDayData = database[day.date] || day;
-      const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
-
-      if(!dayNaps.length){
-        out+='<div class="empty">Add sleep entries to see duration statistics.</div>';
-      }else{
-        dayNaps.forEach((n,i)=>{
-          const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
-          const s=sleepEntryStatus(m, n.start);
-          const isNight = isNightSleepEntry(n);
-          
-          let detail=s.label;
-          if(p) {
-            detail += isNight 
-              ? " · Ideal night sleep: <b>8–12 hrs</b>" 
-              : " · Ideal nap duration: <b>"+p.napMin+"–"+p.napMax+" min</b>";
-          }
-          
-          out+='<div class="stat-card '+s.cls+'"><div class="stat-title">' + (isNight ? '🌙 Night Sleep ' : '💤 Nap ') + (i+1) +
-               ' — '+(n.start||'--:--')+' – '+(n.end||'--:--')+' ('+durationText(m)+')</div><div class="stat-detail">'+detail+'</div></div>';
-        });
-      }
+    if(!wakeWindows.length){
+      out += '<div class="empty">Log your Morning Wake Time &amp; Daytime Naps to calculate wake windows.</div>';
+    } else {
+      wakeWindows.forEach((w) => {
+        const st = wakeWindowStatus(w.mins);
+        const rec = p ? ` · Recommended: <b>${p.wakeMin}–${p.wakeMax} min</b>` : '';
+        out += `<div class="stat-card ${st.cls}"><div class="stat-title">${w.label} — ${durationText(w.mins)}</div><div class="stat-detail">${st.label}${rec}</div></div>`;
+      });
     }
-  } else {
-    const periodDays = currentStatTime === "weekly" ? 7 : 30;
-    const agg = getAggregatedData(periodDays);
+  }
 
-    if(!agg.daysAnalyzed){
-      out += `<div class="empty">No saved days found in history for ${currentStatTime} statistics. Save a few days first!</div>`;
+  if(sel==="all" || sel==="nap"){
+    out+='<div class="stat-group-title">💤 Sleep &amp; Naps</div>';
+    if(!naps.length){
+      out+='<div class="empty">No sleep recorded today.</div>';
     }else{
-      out += `<div class="hint" style="margin-bottom:10px">Aggregated across last <b>${agg.daysAnalyzed}</b> saved day(s):</div>`;
+      naps.forEach((n,i)=>{
+        const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
+        const isNight = isNightSleepEntry(n);
+        const title = isNight ? `🌙 Night Sleep — ${durationText(m)}` : `💤 Nap ${i+1} — ${n.start}–${n.end} (${durationText(m)})`;
+        const ideal = isNight ? '10–12 hrs' : `${p ? p.napMin : 30}–${p.napMax || 120} min`;
+        out+=`<div class="stat-card green"><div class="stat-title">${title}</div><div class="stat-detail">Ideal target: <b>${ideal}</b></div></div>`;
+      });
+    }
+  }
 
-      if(sel==="all" || sel==="milk"){
-        out += `<div class="stat-group-title">🍼 Milk Intake (${currentStatTime})</div>`;
-        const st = p ? milkStatus(agg.avgMilk) : {cls:"green", label:"Average intake"};
-        const pct = p ? Math.min(100, Math.round((agg.avgMilk / p.milkMax) * 100)) : 50;
-        out += `<div class="stat-card ${st.cls}">
-                  <div class="stat-title">Daily Average — ${agg.avgMilk} ml/day</div>
-                  <div class="stat-detail">Total logged: <b>${agg.totalMilk} ml</b> · ${st.label} ${p ? `(Ideal: ${p.milkMin}–${p.milkMax} ml)` : ''}</div>
-                  <div class="trend-bar-wrap"><div class="trend-bar-fill milk" style="width:${pct}%"></div></div>
-                </div>`;
-      }
-
-      if(sel==="all" || sel==="overallSleep"){
-        out += `<div class="stat-group-title">🌙 Overall Sleep (${currentStatTime})</div>`;
-        const st = p ? sleepStatus(agg.avgSleep) : {cls:"green", label:"Average sleep"};
-        const pct = p ? Math.min(100, Math.round((agg.avgSleep / p.sleepMax) * 100)) : 50;
-        out += `<div class="stat-card ${st.cls}">
-                  <div class="stat-title">Daily Average — ${durationText(agg.avgSleep)}/day</div>
-                  <div class="stat-detail">${st.label} ${p ? `(Ideal target: ${durationText(p.sleepMin)}–${durationText(p.sleepMax)})` : ''}</div>
-                  <div class="trend-bar-wrap"><div class="trend-bar-fill sleep" style="width:${pct}%"></div></div>
-                </div>`;
-      }
+  if(sel==="all" || sel==="milk"){
+    out+='<div class="stat-group-title">🍼 Milk Intake</div>';
+    const feeds = currentDayData.feeds || [];
+    const totalMl=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
+    if(!feeds.length){
+      out+='<div class="empty">No feeds recorded today.</div>';
+    } else {
+      out+=`<div class="stat-card green"><div class="stat-title">Total Milk — ${totalMl} ml</div><div class="stat-detail">Recommended range: <b>${p ? `${p.milkMin}–${p.milkMax} ml/day` : '600–900 ml'}</b></div></div>`;
     }
   }
 
@@ -1607,46 +1025,26 @@ function renderStatistics(){
 function getBabyAgeParts(){
   const dobVal = localStorage.getItem(DOB_KEY);
   if(!dobVal) return null;
-
   const bits=dobVal.split("-");
   if(bits.length!==3) return null;
-
-  const birthYear=parseInt(bits[0],10);
-  const birthMonth=parseInt(bits[1],10)-1;
-  const birthDay=parseInt(bits[2],10);
-
-  const dob=new Date(birthYear,birthMonth,birthDay);
-
+  const dob=new Date(parseInt(bits[0],10), parseInt(bits[1],10)-1, parseInt(bits[2],10));
   const currentDateInput = document.getElementById("date") ? document.getElementById("date").value : today();
   const dateBits = (currentDateInput || today()).split("-");
   if(dateBits.length !== 3) return null;
-
   const refDate = new Date(parseInt(dateBits[0],10), parseInt(dateBits[1],10)-1, parseInt(dateBits[2],10));
-
   if(isNaN(dob.getTime()) || isNaN(refDate.getTime()) || dob > refDate) return null;
-
-  let months=(refDate.getFullYear()-birthYear)*12 + (refDate.getMonth()-birthMonth);
-
-  if(refDate.getDate() < birthDay) months--;
-
-  const anchor=new Date(birthYear, birthMonth+months, birthDay);
+  let months=(refDate.getFullYear()-dob.getFullYear())*12 + (refDate.getMonth()-dob.getMonth());
+  if(refDate.getDate() < dob.getDate()) months--;
+  const anchor=new Date(dob.getFullYear(), dob.getMonth()+months, dob.getDate());
   const days=Math.floor((refDate - anchor)/86400000);
-
-  return {
-    months:Math.max(0,months),
-    days:Math.max(0,days)
-  };
+  return { months:Math.max(0,months), days:Math.max(0,days) };
 }
 
-function getBabyAgeInMonths(){
-  const a=getBabyAgeParts();
-  return a ? a.months : null;
-}
+function getBabyAgeInMonths(){ const a=getBabyAgeParts(); return a ? a.months : null; }
 
 function getAgeProfile(){
   const m=getBabyAgeInMonths();
   if(m===null)return null;
-
   if(m<2) return {label:"0–1 months", wakeMin:45,wakeMax:75, feedMin:90,feedMax:150,napMin:30,napMax:180, milkMin:450,milkMax:750, sleepMin:840,sleepMax:1020, idealNapTotalMins:300};
   if(m<3) return {label:"2 months", wakeMin:60,wakeMax:90, feedMin:120,feedMax:180,napMin:30,napMax:150, milkMin:600,milkMax:900, sleepMin:840,sleepMax:960, idealNapTotalMins:270};
   if(m<4) return {label:"3 months", wakeMin:75,wakeMax:105, feedMin:120,feedMax:180,napMin:30,napMax:120, milkMin:700,milkMax:950, sleepMin:840,sleepMax:960, idealNapTotalMins:240};
@@ -1662,25 +1060,16 @@ function updateBabyAge(){
   const ageBox=document.getElementById("babyAge");
   const guide=document.getElementById("ageGuidance");
   const age=getBabyAgeParts();
-
   if(!age){
     if(ageBox) ageBox.value="";
-    if(guide) guide.textContent="Set baby's DOB in Profile to make suggestions age-based.";
     return;
   }
-
   const monthText=age.months+" month"+(age.months===1?"":"s");
   const dayText=age.days+" day"+(age.days===1?"":"s");
-
   if(ageBox) ageBox.value=monthText+" "+dayText;
-
   const profile=getAgeProfile();
   if(guide && profile){
-    guide.textContent=
-      "Age profile: "+monthText+" "+dayText+
-      " • Wake window "+profile.wakeMin+"–"+profile.wakeMax+
-      " min • Milk target "+profile.milkMin+"–"+profile.milkMax+" ml"+
-      " • Nap target ~"+durationText(profile.idealNapTotalMins);
+    guide.textContent=`Age: ${monthText} ${dayText} • Wake window: ${profile.wakeMin}–${profile.wakeMax} min • Milk target: ${profile.milkMin}–${profile.milkMax} ml • Ideal daytime naps: ~${durationText(profile.idealNapTotalMins)}`;
   }
 }
 
@@ -1689,21 +1078,18 @@ function showNextNap(){
   const currentDayData = database[day.date] || day;
   const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n));
   const p = getAgeProfile();
+  if(!p){ alert("Set baby's DOB in Profile first so suggestions can be age-based."); return; }
 
-  if(!p){ alert("Set baby's DOB in Profile first so the next nap can be age-based."); return; }
-
-  // Case 1: No daytime naps logged yet, calculate Nap 1 from morning wake time
   if(!dayNaps.length){
     const morningWake = currentDayData.wakeTime;
     if(!morningWake){
-      alert("Set 'Morning Wake Up Time' above or add a sleep entry first to calculate Nap 1.");
+      alert("Set 'Morning Wake-up Time' above to calculate Nap 1.");
       return;
     }
     const earliest = mins(morningWake) + p.wakeMin;
     const latest = mins(morningWake) + p.wakeMax;
-
     document.getElementById("nextNapSuggestion").innerHTML=
-      `<div class="range-box"><strong>Nap 1 (Calculated from Morning Wake: ${morningWake})</strong>
+      `<div class="range-box"><strong>Nap 1 (From Morning Wake: ${morningWake})</strong>
         <small>Earliest start: <b>${time(earliest)}</b></small>
         <small>Latest start: <b>${time(latest)}</b></small>
         <small>Wake window 1: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
@@ -1713,18 +1099,15 @@ function showNextNap(){
     return;
   }
 
-  // Case 2: Calculate subsequent nap from last daytime nap end time
   const last = dayNaps[dayNaps.length-1];
   const earliest = mins(last.end) + p.wakeMin;
   const latest = mins(last.end) + p.wakeMax;
-
   document.getElementById("nextNapSuggestion").innerHTML=
     `<div class="range-box"><strong>Nap ${dayNaps.length+1}</strong>
       <small>Calculated from Nap ${dayNaps.length} wake: <b>${last.end}</b></small>
       <small>Earliest start: <b>${time(earliest)}</b></small>
       <small>Latest start: <b>${time(latest)}</b></small>
       <small>Age-based wake window: <b>${p.wakeMin}–${p.wakeMax} min</b></small>
-      <small>Ideal nap duration: <b>${p.napMin}–${p.napMax} min</b></small>
     </div>`;
   document.getElementById("nextNapModal").classList.add("show");
 }
@@ -1742,7 +1125,7 @@ function showNextFeed(){
     `<div class="range-box"><strong>Feed ${day.feeds.length+1}</strong>
       <small>Earliest time: <b>${time(earliest)}</b></small>
       <small>Latest time: <b>${time(latest)}</b></small>
-      <small>Recommended interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hrs</b></small>
+      <small>Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hrs</b></small>
     </div>`;
   document.getElementById("nextFeedModal").classList.add("show");
 }
@@ -1751,15 +1134,11 @@ function closeNextFeed(){ document.getElementById("nextFeedModal").classList.rem
 
 function saveDay(){
   day.date=document.getElementById("date").value||today();
-
   const d=db();
-  if(!d[day.date]) {
-    d[day.date] = { date: day.date, wakeTime: day.wakeTime||"", naps: [], feeds: [] };
-  }
+  if(!d[day.date]) d[day.date] = { date: day.date, wakeTime: day.wakeTime||"", naps: [], feeds: [] };
   d[day.date].wakeTime = day.wakeTime || "";
   d[day.date].feeds = day.feeds || [];
   saveDb(d);
-
   renderHistory();
   alert("Data saved successfully!");
 }
@@ -1767,30 +1146,14 @@ function saveDay(){
 function loadDateFor(targetDate){
   document.getElementById("date").value = targetDate;
   const d=db();
-
-  day=d[targetDate]
-    ? JSON.parse(JSON.stringify(d[targetDate]))
-    : {date:targetDate,wakeTime:"",naps:[],feeds:[]};
-
+  day=d[targetDate] ? JSON.parse(JSON.stringify(d[targetDate])) : {date:targetDate,wakeTime:"",naps:[],feeds:[]};
   if(!day.naps) day.naps = [];
   if(!day.feeds) day.feeds = [];
-
   document.getElementById("morningWakeTime").value = day.wakeTime || "";
-  document.getElementById("napStartDate").value = targetDate;
-  document.getElementById("napEndDate").value = targetDate;
-
-  editingNapIndex=-1;
-  editingFeedIndex=-1;
-  if(document.getElementById("napSubmitBtn")) document.getElementById("napSubmitBtn").textContent="Add Sleep Entry";
-  if(document.getElementById("feedSubmitBtn")) document.getElementById("feedSubmitBtn").textContent="OK";
-
   render();
 }
 
-function loadDate(){
-  const date=document.getElementById("date").value||today();
-  loadDateFor(date);
-}
+function loadDate(){ loadDateFor(document.getElementById("date").value || today()); }
 
 function openHistoryModal(){ renderHistory(); document.getElementById("historyModal").classList.add("show"); }
 function closeHistoryModal(){ document.getElementById("historyModal").classList.remove("show"); }
@@ -1798,36 +1161,22 @@ function closeHistoryModal(){ document.getElementById("historyModal").classList.
 function renderHistory(){
   const box=document.getElementById("history");
   if(!box) return;
-  
   const d=db();
   const dates=Object.keys(d).sort((a,b)=>b.localeCompare(a));
-
-  if(!dates.length){
-    box.innerHTML='<div class="empty">No saved days yet.</div>';
-    return;
-  }
+  if(!dates.length){ box.innerHTML='<div class="empty">No saved days yet.</div>'; return; }
 
   box.innerHTML=dates.map(x=>{
     const z=d[x] || {};
     const feeds = Array.isArray(z.feeds) ? z.feeds : [];
     const naps = (Array.isArray(z.naps) ? z.naps : []).filter(n => (n.startDate||x) === x);
-
     const ml = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
-    const overall = naps.reduce((s,n)=>{
-      if(!n) return s;
-      return s + calcDateTimeDuration(n.startDate||x, n.start, n.endDate||x, n.end);
-    },0);
+    const overall = naps.reduce((s,n)=> s + calcDateTimeDuration(n.startDate||x, n.start, n.endDate||x, n.end),0);
 
     return `<div class="history-item">
-      <div class="history-header">
-        <div class="history-date">${fmtDate(x)}</div>
-      </div>
-      <div class="history-meta">
-        Overall Sleep: <b>${durationText(overall)}</b> · Milk: <b>${ml} ml</b>
-      </div>
+      <div class="history-header"><div class="history-date">${fmtDate(x)}</div></div>
+      <div class="history-meta">Overall Sleep: <b>${durationText(overall)}</b> · Milk: <b>${ml} ml</b></div>
       <div class="history-actions">
         <button class="primary small-btn" onclick="openDay('${x}')">📂 Load Day</button>
-        <button class="secondary small-btn" onclick="viewDayStats('${x}')">📊 View Stats</button>
       </div>
     </div>`;
   }).join("");
@@ -1839,26 +1188,12 @@ function openDay(x){
   window.scrollTo({top:0,behavior:"smooth"});
 }
 
-function viewDayStats(x){
-  openDay(x);
-  openStatsModal();
-}
-
-document.getElementById("date").addEventListener("change", (e) => {
-  loadDateFor(e.target.value);
-  updateBabyAge();
-  renderStatistics();
-});
-
+document.getElementById("date").addEventListener("change", (e) => { loadDateFor(e.target.value); });
 document.getElementById("date").value=today();
-document.getElementById("weightDate").value=today();
 
 loadProfileDetails();
-loadWeights();
-loadNotes();
 loadDate();
 updateBabyAge();
-
 switchSection('sec-home', document.querySelector('.bottom-tab'));
 </script>
 </body>
