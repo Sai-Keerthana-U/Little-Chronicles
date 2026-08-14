@@ -100,9 +100,9 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .type-pill.active{background:var(--accent);color:#fff}
 .type-pill.sleep-pill.active{background:var(--sleep-accent);color:#fff}
 
-/* Collapsible Dropdown Card Styling */
+/* Collapsible Dropdown Card */
 details.section-dropdown{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:10px}
-details.section-dropdown summary{font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;list-style:none;color:var(--text)}
+details.section-dropdown summary{font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-space:space-between;list-style:none;color:var(--text)}
 details.section-dropdown summary::-webkit-details-marker{display:none}
 details.section-dropdown summary::after{content:'▼';font-size:10px;color:var(--muted);transition:transform 0.2s}
 details.section-dropdown[open] summary::after{transform:rotate(180deg)}
@@ -162,6 +162,12 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
 .age-badge{background:var(--bg);border:1px solid var(--border);border-radius:10px;padding:8px 10px;margin-bottom:8px;font-size:11px;color:var(--muted)}
 .profile-card-action{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;cursor:pointer;display:flex;align-items:center;justify-space:between}
 .auth-box{background:var(--bg);border:1px solid var(--border);border-radius:12px;padding:12px;margin-top:10px;text-align:left}
+
+.timer-card{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:12px;margin-bottom:10px;text-align:center}
+.timer-card h4{margin:0 0 2px;font-size:14px;color:var(--accent)}
+.timer-display{font-size:24px;font-weight:800;font-mono:monospace;margin:4px 0;color:var(--text)}
+.timer-controls{display:flex;gap:4px;align-items:center;justify-content:center;margin-top:6px;flex-wrap:wrap}
+.timer-controls input[type="time"]{width:auto;padding:5px 6px;font-size:12px}
 </style>
 </head>
 <body>
@@ -191,7 +197,7 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
   <div id="ageGuidance" class="hint" style="margin-top:10px">Set baby's DOB in Profile to make suggestions age-based.</div>
 </div>
 
-<!-- SLEEP SECTION: Clean, Dropdown-Organized -->
+<!-- SLEEP SECTION -->
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep Tracker</h2>
   
@@ -314,7 +320,7 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
 
 </div>
 
-<!-- Navigation -->
+<!-- Bottom App Navigation Bar -->
 <nav class="bottom-nav">
   <button class="bottom-tab active" onclick="switchSection('sec-home', this)"><span>🏠</span>Home</button>
   <button class="bottom-tab" onclick="switchSection('sec-sleep', this)"><span>🌙</span>Sleep</button>
@@ -405,6 +411,38 @@ body.dark-mode .stat-card.red{background:#7f1d1d;border-color:#b91c1c}
   </div>
 </div>
 
+<!-- Timers Modal -->
+<div class="modal" id="timersModal" onclick="if(event.target===this)closeTimersModal()">
+  <div class="modal-box">
+    <button class="close" onclick="closeTimersModal()">✕</button>
+    <h3>⏱️ Live Nap &amp; Feed Timers</h3>
+    
+    <div class="timer-card">
+      <h4 style="color:var(--sleep-accent)">🌙 Nap Timer</h4>
+      <div class="timer-display" id="napTimerDisplay">00:00:00</div>
+      <div class="timer-controls">
+        <span style="font-size:11px;color:var(--muted)">Start:</span>
+        <input type="time" id="napTimerStartInput"/>
+        <button class="primary small-btn" id="startNapTimerBtn" onclick="toggleNapTimer()">▶️ Start Nap</button>
+        <button class="secondary small-btn" onclick="resetNapTimer()">🔄 Reset</button>
+      </div>
+    </div>
+
+    <div class="timer-card">
+      <h4 style="color:var(--milk-accent)">🍼 Milk Feed Timer</h4>
+      <div class="timer-display" id="feedTimerDisplay">00:00:00</div>
+      <div class="timer-controls">
+        <span style="font-size:11px;color:var(--muted)">Start:</span>
+        <input type="time" id="feedTimerStartInput"/>
+        <button class="primary small-btn" id="startFeedTimerBtn" onclick="toggleFeedTimer()">▶️ Start Feed</button>
+        <button class="secondary small-btn" onclick="resetFeedTimer()">🔄 Reset</button>
+      </div>
+    </div>
+
+    <button class="ghost" style="width:100%;margin-top:6px" onclick="closeTimersModal()">Close</button>
+  </div>
+</div>
+
 <div class="modal" id="historyModal" onclick="if(event.target===this)closeHistoryModal()">
   <div class="modal-box">
     <button class="close" onclick="closeHistoryModal()">✕</button>
@@ -461,6 +499,11 @@ let currentStatTime="daily";
 let day={date:"",wakeTime:"",naps:[],feeds:[]};
 let weights=[];
 let notes=[];
+
+let napTimerInterval = null;
+let napStartTime = null;
+let feedTimerInterval = null;
+let feedStartTime = null;
 
 auth.onAuthStateChanged((user) => {
   currentUser = user;
@@ -521,6 +564,9 @@ function setSleepMode(mode){
 function openProfileModal(){ document.getElementById("profileModal").classList.add("show"); }
 function closeProfileModal(){ document.getElementById("profileModal").classList.remove("show"); }
 
+function openTimersModal(){ document.getElementById("timersModal").classList.add("show"); }
+function closeTimersModal(){ document.getElementById("timersModal").classList.remove("show"); }
+
 function loadProfileDetails(){
   const name = localStorage.getItem(NAME_KEY) || "";
   const dob = localStorage.getItem(DOB_KEY) || "2026-04-06";
@@ -563,10 +609,23 @@ function switchStatTime(period, btnEl){
 }
 
 function openStatsModal(){ 
-  renderStatistics(); 
+  try {
+    renderStatistics(); 
+  } catch(err) {
+    console.error("Stats render error:", err);
+  }
   document.getElementById("statsModal").classList.add("show"); 
 }
-function closeStatsModal(){ document.getElementById("statsModal").classList.remove("show"); }
+
+function closeStatsModal(){ 
+  document.getElementById("statsModal").classList.remove("show"); 
+}
+
+function refreshStatistics(){
+  updateBabyAge();
+  updateSleepTotals();
+  renderStatistics();
+}
 
 function switchSection(secId, btnEl){
   document.querySelectorAll('.bottom-tab').forEach(t => t.classList.remove('active'));
@@ -630,6 +689,84 @@ function isNightSleepEntry(n){
   const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
   const startHour = parseInt((n.start||"0").split(":")[0], 10);
   return startHour >= 19 || startHour < 6 || dur >= 240;
+}
+
+function formatTimer(ms){
+  const totalSecs = Math.floor(ms / 1000);
+  const hrs = String(Math.floor(totalSecs / 3600)).padStart(2, '0');
+  const mins = String(Math.floor((totalSecs % 3600) / 60)).padStart(2, '0');
+  const secs = String(totalSecs % 60).padStart(2, '0');
+  return `${hrs}:${mins}:${secs}`;
+}
+
+function toggleNapTimer(){
+  const btn = document.getElementById("startNapTimerBtn");
+  if(!napTimerInterval){
+    napStartTime = new Date();
+    document.getElementById("napTimerStartInput").value = time(napStartTime.getHours()*60 + napStartTime.getMinutes());
+    napTimerInterval = setInterval(() => {
+      const elapsed = new Date() - napStartTime;
+      document.getElementById("napTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
+    }, 1000);
+    btn.textContent = "⏹️ End Nap";
+    btn.classList.replace("primary", "danger");
+  } else {
+    clearInterval(napTimerInterval);
+    napTimerInterval = null;
+    const now = new Date();
+    document.getElementById("napStartOnly").value = document.getElementById("napTimerStartInput").value;
+    document.getElementById("napEndOnly").value = time(now.getHours()*60 + now.getMinutes());
+    addDaytimeNap();
+    resetNapTimer();
+    closeTimersModal();
+  }
+}
+
+function resetNapTimer(){
+  if(napTimerInterval) clearInterval(napTimerInterval);
+  napTimerInterval = null;
+  napStartTime = null;
+  document.getElementById("napTimerDisplay").textContent = "00:00:00";
+  document.getElementById("napTimerStartInput").value = "";
+  const btn = document.getElementById("startNapTimerBtn");
+  btn.textContent = "▶️ Start Nap";
+  btn.className = "primary small-btn";
+}
+
+function toggleFeedTimer(){
+  const btn = document.getElementById("startFeedTimerBtn");
+  if(!feedTimerInterval){
+    feedStartTime = new Date();
+    document.getElementById("feedTimerStartInput").value = time(feedStartTime.getHours()*60 + feedStartTime.getMinutes());
+    document.getElementById("feedTime").value = time(feedStartTime.getHours()*60 + feedStartTime.getMinutes());
+    feedTimerInterval = setInterval(() => {
+      const elapsed = new Date() - feedStartTime;
+      document.getElementById("feedTimerDisplay").textContent = formatTimer(elapsed < 0 ? 0 : elapsed);
+    }, 1000);
+    btn.textContent = "⏹️ Save Feed";
+    btn.classList.replace("primary", "danger");
+  } else {
+    clearInterval(feedTimerInterval);
+    feedTimerInterval = null;
+    const amount = prompt("Enter feed amount in ml:", "60");
+    if(amount !== null && amount.trim() !== ""){
+      document.getElementById("feedMl").value = amount;
+      addFeed();
+    }
+    resetFeedTimer();
+    closeTimersModal();
+  }
+}
+
+function resetFeedTimer(){
+  if(feedTimerInterval) clearInterval(feedTimerInterval);
+  feedTimerInterval = null;
+  feedStartTime = null;
+  document.getElementById("feedTimerDisplay").textContent = "00:00:00";
+  document.getElementById("feedTimerStartInput").value = "";
+  const btn = document.getElementById("startFeedTimerBtn");
+  btn.textContent = "▶️ Start Feed";
+  btn.className = "primary small-btn";
 }
 
 function db(){
@@ -726,7 +863,6 @@ function renderSleepTimeline(naps, wakeTimeStr){
 
   if(countBadge) countBadge.textContent = naps.length + (wakeTimeStr ? 1 : 0);
 
-  // 1. Morning Wake Card
   if(wakeTimeStr){
     const wakeCard = document.createElement("div");
     wakeCard.className = "timeline-card wake";
@@ -734,13 +870,11 @@ function renderSleepTimeline(naps, wakeTimeStr){
     box.appendChild(wakeCard);
   }
 
-  // 2. Daytime Naps & In-Between Wake Windows
   let lastWake = wakeTimeStr;
 
   dayNaps.forEach((n, idx) => {
     const realIndex = naps.indexOf(n);
 
-    // Calculate wake window before this nap
     if(lastWake){
       const gap = mins(n.start) - mins(lastWake);
       if(gap > 0){
@@ -751,7 +885,6 @@ function renderSleepTimeline(naps, wakeTimeStr){
       }
     }
 
-    // Nap Card
     const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
     const nCard = document.createElement("div");
     nCard.className = "timeline-card nap";
@@ -769,7 +902,6 @@ function renderSleepTimeline(naps, wakeTimeStr){
     lastWake = n.end;
   });
 
-  // 3. Night Sleep Card
   nightNaps.forEach((n) => {
     const realIndex = naps.indexOf(n);
     const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
@@ -919,6 +1051,84 @@ function removeFeed(i){
     day = database[day.date];
   }
   render();
+}
+
+function loadNotes(){
+  try{ notes = JSON.parse(localStorage.getItem(NOTES_KEY)||"[]"); }
+  catch(e){ notes = []; }
+  renderNotes();
+}
+
+function saveNotes(){
+  localStorage.setItem(NOTES_KEY, JSON.stringify(notes));
+  renderNotes();
+}
+
+function addNote(){
+  const txt = document.getElementById("noteInput").value.trim();
+  if(!txt){ alert("Please write some note text first."); return; }
+  notes.unshift({ text: txt, time: new Date().toLocaleDateString() });
+  document.getElementById("noteInput").value = "";
+  saveNotes();
+}
+
+function removeNote(i){
+  notes.splice(i, 1);
+  saveNotes();
+}
+
+function renderNotes(){
+  const box = document.getElementById("notesEntries");
+  if(!box) return;
+  box.innerHTML = "";
+  if(!notes.length){
+    box.innerHTML = '<div class="empty">No notes added yet.</div>';
+    return;
+  }
+  notes.forEach((n, i) => {
+    const el = document.createElement("div");
+    el.className = "timeline-card";
+    el.innerHTML = `<div><div class="entry-main">${n.text}</div><div class="stat-detail">${n.time}</div></div><button class="danger remove" onclick="removeNote(${i})">Remove</button>`;
+    box.appendChild(el);
+  });
+}
+
+function loadWeights(){
+  try{ weights = JSON.parse(localStorage.getItem(WEIGHT_KEY)||"[]"); }
+  catch(e){ weights = []; }
+  renderWeights();
+}
+
+function saveWeights(){
+  localStorage.setItem(WEIGHT_KEY, JSON.stringify(weights));
+  renderWeights();
+}
+
+function addWeight(){
+  const dateVal = document.getElementById("weightDate").value || today();
+  const kgVal = parseFloat(document.getElementById("weightKg").value);
+  if(isNaN(kgVal) || kgVal <= 0){ alert("Enter valid weight."); return; }
+  weights.push({ date: dateVal, kg: kgVal });
+  document.getElementById("weightKg").value = "";
+  saveWeights();
+}
+
+function removeWeight(i){
+  weights.splice(i, 1);
+  saveWeights();
+}
+
+function renderWeights(){
+  const box = document.getElementById("weightEntries");
+  if(!box) return;
+  box.innerHTML = "";
+  if(!weights.length){ box.innerHTML = '<div class="empty">No weights logged.</div>'; return; }
+  weights.forEach((w, i) => {
+    const el = document.createElement("div");
+    el.className = "timeline-card";
+    el.innerHTML = `<div><div class="entry-main">${fmtDate(w.date)} — ${w.kg} kg</div></div><button class="danger remove" onclick="removeWeight(${i})">Remove</button>`;
+    box.appendChild(el);
+  });
 }
 
 function updateSleepTotals(){
@@ -1118,7 +1328,6 @@ function updateBabyAge(){
   }
 }
 
-// Ultra-Clean, Scannable Next Nap Card
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
@@ -1240,6 +1449,8 @@ document.getElementById("date").addEventListener("change", (e) => { loadDateFor(
 document.getElementById("date").value=today();
 
 loadProfileDetails();
+loadNotes();
+loadWeights();
 loadDate();
 updateBabyAge();
 switchSection('sec-home', document.querySelector('.bottom-tab'));
