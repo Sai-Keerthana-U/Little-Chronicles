@@ -100,9 +100,9 @@ body.dark-mode .danger{background:#3e1f1f;color:#f87171}
 .type-pill.active{background:var(--accent);color:#fff}
 .type-pill.sleep-pill.active{background:var(--sleep-accent);color:#fff}
 
-/* Collapsible Dropdown Card */
+/* Collapsible Dropdowns */
 details.section-dropdown{background:var(--bg);border:1px solid var(--border);border-radius:14px;padding:10px 12px;margin-bottom:10px}
-details.section-dropdown summary{font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-space:space-between;list-style:none;color:var(--text)}
+details.section-dropdown summary{font-size:13px;font-weight:800;cursor:pointer;display:flex;align-items:center;justify-content:space-between;list-style:none;color:var(--text)}
 details.section-dropdown summary::-webkit-details-marker{display:none}
 details.section-dropdown summary::after{content:'▼';font-size:10px;color:var(--muted);transition:transform 0.2s}
 details.section-dropdown[open] summary::after{transform:rotate(180deg)}
@@ -1328,6 +1328,7 @@ function updateBabyAge(){
   }
 }
 
+// Ultra-Clean Next Nap Card
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
