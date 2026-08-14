@@ -5,7 +5,7 @@
 <meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" name="viewport"/>
 <title>Little Chronicles</title>
 
-<!-- Modern Clean Typography -->
+<!-- Modern Typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -1213,10 +1213,11 @@ function renderSleepTimeline(naps, wakeTimeStr){
     if(lastWake){
       const gap = mins(n.start) - mins(lastWake);
       if(gap > 0){
-        if(gap < 20){
+        // Gaps under 40 mins are classified as Resettling
+        if(gap < 40){
           const rCard = document.createElement("div");
           rCard.className = "timeline-row resettle";
-          rCard.innerHTML = `↳ Resettling Period: ${lastWake} → ${n.start} (${gap} min)`;
+          rCard.innerHTML = `↳ Resettling / Nap Extension: ${lastWake} → ${n.start} (${gap} min)`;
           box.appendChild(rCard);
         } else {
           const wCard = document.createElement("div");
@@ -1241,7 +1242,7 @@ function renderSleepTimeline(naps, wakeTimeStr){
       </div>`;
     box.appendChild(nCard);
 
-    if(!lastWake || (mins(n.start) - mins(lastWake) >= 20)){
+    if(!lastWake || (mins(n.start) - mins(lastWake) >= 40)){
       napDisplayIndex++;
     }
 
@@ -1563,6 +1564,7 @@ function getAggregatedData(daysCount){
   };
 }
 
+// Option 1: Scorecard with < 40-min Resettling Filter
 function renderStatistics(){
   const box=document.getElementById("statistics");
   if(!box) return;
@@ -1611,7 +1613,6 @@ function renderStatistics(){
     // 2. Night Sleep Scorecard
     let nightMins = 0;
     let napMins = 0;
-    let napCount = 0;
 
     naps.forEach(n => {
       const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
@@ -1619,7 +1620,6 @@ function renderStatistics(){
         nightMins += dur;
       } else {
         napMins += dur;
-        napCount++;
       }
     });
 
@@ -1649,9 +1649,21 @@ function renderStatistics(){
     // 3. Daytime Naps Scorecard
     const targetNapMins = p ? p.idealNapTotalMins : 210;
     const napPct = Math.min(100, Math.round((napMins / targetNapMins) * 100));
+    
+    // Count distinct nap sessions (merging segments < 40 mins apart)
+    const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
+    let distinctNapCount = 0;
+    let prevEnd = null;
+    dayNapList.forEach(n => {
+      if(!prevEnd || (mins(n.start) - mins(prevEnd) >= 40)) {
+        distinctNapCount++;
+      }
+      prevEnd = n.end;
+    });
+
     const napStatus = napMins >= targetNapMins 
-      ? { text: `Target Met (${napCount} Naps)`, color: "var(--tag-good)" } 
-      : { text: `${durationText(Math.max(0, targetNapMins - napMins))} Remaining (${napCount} Naps logged)`, color: "var(--color-nap)" };
+      ? { text: `Target Met (${distinctNapCount} Naps)`, color: "var(--tag-good)" } 
+      : { text: `${durationText(Math.max(0, targetNapMins - napMins))} Remaining (${distinctNapCount} Naps logged)`, color: "var(--color-nap)" };
 
     out += `
       <div class="scorecard">
@@ -1670,10 +1682,8 @@ function renderStatistics(){
       </div>
     `;
 
-    // 4. Wake Windows (with Smart < 20 min Resettling Filter)
-    const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
+    // 4. Wake Windows Breakdown (Smart < 40 min Resettling Filter)
     let wakeWindows = [];
-
     const effectiveWake = getEffectiveWakeTime(day.date);
     const wakeRef = day.wakeTime || effectiveWake.time;
 
@@ -1682,10 +1692,14 @@ function renderStatistics(){
       if(w1 > 0) wakeWindows.push({ label: `W1 (${wakeRef}➔${dayNapList[0].start})`, mins: w1 });
     }
 
+    let lastCompletedWake = dayNapList.length > 0 ? dayNapList[0].end : null;
+    let windowCounter = 2;
+
     for(let i=0; i<dayNapList.length - 1; i++){
       const gap = mins(dayNapList[i+1].start) - mins(dayNapList[i].end);
-      if(gap >= 20){
-        wakeWindows.push({ label: `W${wakeWindows.length + 1} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
+      if(gap >= 40){
+        wakeWindows.push({ label: `W${windowCounter} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
+        windowCounter++;
       }
     }
 
@@ -1696,7 +1710,7 @@ function renderStatistics(){
         wakePillsHtml += `<span class="wake-pill ${st.cls}">${w.label}: ${durationText(w.mins)} (${st.label})</span>`;
       });
     } else {
-      wakePillsHtml = '<span style="font-size:11.5px;color:var(--text-muted)">Log morning wake &amp; naps to see wake window tags.</span>';
+      wakePillsHtml = '<span style="font-size:11.5px;color:var(--text-muted)">Log morning wake &amp; full naps to see wake window tags.</span>';
     }
 
     out += `
@@ -1806,6 +1820,7 @@ function updateBabyAge(){
   }
 }
 
+// Next Nap Window from True Final Wake (Ignoring Gaps < 40 mins)
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
@@ -1824,8 +1839,20 @@ function showNextNap(){
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
+    // The last nap in chronological order is the true awake reference
     startRef = dayNaps[dayNaps.length-1].end;
-    napLabel = `Nap ${dayNaps.length + 1}`;
+    
+    // Calculate how many distinct nap cycles occurred
+    let distinctNapCount = 0;
+    let prevEnd = null;
+    dayNaps.forEach(n => {
+      if(!prevEnd || (mins(n.start) - mins(prevEnd) >= 40)) {
+        distinctNapCount++;
+      }
+      prevEnd = n.end;
+    });
+    
+    napLabel = `Nap ${distinctNapCount + 1}`;
   }
 
   const earliest = mins(startRef) + p.wakeMin;
