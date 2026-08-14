@@ -21,6 +21,7 @@
   --border:#ebdcd5;
   --danger:#e05252;
   
+  /* Section Color Themes */
   --home-bg:#ffffff;
   --home-accent:#d97757;
   --home-border:#ebdcd5;
@@ -248,7 +249,7 @@ body.dark-mode .stat-card .stat-detail{color:#d1d5db}
 <div id="sec-sleep" class="card tracker-section">
   <h2>🌙 Sleep</h2>
   <div class="entry-box">
-    <label>Log Nap or Sleep (Supports Past Dates)</label>
+    <label>Log Nap or Sleep (Supports Any Date)</label>
     <div class="sleep-form-grid" style="margin-top:6px">
       <div>
         <label>Start Date &amp; Time</label>
@@ -875,7 +876,32 @@ function fmtDate(s){
 }
 
 function db(){
-  try{return JSON.parse(localStorage.getItem(KEY)||"{}")}
+  try{
+    const raw = JSON.parse(localStorage.getItem(KEY)||"{}");
+    let changed = false;
+    // Auto-organize and clean misplaced sleep records across days
+    Object.keys(raw).forEach(d => {
+      if(raw[d] && raw[d].naps && Array.isArray(raw[d].naps)){
+        const validNapsForDay = [];
+        raw[d].naps.forEach(n => {
+          if(!n) return;
+          const sDate = n.startDate || d;
+          if(sDate !== d){
+            if(!raw[sDate]) raw[sDate] = { date: sDate, naps: [], feeds: [] };
+            if(!raw[sDate].naps) raw[sDate].naps = [];
+            const exists = raw[sDate].naps.some(x => x.start === n.start && x.end === n.end);
+            if(!exists) raw[sDate].naps.push(n);
+            changed = true;
+          } else {
+            validNapsForDay.push(n);
+          }
+        });
+        raw[d].naps = validNapsForDay;
+      }
+    });
+    if(changed) localStorage.setItem(KEY, JSON.stringify(raw));
+    return raw;
+  }
   catch(e){return{}}
 }
 
@@ -1071,7 +1097,9 @@ function render(){
 
   const database = db();
   const dateObj = database[day.date] || day;
-  const dayNaps = dateObj.naps || [];
+  
+  // Strictly filter only sleep entries that started on this day
+  const dayNaps = (dateObj.naps || []).filter(n => (n.startDate || day.date) === day.date);
 
   dayNaps.forEach((n,i)=>drawNap(n,i));
   (dateObj.feeds || []).forEach((f,i)=>drawFeed(f,i));
@@ -1084,11 +1112,10 @@ function drawNap(n,i){
   const el=document.createElement("div");
   el.className="entry";
   const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
-  const startStr = (n.startDate && n.startDate !== day.date) ? `${fmtDate(n.startDate).split(',')[0]} ${n.start}` : n.start;
-  const endStr = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate).split(',')[0]} ${n.end}` : n.end;
+  const endFormatted = (n.endDate && n.endDate !== day.date) ? `${fmtDate(n.endDate)} ${n.end}` : n.end;
   
   el.innerHTML=
-    `<div><div class="entry-main">Sleep ${i+1} — ${startStr} – ${endStr}</div>
+    `<div><div class="entry-main">Sleep ${i+1} — ${n.start} – ${endFormatted}</div>
      <div class="stat-detail">${durationText(dur)}</div></div>
      <div class="entry-actions">
        <button class="secondary small-btn" onclick="editNap(${i})">Edit</button>
@@ -1110,9 +1137,9 @@ function drawFeed(f,i){
 }
 
 function addNap(){
-  const sDate = document.getElementById("napStartDate").value || day.date;
+  const sDate = document.getElementById("napStartDate").value || day.date || today();
   const start = document.getElementById("napStart").value;
-  const eDate = document.getElementById("napEndDate").value || day.date;
+  const eDate = document.getElementById("napEndDate").value || sDate;
   const end = document.getElementById("napEnd").value;
 
   if(!start || !end){ alert("Please enter both start and end time."); return; }
@@ -1123,6 +1150,8 @@ function addNap(){
   const entryObj = { startDate: sDate, start: start, endDate: eDate, end: end };
 
   const database = db();
+  
+  // Save entry strictly under its bedtime start date
   if(!database[sDate]) {
     database[sDate] = { date: sDate, naps: [], feeds: [] };
   }
@@ -1138,14 +1167,10 @@ function addNap(){
   }
 
   saveDb(database);
-  
-  // Switch view to the target date if adding to a past or different day
-  document.getElementById("date").value = sDate;
-  day = database[sDate];
+  loadDateFor(sDate);
 
   document.getElementById("napStart").value="";
   document.getElementById("napEnd").value="";
-  render();
   alert("Sleep entry saved for " + fmtDate(sDate));
 }
 
@@ -1175,12 +1200,11 @@ function addFeed(){
   }
 
   saveDb(database);
-  day = database[targetDate];
+  loadDateFor(targetDate);
 
   document.getElementById("feedTime").value="";
   document.getElementById("feedMl").value="";
 
-  render();
   alert("Feed saved for " + fmtDate(targetDate));
 }
 
@@ -1240,7 +1264,7 @@ function removeFeed(i){
 function updateSleepTotals(){
   const database = db();
   const dayData = database[day.date] || day;
-  const naps = dayData.naps || [];
+  const naps = (dayData.naps || []).filter(n => (n.startDate || day.date) === day.date);
   const totalMins = naps.reduce((s,n) => s + calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end), 0);
   document.getElementById("overallTotal").textContent = durationText(totalMins);
 }
@@ -1324,7 +1348,7 @@ function getAggregatedData(daysCount){
     const milk = item.feeds ? item.feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0) : 0;
     if(milk > 0){ totalMilk += milk; daysWithFeeds++; }
 
-    const daySleep = item.naps ? item.naps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate||d, n.start, n.endDate||d, n.end),0) : 0;
+    const daySleep = item.naps ? item.naps.filter(n => (n.startDate||d) === d).reduce((s,n)=>s+calcDateTimeDuration(n.startDate||d, n.start, n.endDate||d, n.end),0) : 0;
 
     if(daySleep > 0){ totalSleepMins += daySleep; daysWithSleep++; }
   });
@@ -1375,7 +1399,7 @@ function renderStatistics(){
       out+='<div class="stat-group-title">🌙 Overall Sleep</div>';
       const database = db();
       const currentDayData = database[day.date] || day;
-      const dayNaps = currentDayData.naps || [];
+      const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
       const totalSleep = dayNaps.reduce((s,n)=>s+calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end),0);
 
       if(!dayNaps.length){
@@ -1392,7 +1416,7 @@ function renderStatistics(){
       out+='<div class="stat-group-title">💤 Sleep Durations</div>';
       const database = db();
       const currentDayData = database[day.date] || day;
-      const dayNaps = currentDayData.naps || [];
+      const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
 
       if(!dayNaps.length){
         out+='<div class="empty">Add sleep entries to see duration statistics.</div>';
@@ -1534,7 +1558,7 @@ function updateBabyAge(){
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
-  const naps = currentDayData.naps || [];
+  const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
 
   if(!naps.length){alert("Add at least one actual sleep entry first.");return;}
   const p=getAgeProfile();
@@ -1614,13 +1638,13 @@ function saveDay(){
   alert("Data saved successfully!");
 }
 
-function loadDate(){
-  const date=document.getElementById("date").value||today();
+function loadDateFor(targetDate){
+  document.getElementById("date").value = targetDate;
   const d=db();
 
-  day=d[date]
-    ? JSON.parse(JSON.stringify(d[date]))
-    : {date:date,naps:[],feeds:[]};
+  day=d[targetDate]
+    ? JSON.parse(JSON.stringify(d[targetDate]))
+    : {date:targetDate,naps:[],feeds:[]};
 
   if(!day.naps) day.naps = [];
   if(!day.feeds) day.feeds = [];
@@ -1634,6 +1658,11 @@ function loadDate(){
   if(document.getElementById("feedSubmitBtn")) document.getElementById("feedSubmitBtn").textContent="OK";
 
   render();
+}
+
+function loadDate(){
+  const date=document.getElementById("date").value||today();
+  loadDateFor(date);
 }
 
 function openHistoryModal(){ renderHistory(); document.getElementById("historyModal").classList.add("show"); }
@@ -1654,7 +1683,7 @@ function renderHistory(){
   box.innerHTML=dates.map(x=>{
     const z=d[x] || {};
     const feeds = Array.isArray(z.feeds) ? z.feeds : [];
-    const naps = Array.isArray(z.naps) ? z.naps : [];
+    const naps = (Array.isArray(z.naps) ? z.naps : []).filter(n => (n.startDate||x) === x);
 
     const ml = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
     const overall = naps.reduce((s,n)=>{
@@ -1678,23 +1707,7 @@ function renderHistory(){
 }
 
 function openDay(x){
-  const d=db();
-  if(!d[x])return;
-
-  day=JSON.parse(JSON.stringify(d[x]));
-  if(!day.naps) day.naps = [];
-  if(!day.feeds) day.feeds = [];
-
-  document.getElementById("date").value = x;
-  document.getElementById("napStartDate").value = x;
-  document.getElementById("napEndDate").value = x;
-
-  editingNapIndex=-1;
-  editingFeedIndex=-1;
-  if(document.getElementById("napSubmitBtn")) document.getElementById("napSubmitBtn").textContent="Add Sleep Entry";
-  if(document.getElementById("feedSubmitBtn")) document.getElementById("feedSubmitBtn").textContent="OK";
-
-  render();
+  loadDateFor(x);
   closeHistoryModal();
   window.scrollTo({top:0,behavior:"smooth"});
 }
