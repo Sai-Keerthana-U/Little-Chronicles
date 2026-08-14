@@ -29,7 +29,7 @@
   --accent: #0f172a;
   --accent-subtle: #f1f5f9;
 
-  /* Pastel Tints for Tracking Feeds */
+  /* Pastel Tints */
   --pastel-sleep-bg: #f3e8ff;
   --pastel-sleep-border: #e9d5ff;
   --pastel-sleep-text: #6b21a8;
@@ -42,7 +42,6 @@
   --pastel-wake-border: #fde68a;
   --pastel-wake-text: #92400e;
 
-  /* Colorful Scorecard Accents */
   --color-milk: #10b981;
   --color-milk-bg: #ecfdf5;
   --color-night: #6366f1;
@@ -112,7 +111,6 @@ body {
 }
 .container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
-/* Minimal Header */
 header { margin-bottom: 16px; }
 .header-row { display: flex; align-items: center; justify-content: space-between; }
 .brand-name { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; margin: 0; }
@@ -131,7 +129,6 @@ header { margin-bottom: 16px; }
 }
 .btn-util:active { background: var(--surface-alt); }
 
-/* Quick Actions Strip */
 .quick-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 12px; }
 .strip-btn {
   background: var(--surface);
@@ -146,7 +143,6 @@ header { margin-bottom: 16px; }
 }
 .strip-btn.primary { background: var(--accent); color: var(--bg); border-color: var(--accent); }
 
-/* Unified Section Card */
 .section-card {
   background: var(--surface);
   border: 1px solid var(--border);
@@ -163,7 +159,6 @@ header { margin-bottom: 16px; }
   letter-spacing: -0.2px;
 }
 
-/* Form Styles */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
 .field-group { display: flex; flex-direction: column; }
 .field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
@@ -195,7 +190,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
 }
 .btn-submit:active { opacity: 0.9; }
 
-/* Segmented Tab */
 .segmented {
   display: flex;
   background: var(--surface-alt);
@@ -220,7 +214,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Feed Rows */
 .timeline-row {
   display: flex;
   align-items: center;
@@ -253,6 +246,16 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   font-weight: 600;
   color: var(--text-muted);
 }
+.timeline-row.resettle {
+  border-left: 3px solid #cbd5e1;
+  background: var(--surface-alt);
+  padding: 5px 10px;
+  margin-left: 14px;
+  font-size: 10.5px;
+  font-weight: 600;
+  color: var(--text-muted);
+  font-style: italic;
+}
 
 .item-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
 .item-meta { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-top: 1px; }
@@ -272,7 +275,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
 .action-link:hover { color: var(--text-primary); }
 .action-link.delete { color: var(--danger); }
 
-/* Key Metric Bar */
 .metric-row {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
@@ -300,7 +302,6 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   font-weight: 500;
 }
 
-/* Collapsible Panel */
 details.panel {
   border: 1px solid var(--border);
   border-radius: 8px;
@@ -322,7 +323,6 @@ details.panel summary::after { content: '+'; font-weight: 400; font-size: 13px; 
 details.panel[open] summary::after { content: '−'; }
 .panel-body { margin-top: 10px; }
 
-/* Enhanced Bottom Nav Bar */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -356,7 +356,7 @@ details.panel[open] summary::after { content: '−'; }
 .tracker-section { display: none; }
 .tracker-section.active-section { display: block; }
 
-/* Option 1: Colorful Scorecard Styles */
+/* Scorecard */
 .scorecard {
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -442,7 +442,6 @@ details.panel[open] summary::after { content: '−'; }
   color: var(--tag-bad);
 }
 
-/* Modal System */
 .overlay {
   position: fixed;
   inset: 0;
@@ -729,7 +728,7 @@ details.panel[open] summary::after { content: '−'; }
   </div>
 </div>
 
-<!-- Option 1: Colorful Scorecard Analytics Modal -->
+<!-- Scorecard Analytics Modal -->
 <div class="overlay" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <div class="modal-header">
@@ -1197,6 +1196,7 @@ function renderSleepTimeline(naps, wakeTimeStr){
   }
 
   let lastWake = wakeTimeStr;
+  let napDisplayIndex = 1;
 
   dayNaps.forEach((n, idx) => {
     const realIndex = naps.indexOf(n);
@@ -1204,10 +1204,18 @@ function renderSleepTimeline(naps, wakeTimeStr){
     if(lastWake){
       const gap = mins(n.start) - mins(lastWake);
       if(gap > 0){
-        const wCard = document.createElement("div");
-        wCard.className = "timeline-row interval";
-        wCard.innerHTML = `Wake Window ${idx + 1}: ${lastWake} → ${n.start} (${durationText(gap)})`;
-        box.appendChild(wCard);
+        // SMART RULE: If gap < 20 mins, treat as brief resettling instead of false wake window
+        if(gap < 20){
+          const rCard = document.createElement("div");
+          rCard.className = "timeline-row resettle";
+          rCard.innerHTML = `↳ Resettling Period: ${lastWake} → ${n.start} (${gap} min)`;
+          box.appendChild(rCard);
+        } else {
+          const wCard = document.createElement("div");
+          wCard.className = "timeline-row interval";
+          wCard.innerHTML = `Wake Window ${napDisplayIndex}: ${lastWake} → ${n.start} (${durationText(gap)})`;
+          box.appendChild(wCard);
+        }
       }
     }
 
@@ -1216,7 +1224,7 @@ function renderSleepTimeline(naps, wakeTimeStr){
     nCard.className = "timeline-row nap";
     nCard.innerHTML = `
       <div>
-        <div class="item-title">Nap ${idx + 1} — ${n.start} – ${n.end}</div>
+        <div class="item-title">Nap ${napDisplayIndex} — ${n.start} – ${n.end}</div>
         <div class="item-meta sleep-text">${durationText(dur)}</div>
       </div>
       <div class="row-actions">
@@ -1224,6 +1232,11 @@ function renderSleepTimeline(naps, wakeTimeStr){
         <button class="action-link delete" onclick="removeNap(${realIndex})">Delete</button>
       </div>`;
     box.appendChild(nCard);
+
+    // Only increment nap counter if this wasn't an immediate resettled continuation
+    if(!lastWake || (mins(n.start) - mins(lastWake) >= 20)){
+      napDisplayIndex++;
+    }
 
     lastWake = n.end;
   });
@@ -1543,7 +1556,7 @@ function getAggregatedData(daysCount){
   };
 }
 
-// Option 1: Colorful Scorecard Renderer
+// Option 1: Scorecard with Resettling Threshold Filter
 function renderStatistics(){
   const box=document.getElementById("statistics");
   if(!box) return;
@@ -1563,7 +1576,7 @@ function renderStatistics(){
     const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
     const feeds = currentDayData.feeds || [];
 
-    // 1. Milk Intake Scorecard
+    // 1. Milk Scorecard
     const totalMl = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
     const targetMilkMax = p ? p.milkMax : 900;
     const targetMilkMin = p ? p.milkMin : 720;
@@ -1604,7 +1617,7 @@ function renderStatistics(){
       }
     });
 
-    const targetNightMins = 660; // ~11 hrs
+    const targetNightMins = 660;
     const nightPct = Math.min(100, Math.round((nightMins / targetNightMins) * 100));
     const nightStatus = nightMins >= 600 
       ? { text: "Optimal Sleep", color: "var(--tag-good)" } 
@@ -1651,7 +1664,7 @@ function renderStatistics(){
       </div>
     `;
 
-    // 4. Wake Window Averages & Visual Pills
+    // 4. Wake Windows (with Smart < 20 min Resettling Filter)
     const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
     let wakeWindows = [];
 
@@ -1665,7 +1678,10 @@ function renderStatistics(){
 
     for(let i=0; i<dayNapList.length - 1; i++){
       const gap = mins(dayNapList[i+1].start) - mins(dayNapList[i].end);
-      if(gap > 0) wakeWindows.push({ label: `W${wakeWindows.length + 1} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
+      // ONLY register as a wake window if baby was awake >= 20 mins
+      if(gap >= 20){
+        wakeWindows.push({ label: `W${wakeWindows.length + 1} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
+      }
     }
 
     let wakePillsHtml = '';
@@ -1691,7 +1707,6 @@ function renderStatistics(){
     `;
 
   } else {
-    // 7-day or 30-day view
     const periodDays = currentStatTime === "weekly" ? 7 : 30;
     const agg = getAggregatedData(periodDays);
 
@@ -1786,10 +1801,11 @@ function updateBabyAge(){
   }
 }
 
+// Next Nap Window from True Final Wake (Ignoring Gaps < 20 mins)
 function showNextNap(){
   const database = db();
   const currentDayData = database[day.date] || day;
-  const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
+  const dayNaps = (currentDayData.naps || []).filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const p = getAgeProfile();
   if(!p){ alert("Set DOB in Profile for recommendations."); return; }
 
@@ -1804,6 +1820,7 @@ function showNextNap(){
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
+    // The last nap in chronological order is the true awake reference
     startRef = dayNaps[dayNaps.length-1].end;
     napLabel = `Nap ${dayNaps.length + 1}`;
   }
