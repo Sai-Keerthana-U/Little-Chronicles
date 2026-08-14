@@ -8,7 +8,7 @@
 <!-- Modern Typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
 <!-- Firebase SDKs -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -29,6 +29,19 @@
   --accent: #0f172a;
   --accent-subtle: #f1f5f9;
 
+  /* Refined Pastel Tints for Windows & Tracking */
+  --pastel-sleep-bg: #f3e8ff;
+  --pastel-sleep-border: #e9d5ff;
+  --pastel-sleep-text: #6b21a8;
+
+  --pastel-feed-bg: #ecfdf5;
+  --pastel-feed-border: #a7f3d0;
+  --pastel-feed-text: #065f46;
+
+  --pastel-wake-bg: #fef3c7;
+  --pastel-wake-border: #fde68a;
+  --pastel-wake-text: #92400e;
+
   --tag-good: #059669;
   --tag-good-bg: #ecfdf5;
   --tag-warn: #d97706;
@@ -37,7 +50,7 @@
   --tag-bad-bg: #fef2f2;
 
   --danger: #dc2626;
-  --radius: 10px;
+  --radius: 12px;
 }
 
 body.dark-mode {
@@ -52,6 +65,18 @@ body.dark-mode {
 
   --accent: #f8fafc;
   --accent-subtle: #1e293b;
+
+  --pastel-sleep-bg: #231834;
+  --pastel-sleep-border: #4c2d79;
+  --pastel-sleep-text: #d8b4fe;
+
+  --pastel-feed-bg: #0d281e;
+  --pastel-feed-border: #1d5c44;
+  --pastel-feed-text: #6ee7b7;
+
+  --pastel-wake-bg: #2a1f0a;
+  --pastel-wake-border: #59400d;
+  --pastel-wake-text: #fde68a;
 
   --tag-good: #34d399;
   --tag-good-bg: #064e3b;
@@ -69,7 +94,7 @@ body {
   background: var(--bg);
   color: var(--text-primary);
   font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
-  padding-bottom: 80px;
+  padding-bottom: 95px;
   -webkit-font-smoothing: antialiased;
 }
 .container { max-width: 520px; margin: 0 auto; padding: 16px; }
@@ -77,7 +102,7 @@ body {
 /* Clean Minimal Header */
 header { margin-bottom: 16px; }
 .header-row { display: flex; align-items: center; justify-content: space-between; }
-.brand-name { font-size: 18px; font-weight: 700; letter-spacing: -0.3px; margin: 0; }
+.brand-name { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; margin: 0; }
 .brand-sub { font-size: 11.5px; color: var(--text-muted); margin-top: 2px; }
 
 .header-actions { display: flex; gap: 6px; }
@@ -86,23 +111,23 @@ header { margin-bottom: 16px; }
   border: 1px solid var(--border);
   color: var(--text-secondary);
   font-size: 11.5px;
-  font-weight: 500;
-  padding: 5px 10px;
-  border-radius: 6px;
+  font-weight: 600;
+  padding: 6px 12px;
+  border-radius: 8px;
   cursor: pointer;
 }
 .btn-util:active { background: var(--surface-alt); }
 
 /* Quick Actions Strip */
-.quick-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 10px; }
+.quick-strip { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; margin-top: 12px; }
 .strip-btn {
   background: var(--surface);
   border: 1px solid var(--border);
   color: var(--text-primary);
   font-size: 11.5px;
   font-weight: 600;
-  padding: 8px;
-  border-radius: 6px;
+  padding: 9px;
+  border-radius: 8px;
   cursor: pointer;
   text-align: center;
 }
@@ -114,100 +139,112 @@ header { margin-bottom: 16px; }
   border: 1px solid var(--border);
   border-radius: var(--radius);
   padding: 16px;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.02);
 }
 .section-title {
-  font-size: 13.5px;
-  font-weight: 600;
+  font-size: 14px;
+  font-weight: 700;
   color: var(--text-primary);
   margin: 0 0 12px;
+  letter-spacing: -0.2px;
 }
 
 /* Form Styles */
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; align-items: end; }
 .field-group { display: flex; flex-direction: column; }
-.field-label { font-size: 11px; font-weight: 500; color: var(--text-muted); margin-bottom: 4px; }
+.field-label { font-size: 11px; font-weight: 600; color: var(--text-muted); margin-bottom: 4px; }
 input, select, textarea {
   width: 100%;
-  height: 38px;
+  height: 40px;
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 0 10px;
+  border-radius: 8px;
+  padding: 0 12px;
   background: var(--surface);
   color: var(--text-primary);
-  font-size: 13px;
+  font-size: 13.5px;
   outline: none;
   font-family: inherit;
 }
-textarea { height: auto; padding: 8px 10px; resize: vertical; }
+textarea { height: auto; padding: 10px 12px; resize: vertical; }
 input:focus, select:focus, textarea:focus { border-color: var(--border-strong); }
 
 .btn-submit {
-  height: 38px;
+  height: 40px;
   background: var(--accent);
   color: var(--bg);
   border: 0;
-  border-radius: 6px;
+  border-radius: 8px;
   font-size: 12.5px;
   font-weight: 600;
   cursor: pointer;
-  padding: 0 14px;
+  padding: 0 16px;
 }
 .btn-submit:active { opacity: 0.9; }
 
-/* Clean Segmented Tab */
+/* Segmented Tab */
 .segmented {
   display: flex;
   background: var(--surface-alt);
-  padding: 2px;
-  border-radius: 6px;
+  padding: 3px;
+  border-radius: 8px;
   margin-bottom: 12px;
 }
 .seg-btn {
   flex: 1;
   border: 0;
   background: transparent;
-  padding: 6px;
-  font-size: 11px;
-  font-weight: 500;
-  border-radius: 5px;
+  padding: 7px;
+  font-size: 11.5px;
+  font-weight: 600;
+  border-radius: 6px;
   color: var(--text-muted);
   cursor: pointer;
 }
 .seg-btn.active {
   background: var(--surface);
   color: var(--text-primary);
-  font-weight: 600;
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Linear Timeline Feed */
+/* Pastel Feed Rows */
 .timeline-row {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 10px 12px;
+  padding: 11px 13px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   background: var(--surface);
   margin-bottom: 6px;
 }
 .timeline-row.wake {
-  background: var(--surface-alt);
-  border-color: var(--border);
+  background: var(--pastel-wake-bg);
+  border-color: var(--pastel-wake-border);
+  color: var(--pastel-wake-text);
+}
+.timeline-row.nap {
+  background: var(--pastel-sleep-bg);
+  border-color: var(--pastel-sleep-border);
+}
+.timeline-row.feed {
+  background: var(--pastel-feed-bg);
+  border-color: var(--pastel-feed-border);
 }
 .timeline-row.interval {
   border: 0;
-  background: transparent;
-  padding: 4px 8px;
-  margin-left: 12px;
+  background: var(--surface-alt);
+  padding: 6px 10px;
+  margin-left: 14px;
   font-size: 11px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
 }
 
-.item-title { font-size: 12.5px; font-weight: 600; color: var(--text-primary); }
-.item-meta { font-size: 11px; color: var(--text-muted); margin-top: 1px; }
+.item-title { font-size: 13px; font-weight: 700; color: var(--text-primary); }
+.item-meta { font-size: 11.5px; font-weight: 600; color: var(--text-muted); margin-top: 1px; }
+.item-meta.sleep-text { color: var(--pastel-sleep-text); }
+.item-meta.feed-text { color: var(--pastel-feed-text); }
 
 .row-actions { display: flex; gap: 8px; align-items: center; }
 .action-link {
@@ -215,7 +252,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   border: 0;
   padding: 0;
   font-size: 11.5px;
-  font-weight: 500;
+  font-weight: 600;
   color: var(--text-muted);
   cursor: pointer;
 }
@@ -232,34 +269,35 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
 .metric-card {
   background: var(--surface-alt);
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px;
+  border-radius: 8px;
+  padding: 10px 8px;
   text-align: center;
 }
-.metric-num { font-size: 14px; font-weight: 700; color: var(--text-primary); }
-.metric-label { font-size: 10px; font-weight: 500; color: var(--text-muted); margin-top: 1px; }
+.metric-num { font-size: 15px; font-weight: 800; color: var(--text-primary); }
+.metric-label { font-size: 10px; font-weight: 600; color: var(--text-muted); margin-top: 2px; text-transform: uppercase; letter-spacing: 0.3px; }
 
 .target-note {
-  font-size: 11px;
+  font-size: 11.5px;
   color: var(--text-muted);
   margin-top: 8px;
-  line-height: 1.4;
-  padding: 8px 10px;
+  line-height: 1.45;
+  padding: 9px 12px;
   background: var(--surface-alt);
-  border-radius: 6px;
+  border-radius: 8px;
+  font-weight: 500;
 }
 
 /* Collapsible Panel */
 details.panel {
   border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 8px 12px;
+  border-radius: 8px;
+  padding: 10px 12px;
   margin-bottom: 8px;
   background: var(--surface);
 }
 details.panel summary {
-  font-size: 12px;
-  font-weight: 600;
+  font-size: 12.5px;
+  font-weight: 700;
   color: var(--text-primary);
   cursor: pointer;
   display: flex;
@@ -267,11 +305,11 @@ details.panel summary {
   list-style: none;
 }
 details.panel summary::-webkit-details-marker { display: none; }
-details.panel summary::after { content: '+'; font-weight: 400; font-size: 12px; }
+details.panel summary::after { content: '+'; font-weight: 400; font-size: 13px; }
 details.panel[open] summary::after { content: '−'; }
-.panel-body { margin-top: 8px; }
+.panel-body { margin-top: 10px; }
 
-/* Bottom Nav */
+/* Enhanced Larger Bottom Nav Bar */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -281,23 +319,25 @@ details.panel[open] summary::after { content: '−'; }
   border-top: 1px solid var(--border);
   display: flex;
   justify-content: space-around;
-  padding: 6px 12px 10px;
+  padding: 8px 12px 14px;
   z-index: 30;
+  box-shadow: 0 -2px 10px rgba(0,0,0,0.03);
 }
 .nav-item {
   background: transparent;
   border: 0;
   color: var(--text-muted);
-  font-size: 11.5px;
-  font-weight: 500;
-  padding: 6px 12px;
-  border-radius: 6px;
+  font-size: 12px;
+  font-weight: 600;
+  padding: 8px 14px;
+  border-radius: 8px;
   cursor: pointer;
+  transition: all 0.15s ease;
 }
 .nav-item.active {
   color: var(--text-primary);
   background: var(--surface-alt);
-  font-weight: 600;
+  font-weight: 700;
 }
 
 .tracker-section { display: none; }
@@ -307,12 +347,13 @@ details.panel[open] summary::after { content: '−'; }
 .overlay {
   position: fixed;
   inset: 0;
-  background: rgba(0, 0, 0, 0.4);
+  background: rgba(0, 0, 0, 0.45);
   display: none;
   align-items: center;
   justify-content: center;
   padding: 16px;
   z-index: 50;
+  backdrop-filter: blur(3px);
 }
 .overlay.show { display: flex; }
 .modal-box {
@@ -320,42 +361,49 @@ details.panel[open] summary::after { content: '−'; }
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 18px;
+  padding: 20px;
   max-height: 85vh;
   overflow-y: auto;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
 }
-.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; }
-.modal-title { font-size: 14px; font-weight: 700; margin: 0; }
-.btn-close { background: transparent; border: 0; font-size: 14px; color: var(--text-muted); cursor: pointer; }
+.modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
+.modal-title { font-size: 14.5px; font-weight: 800; margin: 0; }
+.btn-close { background: transparent; border: 0; font-size: 15px; color: var(--text-muted); cursor: pointer; }
 
 .stat-item {
-  padding: 8px 10px;
+  padding: 9px 11px;
   border: 1px solid var(--border);
-  border-radius: 6px;
+  border-radius: 8px;
   margin-bottom: 6px;
   font-size: 12px;
 }
-.stat-item.good { border-left: 3px solid var(--tag-good); }
-.stat-item.warn { border-left: 3px solid var(--tag-warn); }
-.stat-item.bad { border-left: 3px solid var(--tag-bad); }
+.stat-item.good { border-left: 3.5px solid var(--tag-good); }
+.stat-item.warn { border-left: 3.5px solid var(--tag-warn); }
+.stat-item.bad { border-left: 3.5px solid var(--tag-bad); }
 
 .rec-banner {
-  background: var(--surface-alt);
-  border: 1px solid var(--border);
-  border-radius: 6px;
-  padding: 12px;
+  border-radius: 8px;
+  padding: 14px;
   text-align: center;
 }
-.rec-time { font-size: 18px; font-weight: 700; color: var(--text-primary); margin: 4px 0; }
+.rec-banner.sleep {
+  background: var(--pastel-sleep-bg);
+  border: 1px solid var(--pastel-sleep-border);
+}
+.rec-banner.feed {
+  background: var(--pastel-feed-bg);
+  border: 1px solid var(--pastel-feed-border);
+}
+.rec-time { font-size: 20px; font-weight: 800; color: var(--text-primary); margin: 5px 0; }
 
 .timer-wrap {
   background: var(--surface-alt);
-  border-radius: 6px;
-  padding: 10px;
+  border-radius: 8px;
+  padding: 12px;
   text-align: center;
-  margin-bottom: 8px;
+  margin-bottom: 10px;
 }
-.timer-num { font-size: 20px; font-weight: 700; font-family: monospace; margin: 4px 0; }
+.timer-num { font-size: 22px; font-weight: 800; font-family: monospace; margin: 5px 0; }
 </style>
 </head>
 <body>
@@ -545,7 +593,7 @@ details.panel[open] summary::after { content: '−'; }
 
 </div>
 
-<!-- Minimal Bottom Navigation -->
+<!-- Enhanced Bottom Navigation -->
 <nav class="bottom-bar">
   <button class="nav-item active" onclick="switchSection('sec-home', this)">Home</button>
   <button class="nav-item" onclick="switchSection('sec-sleep', this)">Sleep</button>
@@ -666,7 +714,7 @@ details.panel[open] summary::after { content: '−'; }
 <div class="overlay" id="nextNapModal" onclick="if(event.target===this)closeNextNap()">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">Nap Timing</span>
+      <span class="modal-title">Nap Recommendation</span>
       <button class="btn-close" onclick="closeNextNap()">✕</button>
     </div>
     <div id="nextNapSuggestion"></div>
@@ -677,7 +725,7 @@ details.panel[open] summary::after { content: '−'; }
 <div class="overlay" id="nextFeedModal" onclick="if(event.target===this)closeNextFeed()">
   <div class="modal-box">
     <div class="modal-header">
-      <span class="modal-title">Feed Timing</span>
+      <span class="modal-title">Feed Recommendation</span>
       <button class="btn-close" onclick="closeNextFeed()">✕</button>
     </div>
     <div id="nextFeedSuggestion"></div>
@@ -1086,11 +1134,11 @@ function renderSleepTimeline(naps, wakeTimeStr){
 
     const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
     const nCard = document.createElement("div");
-    nCard.className = "timeline-row";
+    nCard.className = "timeline-row nap";
     nCard.innerHTML = `
       <div>
         <div class="item-title">Nap ${idx + 1} — ${n.start} – ${n.end}</div>
-        <div class="item-meta">${durationText(dur)}</div>
+        <div class="item-meta sleep-text">${durationText(dur)}</div>
       </div>
       <div class="row-actions">
         <button class="action-link" onclick="editNap(${realIndex})">Edit</button>
@@ -1111,7 +1159,7 @@ function renderSleepTimeline(naps, wakeTimeStr){
     nightCard.innerHTML = `
       <div>
         <div class="item-title">Night Sleep — ${n.start} – ${endFormatted}</div>
-        <div class="item-meta">${durationText(dur)}</div>
+        <div class="item-meta" style="color:var(--text-muted)">${durationText(dur)}</div>
       </div>
       <div class="row-actions">
         <button class="action-link" onclick="editNap(${realIndex})">Edit</button>
@@ -1127,11 +1175,11 @@ function renderSleepTimeline(naps, wakeTimeStr){
 
 function drawFeed(f,i){
   const el=document.createElement("div");
-  el.className="timeline-row";
+  el.className="timeline-row feed";
   el.innerHTML=
     `<div>
       <div class="item-title">Feed ${i+1} — ${f.time}</div>
-      <div class="item-meta">${f.ml} ml</div>
+      <div class="item-meta feed-text">${f.ml} ml</div>
     </div>
     <div class="row-actions">
       <button class="action-link" onclick="editFeed(${i})">Edit</button>
@@ -1144,9 +1192,9 @@ function addDaytimeNap(){
   const sDate = day.date || today();
   const start = document.getElementById("napStartOnly").value;
   const end = document.getElementById("napEndOnly").value;
-  if(!start || !end){ alert("Enter start and end times."); return; }
+  if(!start || !end){ alert("Enter both start and end time."); return; }
   const d = calcDateTimeDuration(sDate, start, sDate, end);
-  if(d <= 0){ alert("End time must be after start time."); return; }
+  if(d <= 0){ alert("Nap end time must be after start time."); return; }
 
   saveSleepEntry(sDate, start, sDate, end);
   document.getElementById("napStartOnly").value = "";
@@ -1157,7 +1205,7 @@ function addNightBedtime(){
   const sDate = day.date || today();
   const start = document.getElementById("nightStartOnly").value;
   const end = document.getElementById("nightEndOnly").value;
-  if(!start || !end){ alert("Enter bedtime and wake times."); return; }
+  if(!start || !end){ alert("Enter bedtime and wake-up time."); return; }
   const eDate = nextDay(sDate);
 
   saveSleepEntry(sDate, start, eDate, end);
@@ -1355,7 +1403,7 @@ function updateSleepTotals(){
     const idealNapMins = p.idealNapTotalMins || 210;
     const remainingNapMins = Math.max(0, idealNapMins - napMins);
     sleepBox.textContent = remainingNapMins === 0 
-      ? `Daytime nap target reached (${durationText(napMins)}). Total sleep: ${durationText(total24Hr)}` 
+      ? `Daytime nap target reached (${durationText(napMins)}). Total: ${durationText(total24Hr)}` 
       : `Remaining daytime nap target: ${durationText(remainingNapMins)} (Target: ${durationText(idealNapMins)}). Total: ${durationText(total24Hr)}`;
   }
 }
@@ -1506,7 +1554,7 @@ function updateBabyAge(){
   if(ageBox) ageBox.value=monthText;
   const profile=getAgeProfile();
   if(guide && profile){
-    guide.textContent=`Age: ${monthText} • Wake window: ${profile.wakeMin}–${profile.wakeMax}m • Daily milk: ${profile.milkMin}–${profile.milkMax}ml`;
+    guide.textContent=`Age: ${monthText} • Window: ${profile.wakeMin}–${profile.wakeMax}m • Milk: ${profile.milkMin}–${profile.milkMax}ml`;
   }
 }
 
@@ -1515,7 +1563,7 @@ function showNextNap(){
   const currentDayData = database[day.date] || day;
   const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const p = getAgeProfile();
-  if(!p){ alert("Set DOB in Profile for recommendations."); return; }
+  if(!p){ alert("Set DOB in Profile for suggestions."); return; }
 
   const effectiveWake = getEffectiveWakeTime(day.date);
   const wakeRef = day.wakeTime || effectiveWake.time;
@@ -1524,7 +1572,7 @@ function showNextNap(){
   let napLabel = "";
 
   if(!dayNaps.length){
-    if(!wakeRef){ alert("Set Morning Wake Time first."); return; }
+    if(!wakeRef){ alert("Set Morning Wake-up Time first."); return; }
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
@@ -1536,10 +1584,10 @@ function showNextNap(){
   const latest = mins(startRef) + p.wakeMax;
 
   document.getElementById("nextNapSuggestion").innerHTML = `
-    <div class="rec-banner">
-      <div style="font-size:11px;font-weight:600;color:var(--text-muted)">${napLabel.toUpperCase()} WINDOW</div>
+    <div class="rec-banner sleep">
+      <div class="field-label" style="font-weight:700;color:var(--pastel-sleep-text)">${napLabel.toUpperCase()} WINDOW</div>
       <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
-      <div style="font-size:11px;color:var(--text-muted)">Based on wake-up at ${startRef} (Target: ${p.wakeMin}–${p.wakeMax}m)</div>
+      <div class="hint" style="margin-top:4px">Target Wake Window: <b>${p.wakeMin}–${p.wakeMax} min</b> (Awake at ${startRef})</div>
     </div>
   `;
   document.getElementById("nextNapModal").classList.add("show");
@@ -1550,15 +1598,15 @@ function closeNextNap(){ document.getElementById("nextNapModal").classList.remov
 function showNextFeed(){
   if(!day.feeds || !day.feeds.length){alert("Add at least one feed.");return;}
   const p=getAgeProfile();
-  if(!p){alert("Set DOB in Profile for recommendations.");return;}
+  if(!p){alert("Set DOB in Profile for suggestions.");return;}
   const last=day.feeds[day.feeds.length-1];
   const earliest=mins(last.time)+p.feedMin;
   const latest=mins(last.time)+p.feedMax;
   document.getElementById("nextFeedSuggestion").innerHTML=
-    `<div class="rec-banner">
-      <div style="font-size:11px;font-weight:600;color:var(--text-muted)">NEXT FEED WINDOW</div>
+    `<div class="rec-banner feed">
+      <div class="field-label" style="color:var(--pastel-feed-text);font-weight:700">NEXT FEED WINDOW</div>
       <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
-      <div style="font-size:11px;color:var(--text-muted)">Interval: ${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</div>
+      <div class="hint" style="margin-top:4px">Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</b></div>
     </div>`;
   document.getElementById("nextFeedModal").classList.add("show");
 }
