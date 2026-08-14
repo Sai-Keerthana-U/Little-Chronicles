@@ -29,7 +29,7 @@
   --accent: #0f172a;
   --accent-subtle: #f1f5f9;
 
-  /* Refined Pastel Tints for Windows & Tracking */
+  /* Pastel Tints for Tracking Feeds */
   --pastel-sleep-bg: #f3e8ff;
   --pastel-sleep-border: #e9d5ff;
   --pastel-sleep-text: #6b21a8;
@@ -42,12 +42,19 @@
   --pastel-wake-border: #fde68a;
   --pastel-wake-text: #92400e;
 
+  /* Colorful Scorecard Accents */
+  --color-milk: #10b981;
+  --color-milk-bg: #ecfdf5;
+  --color-night: #6366f1;
+  --color-night-bg: #eef2ff;
+  --color-nap: #8b5cf6;
+  --color-nap-bg: #f5f3ff;
+  --color-wake: #f59e0b;
+  --color-wake-bg: #fffbeb;
+
   --tag-good: #059669;
-  --tag-good-bg: #ecfdf5;
   --tag-warn: #d97706;
-  --tag-warn-bg: #fffbeb;
   --tag-bad: #dc2626;
-  --tag-bad-bg: #fef2f2;
 
   --danger: #dc2626;
   --radius: 12px;
@@ -78,12 +85,18 @@ body.dark-mode {
   --pastel-wake-border: #59400d;
   --pastel-wake-text: #fde68a;
 
+  --color-milk: #34d399;
+  --color-milk-bg: #064e3b;
+  --color-night: #818cf8;
+  --color-night-bg: #1e1b4b;
+  --color-nap: #a78bfa;
+  --color-nap-bg: #2e1065;
+  --color-wake: #fbbf24;
+  --color-wake-bg: #451a03;
+
   --tag-good: #34d399;
-  --tag-good-bg: #064e3b;
   --tag-warn: #fbbf24;
-  --tag-warn-bg: #451a03;
   --tag-bad: #f87171;
-  --tag-bad-bg: #450a0a;
 
   --danger: #f87171;
 }
@@ -99,7 +112,7 @@ body {
 }
 .container { max-width: 520px; margin: 0 auto; padding: 16px; }
 
-/* Clean Minimal Header */
+/* Minimal Header */
 header { margin-bottom: 16px; }
 .header-row { display: flex; align-items: center; justify-content: space-between; }
 .brand-name { font-size: 19px; font-weight: 800; letter-spacing: -0.3px; margin: 0; }
@@ -207,7 +220,7 @@ input:focus, select:focus, textarea:focus { border-color: var(--border-strong); 
   box-shadow: 0 1px 2px rgba(0,0,0,0.05);
 }
 
-/* Pastel Feed Rows */
+/* Feed Rows */
 .timeline-row {
   display: flex;
   align-items: center;
@@ -309,7 +322,7 @@ details.panel summary::after { content: '+'; font-weight: 400; font-size: 13px; 
 details.panel[open] summary::after { content: '−'; }
 .panel-body { margin-top: 10px; }
 
-/* Enhanced Larger Bottom Nav Bar */
+/* Enhanced Bottom Nav Bar */
 .bottom-bar {
   position: fixed;
   bottom: 0;
@@ -343,6 +356,92 @@ details.panel[open] summary::after { content: '−'; }
 .tracker-section { display: none; }
 .tracker-section.active-section { display: block; }
 
+/* Option 1: Colorful Scorecard Styles */
+.scorecard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 14px;
+  margin-bottom: 10px;
+  background: var(--surface);
+}
+.scorecard-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+}
+.scorecard-title {
+  font-size: 13px;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+.scorecard-percent {
+  font-size: 12px;
+  font-weight: 800;
+  padding: 2px 7px;
+  border-radius: 6px;
+}
+.scorecard-values {
+  display: flex;
+  justify-content: space-between;
+  font-size: 11.5px;
+  font-weight: 600;
+  color: var(--text-secondary);
+  margin-bottom: 6px;
+}
+.progress-bar-bg {
+  background: var(--surface-alt);
+  border-radius: 10px;
+  height: 9px;
+  width: 100%;
+  overflow: hidden;
+}
+.progress-bar-fill {
+  height: 100%;
+  border-radius: 10px;
+  transition: width 0.3s ease;
+}
+.scorecard-status {
+  font-size: 11px;
+  font-weight: 600;
+  margin-top: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.wake-window-pills {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+}
+.wake-pill {
+  border-radius: 8px;
+  padding: 6px 10px;
+  font-size: 11.5px;
+  font-weight: 700;
+  border: 1px solid var(--border);
+  background: var(--surface-alt);
+}
+.wake-pill.good {
+  background: var(--color-milk-bg);
+  border-color: rgba(16, 185, 129, 0.3);
+  color: var(--tag-good);
+}
+.wake-pill.warn {
+  background: var(--color-wake-bg);
+  border-color: rgba(245, 158, 11, 0.3);
+  color: var(--tag-warn);
+}
+.wake-pill.bad {
+  background: #fef2f2;
+  border-color: rgba(220, 38, 38, 0.3);
+  color: var(--tag-bad);
+}
+
 /* Modal System */
 .overlay {
   position: fixed;
@@ -357,7 +456,7 @@ details.panel[open] summary::after { content: '−'; }
 }
 .overlay.show { display: flex; }
 .modal-box {
-  width: min(420px, 100%);
+  width: min(440px, 100%);
   background: var(--surface);
   border: 1px solid var(--border);
   border-radius: var(--radius);
@@ -369,17 +468,6 @@ details.panel[open] summary::after { content: '−'; }
 .modal-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 14px; }
 .modal-title { font-size: 14.5px; font-weight: 800; margin: 0; }
 .btn-close { background: transparent; border: 0; font-size: 15px; color: var(--text-muted); cursor: pointer; }
-
-.stat-item {
-  padding: 9px 11px;
-  border: 1px solid var(--border);
-  border-radius: 8px;
-  margin-bottom: 6px;
-  font-size: 12px;
-}
-.stat-item.good { border-left: 3.5px solid var(--tag-good); }
-.stat-item.warn { border-left: 3.5px solid var(--tag-warn); }
-.stat-item.bad { border-left: 3.5px solid var(--tag-bad); }
 
 .rec-banner {
   border-radius: 8px;
@@ -641,7 +729,7 @@ details.panel[open] summary::after { content: '−'; }
   </div>
 </div>
 
-<!-- Analytics Modal -->
+<!-- Option 1: Colorful Scorecard Analytics Modal -->
 <div class="overlay" id="statsModal" onclick="if(event.target===this)closeStatsModal()">
   <div class="modal-box">
     <div class="modal-header">
@@ -650,20 +738,11 @@ details.panel[open] summary::after { content: '−'; }
     </div>
     
     <div class="segmented">
-      <button class="seg-btn active" onclick="switchStatTime('daily', this)">Daily</button>
+      <button class="seg-btn active" onclick="switchStatTime('daily', this)">Daily Scorecard</button>
       <button class="seg-btn" onclick="switchStatTime('weekly', this)">7-Day Avg</button>
       <button class="seg-btn" onclick="switchStatTime('monthly', this)">30-Day Avg</button>
     </div>
 
-    <div style="margin-bottom:10px">
-      <select id="statSelect" onchange="renderStatistics()">
-        <option value="all">All Metrics</option>
-        <option value="wake">Wake Windows</option>
-        <option value="nap">Sleep Sessions</option>
-        <option value="milk">Milk Intake</option>
-      </select>
-    </div>
-    
     <div id="statistics"></div>
     <button class="btn-util" style="width:100%;margin-top:10px" onclick="closeStatsModal()">Close</button>
   </div>
@@ -1429,32 +1508,150 @@ function totals(){
 
 function wakeWindowStatus(minutes){
   const p=getAgeProfile() || {wakeMin:75,wakeMax:120};
-  if(minutes>=p.wakeMin && minutes<=p.wakeMax)return {cls:"good",label:"Optimal window"};
+  if(minutes>=p.wakeMin && minutes<=p.wakeMax)return {cls:"good",label:"Optimal"};
   const margin=Math.max(15,Math.round((p.wakeMax-p.wakeMin)*0.5));
-  if(minutes>=p.wakeMin-margin && minutes<=p.wakeMax+margin)return {cls:"warn",label:"Slightly off-schedule"};
-  return {cls:"bad",label:"Outside target range"};
+  if(minutes>=p.wakeMin-margin && minutes<=p.wakeMax+margin)return {cls:"warn",label:"Slightly Off"};
+  return {cls:"bad",label:"Outside Range"};
 }
 
+function getAggregatedData(daysCount){
+  const database = db();
+  const sortedDates = Object.keys(database).sort((a,b)=>b.localeCompare(a)).slice(0, daysCount);
+  
+  let totalMilk = 0;
+  let totalSleepMins = 0;
+  let daysWithFeeds = 0;
+  let daysWithSleep = 0;
+
+  sortedDates.forEach(d => {
+    const item = database[d];
+    if(!item) return;
+    const milk = item.feeds ? item.feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0) : 0;
+    if(milk > 0){ totalMilk += milk; daysWithFeeds++; }
+
+    const daySleep = item.naps ? item.naps.filter(n => (n.startDate||d) === d).reduce((s,n)=>s+calcDateTimeDuration(n.startDate||d, n.start, n.endDate||d, n.end),0) : 0;
+
+    if(daySleep > 0){ totalSleepMins += daySleep; daysWithSleep++; }
+  });
+
+  return {
+    daysAnalyzed: sortedDates.length,
+    avgMilk: daysWithFeeds ? Math.round(totalMilk / daysWithFeeds) : 0,
+    avgSleep: daysWithSleep ? Math.round(totalSleepMins / daysWithSleep) : 0,
+    totalMilk,
+    totalSleepMins
+  };
+}
+
+// Option 1: Colorful Scorecard Renderer
 function renderStatistics(){
   const box=document.getElementById("statistics");
   if(!box) return;
-  const sel=document.getElementById("statSelect") ? document.getElementById("statSelect").value : "all";
   const p=getAgeProfile();
 
   let intro="Set baby's DOB in Profile for analytics.";
   if(p){
     const a=getBabyAgeParts();
-    intro="Age profile: <b>" + (a ? `${a.months}m ${a.days}d` : p.label) + "</b>";
+    intro="Baby Age: <b>" + (a ? `${a.months}m ${a.days}d` : p.label) + "</b> (Daily Target Benchmarks)";
   }
 
-  let out='<div class="stat-item" style="border-left:0;background:var(--surface-alt)">'+intro+'</div>';
-  const database = db();
-  const currentDayData = database[day.date] || day;
-  const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
+  let out='<div class="scorecard" style="background:var(--surface-alt);border-color:transparent;margin-bottom:12px"><div style="font-size:12px;font-weight:600">'+intro+'</div></div>';
 
-  // WAKE WINDOWS
-  if(sel==="all" || sel==="wake"){
-    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Wake Windows</div>';
+  if(currentStatTime === "daily"){
+    const database = db();
+    const currentDayData = database[day.date] || day;
+    const naps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date);
+    const feeds = currentDayData.feeds || [];
+
+    // 1. Milk Intake Scorecard
+    const totalMl = feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
+    const targetMilkMax = p ? p.milkMax : 900;
+    const targetMilkMin = p ? p.milkMin : 720;
+    const milkPct = Math.min(100, Math.round((totalMl / targetMilkMin) * 100));
+    const milkStatus = totalMl >= targetMilkMin 
+      ? { text: "Target Achieved", color: "var(--tag-good)" } 
+      : { text: `${targetMilkMin - totalMl} ml Remaining`, color: "var(--tag-warn)" };
+
+    out += `
+      <div class="scorecard">
+        <div class="scorecard-header">
+          <span class="scorecard-title" style="color:var(--color-milk)">🍼 Milk Intake</span>
+          <span class="scorecard-percent" style="background:var(--color-milk-bg);color:var(--color-milk)">${milkPct}%</span>
+        </div>
+        <div class="scorecard-values">
+          <span>Logged: <b>${totalMl} ml</b></span>
+          <span>Target: <b>${targetMilkMin}–${targetMilkMax} ml</b></span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width:${milkPct}%;background:var(--color-milk)"></div>
+        </div>
+        <div class="scorecard-status" style="color:${milkStatus.color}">● ${milkStatus.text}</div>
+      </div>
+    `;
+
+    // 2. Night Sleep Scorecard
+    let nightMins = 0;
+    let napMins = 0;
+    let napCount = 0;
+
+    naps.forEach(n => {
+      const dur = calcDateTimeDuration(n.startDate, n.start, n.endDate, n.end);
+      if(isNightSleepEntry(n)){
+        nightMins += dur;
+      } else {
+        napMins += dur;
+        napCount++;
+      }
+    });
+
+    const targetNightMins = 660; // ~11 hrs
+    const nightPct = Math.min(100, Math.round((nightMins / targetNightMins) * 100));
+    const nightStatus = nightMins >= 600 
+      ? { text: "Optimal Sleep", color: "var(--tag-good)" } 
+      : { text: nightMins > 0 ? "Under Target" : "Pending Night Bedtime", color: "var(--text-muted)" };
+
+    out += `
+      <div class="scorecard">
+        <div class="scorecard-header">
+          <span class="scorecard-title" style="color:var(--color-night)">🌙 Night Sleep</span>
+          <span class="scorecard-percent" style="background:var(--color-night-bg);color:var(--color-night)">${nightPct}%</span>
+        </div>
+        <div class="scorecard-values">
+          <span>Logged: <b>${durationText(nightMins)}</b></span>
+          <span>Target: <b>10h–12h</b></span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width:${nightPct}%;background:var(--color-night)"></div>
+        </div>
+        <div class="scorecard-status" style="color:${nightStatus.color}">● ${nightStatus.text}</div>
+      </div>
+    `;
+
+    // 3. Daytime Naps Scorecard
+    const targetNapMins = p ? p.idealNapTotalMins : 210;
+    const napPct = Math.min(100, Math.round((napMins / targetNapMins) * 100));
+    const napStatus = napMins >= targetNapMins 
+      ? { text: `Target Met (${napCount} Naps)`, color: "var(--tag-good)" } 
+      : { text: `${durationText(Math.max(0, targetNapMins - napMins))} Remaining (${napCount} Naps logged)`, color: "var(--color-nap)" };
+
+    out += `
+      <div class="scorecard">
+        <div class="scorecard-header">
+          <span class="scorecard-title" style="color:var(--color-nap)">💤 Daytime Naps</span>
+          <span class="scorecard-percent" style="background:var(--color-nap-bg);color:var(--color-nap)">${napPct}%</span>
+        </div>
+        <div class="scorecard-values">
+          <span>Logged: <b>${durationText(napMins)}</b></span>
+          <span>Target: <b>~${durationText(targetNapMins)}</b></span>
+        </div>
+        <div class="progress-bar-bg">
+          <div class="progress-bar-fill" style="width:${napPct}%;background:var(--color-nap)"></div>
+        </div>
+        <div class="scorecard-status" style="color:${napStatus.color}">● ${napStatus.text}</div>
+      </div>
+    `;
+
+    // 4. Wake Window Averages & Visual Pills
     const dayNapList = naps.filter(n => !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
     let wakeWindows = [];
 
@@ -1463,48 +1660,79 @@ function renderStatistics(){
 
     if(wakeRef && dayNapList.length > 0){
       const w1 = mins(dayNapList[0].start) - mins(wakeRef);
-      if(w1 > 0) wakeWindows.push({ label: `Window 1 (${wakeRef} → ${dayNapList[0].start})`, mins: w1 });
+      if(w1 > 0) wakeWindows.push({ label: `W1 (${wakeRef}➔${dayNapList[0].start})`, mins: w1 });
     }
 
     for(let i=0; i<dayNapList.length - 1; i++){
       const gap = mins(dayNapList[i+1].start) - mins(dayNapList[i].end);
-      if(gap > 0) wakeWindows.push({ label: `Window ${wakeWindows.length + 1} (${dayNapList[i].end} → ${dayNapList[i+1].start})`, mins: gap });
+      if(gap > 0) wakeWindows.push({ label: `W${wakeWindows.length + 1} (${dayNapList[i].end}➔${dayNapList[i+1].start})`, mins: gap });
     }
 
-    if(!wakeWindows.length){
-      out += '<div class="empty" style="font-size:11.5px">Set Morning Wake Time &amp; Naps to view wake windows.</div>';
-    } else {
-      wakeWindows.forEach((w) => {
+    let wakePillsHtml = '';
+    if(wakeWindows.length > 0){
+      wakeWindows.forEach(w => {
         const st = wakeWindowStatus(w.mins);
-        const rec = p ? ` · Target: ${p.wakeMin}–${p.wakeMax}m` : '';
-        out += `<div class="stat-item ${st.cls}"><div style="font-weight:600">${w.label} — ${durationText(w.mins)}</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">${st.label}${rec}</div></div>`;
+        wakePillsHtml += `<span class="wake-pill ${st.cls}">${w.label}: ${durationText(w.mins)} (${st.label})</span>`;
       });
-    }
-  }
-
-  if(sel==="all" || sel==="nap"){
-    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Sleep Sessions</div>';
-    if(!naps.length){
-      out+='<div class="empty" style="font-size:11.5px">No sleep recorded today.</div>';
-    }else{
-      naps.forEach((n,i)=>{
-        const m=calcDateTimeDuration(n.startDate||day.date, n.start, n.endDate||day.date, n.end);
-        const isNight = isNightSleepEntry(n);
-        const title = isNight ? `Night Sleep — ${durationText(m)}` : `Nap ${i+1} — ${n.start}–${n.end} (${durationText(m)})`;
-        const ideal = isNight ? '10–12h target' : `${p ? p.napMin : 30}–${p.napMax || 120}m target`;
-        out+=`<div class="stat-item good"><div style="font-weight:600">${title}</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">${ideal}</div></div>`;
-      });
-    }
-  }
-
-  if(sel==="all" || sel==="milk"){
-    out+='<div style="font-size:12px;font-weight:700;margin:12px 0 6px">Milk Intake</div>';
-    const feeds = currentDayData.feeds || [];
-    const totalMl=feeds.reduce((s,f)=>s+(Number(f?f.ml:0)||0),0);
-    if(!feeds.length){
-      out+='<div class="empty" style="font-size:11.5px">No feeds recorded today.</div>';
     } else {
-      out+=`<div class="stat-item good"><div style="font-weight:600">Total Intake — ${totalMl} ml</div><div style="font-size:11px;color:var(--text-muted);margin-top:2px">Target: ${p ? `${p.milkMin}–${p.milkMax} ml/day` : '600–900 ml'}</div></div>`;
+      wakePillsHtml = '<span style="font-size:11.5px;color:var(--text-muted)">Log morning wake &amp; naps to see wake window tags.</span>';
+    }
+
+    out += `
+      <div class="scorecard">
+        <div class="scorecard-header">
+          <span class="scorecard-title" style="color:var(--color-wake)">⏰ Wake Window Breakdown</span>
+          <span style="font-size:11px;font-weight:700;color:var(--color-wake)">Target: ${p ? `${p.wakeMin}–${p.wakeMax}m` : '90–120m'}</span>
+        </div>
+        <div class="wake-window-pills">
+          ${wakePillsHtml}
+        </div>
+      </div>
+    `;
+
+  } else {
+    // 7-day or 30-day view
+    const periodDays = currentStatTime === "weekly" ? 7 : 30;
+    const agg = getAggregatedData(periodDays);
+
+    if(!agg.daysAnalyzed){
+      out += '<div class="empty">No saved records found for aggregated analytics. Save a few days first.</div>';
+    } else {
+      const milkTarget = p ? p.milkMin : 720;
+      const milkPct = Math.min(100, Math.round((agg.avgMilk / milkTarget) * 100));
+
+      const sleepTarget = p ? p.sleepMin : 840;
+      const sleepPct = Math.min(100, Math.round((agg.avgSleep / sleepTarget) * 100));
+
+      out += `
+        <div class="scorecard">
+          <div class="scorecard-header">
+            <span class="scorecard-title" style="color:var(--color-milk)">🍼 Daily Avg Milk (${periodDays}D)</span>
+            <span class="scorecard-percent" style="background:var(--color-milk-bg);color:var(--color-milk)">${milkPct}%</span>
+          </div>
+          <div class="scorecard-values">
+            <span>Average: <b>${agg.avgMilk} ml/day</b></span>
+            <span>Total: <b>${agg.totalMilk} ml</b></span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width:${milkPct}%;background:var(--color-milk)"></div>
+          </div>
+        </div>
+
+        <div class="scorecard">
+          <div class="scorecard-header">
+            <span class="scorecard-title" style="color:var(--color-night)">🌙 Daily Avg Sleep (${periodDays}D)</span>
+            <span class="scorecard-percent" style="background:var(--color-night-bg);color:var(--color-night)">${sleepPct}%</span>
+          </div>
+          <div class="scorecard-values">
+            <span>Average: <b>${durationText(agg.avgSleep)}/day</b></span>
+            <span>Target: <b>${durationText(sleepTarget)}</b></span>
+          </div>
+          <div class="progress-bar-bg">
+            <div class="progress-bar-fill" style="width:${sleepPct}%;background:var(--color-night)"></div>
+          </div>
+        </div>
+      `;
     }
   }
 
@@ -1563,7 +1791,7 @@ function showNextNap(){
   const currentDayData = database[day.date] || day;
   const dayNaps = (currentDayData.naps || []).filter(n => (n.startDate||day.date) === day.date && !isNightSleepEntry(n)).sort((a,b)=>mins(a.start)-mins(b.start));
   const p = getAgeProfile();
-  if(!p){ alert("Set DOB in Profile for suggestions."); return; }
+  if(!p){ alert("Set DOB in Profile for recommendations."); return; }
 
   const effectiveWake = getEffectiveWakeTime(day.date);
   const wakeRef = day.wakeTime || effectiveWake.time;
@@ -1572,7 +1800,7 @@ function showNextNap(){
   let napLabel = "";
 
   if(!dayNaps.length){
-    if(!wakeRef){ alert("Set Morning Wake-up Time first."); return; }
+    if(!wakeRef){ alert("Set Morning Wake Time first."); return; }
     startRef = wakeRef;
     napLabel = "Nap 1";
   } else {
@@ -1585,9 +1813,9 @@ function showNextNap(){
 
   document.getElementById("nextNapSuggestion").innerHTML = `
     <div class="rec-banner sleep">
-      <div class="field-label" style="font-weight:700;color:var(--pastel-sleep-text)">${napLabel.toUpperCase()} WINDOW</div>
+      <div style="font-size:11px;font-weight:700;color:var(--pastel-sleep-text)">${napLabel.toUpperCase()} WINDOW</div>
       <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
-      <div class="hint" style="margin-top:4px">Target Wake Window: <b>${p.wakeMin}–${p.wakeMax} min</b> (Awake at ${startRef})</div>
+      <div class="hint" style="margin-top:4px">Based on wake at ${startRef} (Target: ${p.wakeMin}–${p.wakeMax}m)</div>
     </div>
   `;
   document.getElementById("nextNapModal").classList.add("show");
@@ -1598,15 +1826,15 @@ function closeNextNap(){ document.getElementById("nextNapModal").classList.remov
 function showNextFeed(){
   if(!day.feeds || !day.feeds.length){alert("Add at least one feed.");return;}
   const p=getAgeProfile();
-  if(!p){alert("Set DOB in Profile for suggestions.");return;}
+  if(!p){alert("Set DOB in Profile for recommendations.");return;}
   const last=day.feeds[day.feeds.length-1];
   const earliest=mins(last.time)+p.feedMin;
   const latest=mins(last.time)+p.feedMax;
   document.getElementById("nextFeedSuggestion").innerHTML=
     `<div class="rec-banner feed">
-      <div class="field-label" style="color:var(--pastel-feed-text);font-weight:700">NEXT FEED WINDOW</div>
+      <div style="font-size:11px;font-weight:700;color:var(--pastel-feed-text)">NEXT FEED WINDOW</div>
       <div class="rec-time">${time(earliest)} – ${time(latest)}</div>
-      <div class="hint" style="margin-top:4px">Interval: <b>${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</b></div>
+      <div class="hint" style="margin-top:4px">Interval: ${Math.round(p.feedMin/60)}–${Math.round(p.feedMax/60)} hours</div>
     </div>`;
   document.getElementById("nextFeedModal").classList.add("show");
 }
